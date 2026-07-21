@@ -1,177 +1,238 @@
 import CTA from "@/components/CTA";
+import Link from "next/link";
+
+const MUTED = "#5a6b6a";
+const PRIMARY = "#0e3a39";
+const ACCENT = "#2ec4b6";
+const WATERMARK = "rgba(46, 196, 182, 0.14)";
 
 export default function Home() {
   return (
     <main>
       {/* HERO SECTION */}
-      <section className="hero">
+      <section className="section" style={{ paddingTop: "140px", paddingBottom: "80px", background: "linear-gradient(135deg, rgba(46, 196, 182, 0.12) 0%, rgba(255, 238, 184, 0.35) 100%)" }}>
         <div className="container">
-          <h1>Mide el Pulso de tu Negocio</h1>
-          <p>Análisis profundo, sin comisiones de plataformas. Aumenta márgenes real.</p>
-          <CTA text="Prueba 7 días gratis" />
-          <div style={{ marginTop: "32px", color: "white", opacity: 0.9 }}>
-            <p>⭐⭐⭐⭐⭐ 4.9/5 (120+ restaurantes)</p>
+          <div style={{ maxWidth: "700px" }}>
+            <h1 style={{
+              fontSize: "68px",
+              fontWeight: "900",
+              lineHeight: "1.1",
+              marginBottom: "24px",
+              background: "linear-gradient(135deg, #0e3a39 0%, #2ec4b6 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent"
+            }}>
+              Mide El Pulso De Tu Negocio
+            </h1>
+            <p style={{ fontSize: "18px", color: MUTED, marginBottom: "32px", lineHeight: "1.6" }}>
+              Análisis profundo, sin comisiones de plataformas. Aumenta márgenes real.
+            </p>
+            <div style={{ display: "flex", gap: "16px" }}>
+              <CTA text="Prueba Gratis" size="large" />
+              <Link href="/blog" className="btn" style={{ background: "rgba(46, 196, 182, 0.12)", border: "2px solid rgba(46, 196, 182, 0.5)", color: PRIMARY, boxShadow: "none" }}>
+                Leer Blog
+              </Link>
+            </div>
+            <p style={{ marginTop: "32px", color: MUTED, fontSize: "14px" }}>
+              ⭐⭐⭐⭐⭐ 4.9/5 (120+ restaurantes)
+            </p>
           </div>
         </div>
       </section>
 
       {/* PROBLEMA SECTION */}
-      <section className="section">
+      <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px" }}>
         <div className="container">
-          <h2>El Problema Real</h2>
-          <div className="grid-3">
-            <div className="card">
-              <h3>❌ No sabes tu margen real</h3>
-              <p>Soft te suma, pero no te dice cuánto GANAS. ¿Qué platillo es tu verdadera mina de oro?</p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "center" }}>
+            {/* NÚMERO Y TITULO */}
+            <div>
+              <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
+                01
+              </div>
+              <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY, lineHeight: "1.2" }}>
+                El Problema Real
+              </h2>
+              <p style={{ fontSize: "16px", color: MUTED, marginBottom: "32px", lineHeight: "1.7" }}>
+                La mayoría de restaurantes no saben su margen real. Soft te suma, pero no te dice cuánto GANAS.
+              </p>
             </div>
 
-            <div className="card">
-              <h3>❌ Uber te cobra 30%</h3>
-              <p>$100k en delivery = $30k que desaparece. $360k/año en comisiones.</p>
-            </div>
-
-            <div className="card">
-              <h3>❌ Clientes se van sin avisar</h3>
-              <p>No tienes lealtad. No sabes qué los regresa. Pierdes clientes por $0.50.</p>
+            {/* CARDS */}
+            <div style={{ display: "grid", gap: "20px" }}>
+              {[
+                { emoji: "❌", title: "No sabes tu margen", desc: "¿Qué platillo pierde dinero?" },
+                { emoji: "💸", title: "Uber cobra 30%", desc: "$360k/año en comisiones" },
+                { emoji: "👥", title: "Clientes se van", desc: "Sin lealtad, sin datos" }
+              ].map((item, idx) => (
+                <div key={idx} className="card" style={{ padding: "24px", borderLeft: "4px solid #ff9f1c" }}>
+                  <div style={{ fontSize: "24px", marginBottom: "8px" }}>{item.emoji}</div>
+                  <h3 style={{ color: PRIMARY, fontSize: "16px", fontWeight: "700", marginBottom: "4px" }}>
+                    {item.title}
+                  </h3>
+                  <p style={{ color: MUTED, fontSize: "14px" }}>{item.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* FEATURES SECTION */}
-      <section className="section">
+      {/* SOLUCION SECTION */}
+      <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px", background: "var(--gray)" }}>
         <div className="container">
-          <h2>La Solución: PULSIFY</h2>
-          <div className="grid-3">
-            <div className="card">
-              <div style={{ fontSize: "40px", marginBottom: "16px" }}>📊</div>
-              <h3>Análisis Profundo</h3>
-              <p>Margen por platillo, punto de equilibrio, alertas inteligentes</p>
-              <ul style={{ marginTop: "16px", paddingLeft: "20px" }}>
-                <li>Margen real en segundos</li>
-                <li>Benchmarks vs promedio</li>
-                <li>Alertas cuando baja margen</li>
-              </ul>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "center" }}>
+            {/* VISUAL */}
+            <div style={{
+              background: "linear-gradient(135deg, rgba(46, 196, 182, 0.18) 0%, rgba(255, 159, 28, 0.12) 100%)",
+              borderRadius: "20px",
+              padding: "60px",
+              border: "2px solid rgba(46, 196, 182, 0.25)",
+              minHeight: "400px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              textAlign: "center"
+            }}>
+              <div style={{ fontSize: "100px", marginBottom: "16px" }}>📊</div>
+              <p style={{ color: MUTED, fontSize: "16px" }}>Dashboard Análisis</p>
             </div>
 
-            <div className="card">
-              <div style={{ fontSize: "40px", marginBottom: "16px" }}>🍕</div>
-              <h3>Pedidos Sin Comisión</h3>
-              <p>Delivery propio. 0% comisión. Clientes controlan espera.</p>
-              <ul style={{ marginTop: "16px", paddingLeft: "20px" }}>
-                <li>Catálogo digital automático</li>
-                <li>Checkout integrado</li>
-                <li>Confirmación por WhatsApp</li>
-              </ul>
-            </div>
-
-            <div className="card">
-              <div style={{ fontSize: "40px", marginBottom: "16px" }}>❤️</div>
-              <h3>Lealtad Digital</h3>
-              <p>Tarjeta wallet nativa. Puntos automáticos. Retención +15%.</p>
-              <ul style={{ marginTop: "16px", paddingLeft: "20px" }}>
-                <li>Tarjeta Apple/Google Wallet</li>
-                <li>Puntos por compra</li>
-                <li>Promociones geolocalización</li>
-              </ul>
+            {/* CONTENIDO */}
+            <div>
+              <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
+                02
+              </div>
+              <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY, lineHeight: "1.2" }}>
+                La Solución: PULSIFY
+              </h2>
+              <p style={{ fontSize: "16px", color: MUTED, marginBottom: "32px", lineHeight: "1.7" }}>
+                Análisis profundo, pedidos sin comisión, lealtad integrada. Todo en UN dashboard.
+              </p>
+              <div style={{ display: "grid", gap: "16px" }}>
+                {[
+                  "📊 Margen real por platillo",
+                  "🍕 Pedidos sin 30% comisión",
+                  "❤️ Lealtad wallet automática"
+                ].map((item, idx) => (
+                  <div key={idx} style={{ display: "flex", gap: "12px", alignItems: "center", color: PRIMARY }}>
+                    <div style={{ width: "20px", height: "20px", background: ACCENT, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <div style={{ width: "8px", height: "8px", background: "#fff", borderRadius: "50%" }}></div>
+                    </div>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* PRICING SECTION */}
-      <section className="section">
+      <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px" }}>
         <div className="container">
-          <h2>Planes</h2>
+          <div style={{ textAlign: "center", marginBottom: "80px" }}>
+            <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
+              03
+            </div>
+            <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY }}>
+              Descubre Planes Personalizados
+            </h2>
+            <p style={{ fontSize: "18px", color: MUTED, maxWidth: "600px", margin: "0 auto" }}>
+              Para cada tamaño de restaurante. Comienza gratis, sin tarjeta.
+            </p>
+          </div>
+
           <div className="grid-3">
-            {/* STARTER */}
-            <div className="card">
-              <h3>Starter</h3>
-              <p style={{ fontSize: "32px", fontWeight: "bold", color: "#0E3A39", marginBottom: "8px" }}>$49<span style={{ fontSize: "16px" }}>/mes</span></p>
-              <p style={{ marginBottom: "24px" }}>Análisis básico + Pedidos básicos</p>
-              <ul style={{ marginBottom: "24px", paddingLeft: "20px" }}>
-                <li>Margen por platillo</li>
-                <li>Pedidos básicos</li>
-                <li>Email soporte</li>
-              </ul>
-              <CTA text="Empezar" href="/checkout?plan=starter" />
-            </div>
-
-            {/* PRO - DESTACADO */}
-            <div className="card" style={{ border: "2px solid #FF9F1C", transform: "scale(1.05)" }}>
-              <div style={{ background: "#FF9F1C", color: "white", padding: "8px 12px", borderRadius: "4px", display: "inline-block", marginBottom: "12px", fontSize: "12px", fontWeight: "bold" }}>
-                ⭐ RECOMENDADO
+            {[
+              { name: "Starter", price: "$49", features: ["Margen por platillo", "Pedidos básicos", "Email soporte"], highlight: false },
+              { name: "Pro", price: "$99", features: ["Análisis profundo", "Pedidos Premium", "Lealtad Wallet", "Prioridad soporte"], highlight: true },
+              { name: "Enterprise", price: "$149", features: ["Multi-restaurante", "Integraciones custom", "Consultor dedicado", "API acceso"], highlight: false }
+            ].map((plan, idx) => (
+              <div key={idx} className="card" style={{
+                padding: "40px",
+                background: plan.highlight ? "linear-gradient(135deg, rgba(255, 159, 28, 0.12) 0%, rgba(255, 238, 184, 0.35) 100%)" : "#ffffff",
+                border: plan.highlight ? "3px solid #ff9f1c" : "1px solid rgba(46, 196, 182, 0.25)",
+                transform: plan.highlight ? "scale(1.05)" : "scale(1)"
+              }}>
+                {plan.highlight && (
+                  <div style={{ background: "#ff9f1c", color: "#fff", padding: "6px 12px", borderRadius: "20px", display: "inline-block", fontSize: "12px", fontWeight: "700", marginBottom: "16px", textTransform: "uppercase" }}>
+                    ⭐ Recomendado
+                  </div>
+                )}
+                <h3 style={{ fontSize: "24px", fontWeight: "900", color: PRIMARY, marginBottom: "8px" }}>
+                  {plan.name}
+                </h3>
+                <p style={{ fontSize: "36px", fontWeight: "900", color: ACCENT, marginBottom: "24px" }}>
+                  {plan.price}<span style={{ fontSize: "16px", color: MUTED }}>/mes</span>
+                </p>
+                <ul style={{ listStyle: "none", marginBottom: "32px" }}>
+                  {plan.features.map((feature, fidx) => (
+                    <li key={fidx} style={{ color: PRIMARY, marginBottom: "12px", fontSize: "14px", display: "flex", gap: "8px" }}>
+                      <span style={{ color: ACCENT, fontWeight: "700" }}>✓</span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <CTA text="Empezar Ahora" size="large" />
               </div>
-              <h3>Pro</h3>
-              <p style={{ fontSize: "32px", fontWeight: "bold", color: "#0E3A39", marginBottom: "8px" }}>$99<span style={{ fontSize: "16px" }}>/mes</span></p>
-              <p style={{ marginBottom: "24px" }}>Todo + Lealtad + Integraciones</p>
-              <ul style={{ marginBottom: "24px", paddingLeft: "20px" }}>
-                <li>Análisis profundo</li>
-                <li>Pedidos Premium</li>
-                <li>Lealtad Wallet</li>
-                <li>Prioridad soporte</li>
-              </ul>
-              <CTA text="Empezar" href="/checkout?plan=pro" />
-            </div>
-
-            {/* ENTERPRISE */}
-            <div className="card">
-              <h3>Enterprise</h3>
-              <p style={{ fontSize: "32px", fontWeight: "bold", color: "#0E3A39", marginBottom: "8px" }}>$149<span style={{ fontSize: "16px" }}>/mes</span></p>
-              <p style={{ marginBottom: "24px" }}>Multi-local + Consultoría</p>
-              <ul style={{ marginBottom: "24px", paddingLeft: "20px" }}>
-                <li>Multi-restaurante</li>
-                <li>Integraciones custom</li>
-                <li>Consultor dedicado</li>
-                <li>API acceso</li>
-              </ul>
-              <CTA text="Contactar" href="/checkout?plan=enterprise" />
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="section">
+      {/* TESTIMONIOS */}
+      <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px", background: "var(--gray)" }}>
         <div className="container">
-          <h2>Lo que dicen nuestros clientes</h2>
+          <div style={{ textAlign: "center", marginBottom: "80px" }}>
+            <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
+              04
+            </div>
+            <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY }}>
+              Lo Que Dicen Nuestros Clientes
+            </h2>
+          </div>
+
           <div className="grid-3">
-            <div className="card">
-              <p style={{ fontSize: "18px", fontStyle: "italic", marginBottom: "16px" }}>
-                "En 3 meses subimos margen 18%. Solo cambiar una sopa nos ahorró $50k/año."
-              </p>
-              <p style={{ fontWeight: "bold" }}>Mario</p>
-              <p style={{ color: "#666", fontSize: "14px" }}>Cremina Café</p>
-              <p style={{ color: "#FF9F1C", marginTop: "8px" }}>⭐⭐⭐⭐⭐</p>
-            </div>
-
-            <div className="card">
-              <p style={{ fontSize: "18px", fontStyle: "italic", marginBottom: "16px" }}>
-                "Dejé Uber. Ahorro $500/mes y mis clientes son más leales."
-              </p>
-              <p style={{ fontWeight: "bold" }}>Ana</p>
-              <p style={{ color: "#666", fontSize: "14px" }}>Taco Station</p>
-              <p style={{ color: "#FF9F1C", marginTop: "8px" }}>⭐⭐⭐⭐⭐</p>
-            </div>
-
-            <div className="card">
-              <p style={{ fontSize: "18px", fontStyle: "italic", marginBottom: "16px" }}>
-                "Finalmente entiendo mi negocio. Los datos me muestran dónde ganar."
-              </p>
-              <p style={{ fontWeight: "bold" }}>Luis</p>
-              <p style={{ color: "#666", fontSize: "14px" }}>Restaurant Familiar</p>
-              <p style={{ color: "#FF9F1C", marginTop: "8px" }}>⭐⭐⭐⭐⭐</p>
-            </div>
+            {[
+              { name: "Mario", business: "Cremina Café", quote: "En 3 meses subimos margen 18%. $50k/año ahorrados." },
+              { name: "Ana", business: "Taco Station", quote: "Dejé Uber. Ahorro $500/mes y clientes más leales." },
+              { name: "Luis", business: "Restaurant Familiar", quote: "Finalmente entiendo mi negocio. Los datos me guían." }
+            ].map((testimonial, idx) => (
+              <div key={idx} className="card" style={{ padding: "32px" }}>
+                <p style={{ fontSize: "18px", fontStyle: "italic", color: PRIMARY, marginBottom: "24px", lineHeight: "1.6" }}>
+                  "{testimonial.quote}"
+                </p>
+                <div style={{ borderTop: "1px solid rgba(46, 196, 182, 0.2)", paddingTop: "16px" }}>
+                  <p style={{ color: ACCENT, fontWeight: "700", fontSize: "14px", marginBottom: "4px" }}>
+                    {testimonial.name}
+                  </p>
+                  <p style={{ color: MUTED, fontSize: "12px" }}>
+                    {testimonial.business}
+                  </p>
+                  <p style={{ color: "#ff9f1c", marginTop: "8px", fontSize: "14px" }}>
+                    ⭐⭐⭐⭐⭐
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section style={{ padding: "80px 0", background: "linear-gradient(135deg, #0E3A39 0%, #2EC4B6 100%)", color: "white", textAlign: "center" }}>
-        <div className="container">
-          <h2 style={{ color: "white" }}>¿Listo para conocer tus números?</h2>
-          <p style={{ fontSize: "18px", marginBottom: "32px" }}>7 días gratis. Sin tarjeta requerida.</p>
-          <CTA text="Prueba gratis" size="large" />
+      <section style={{ padding: "120px 0", background: "linear-gradient(135deg, #2ec4b6 0%, #23a89b 100%)" }}>
+        <div className="container" style={{ textAlign: "center" }}>
+          <div style={{ fontSize: "120px", fontWeight: "900", color: "rgba(255, 255, 255, 0.18)", lineHeight: "1", marginBottom: "32px" }}>
+            05
+          </div>
+          <h2 style={{ fontSize: "56px", fontWeight: "900", marginBottom: "24px", color: "#fff" }}>
+            ¿Listo Para Crecer?
+          </h2>
+          <p style={{ fontSize: "18px", color: "rgba(255, 255, 255, 0.9)", marginBottom: "40px", maxWidth: "600px", margin: "0 auto 40px" }}>
+            7 días gratis. Sin tarjeta requerida. Cancela en cualquier momento.
+          </p>
+          <CTA text="Comienza Tu Prueba Gratis" size="large" />
         </div>
       </section>
     </main>
