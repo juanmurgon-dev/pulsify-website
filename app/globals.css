@@ -11,13 +11,15 @@
   --light: #ffeeb8;
   --white: #ffffff;
   --gray: #f5f5f5;
+  --dark: #0a1f1e;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
-  color: #333;
-  background: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, #0a1f1e 0%, #1a3a38 50%, #0e3a39 100%);
   line-height: 1.6;
+  min-height: 100vh;
 }
 
 .container {
@@ -28,48 +30,75 @@ body {
 
 /* HERO */
 .hero {
-  padding: 80px 0;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  padding: 120px 0 80px;
+  background: linear-gradient(135deg, rgba(10, 31, 30, 0.9) 0%, rgba(14, 58, 57, 0.9) 50%, rgba(46, 196, 182, 0.1) 100%);
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 159, 28, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero > div {
+  position: relative;
+  z-index: 2;
 }
 
 .hero h1 {
-  font-size: 48px;
-  font-weight: bold;
+  font-size: 56px;
+  font-weight: 900;
   margin-bottom: 16px;
-  line-height: 1.2;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #fff 0%, #2ec4b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero p {
   font-size: 18px;
   margin-bottom: 32px;
-  opacity: 0.95;
+  opacity: 0.9;
+  color: #e0e0e0;
 }
 
 /* BUTTON */
 .btn {
   display: inline-block;
-  padding: 12px 32px;
-  background-color: var(--secondary);
+  padding: 14px 36px;
+  background: linear-gradient(135deg, #ff9f1c 0%, #ff7f0f 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 14px;
   text-decoration: none;
   transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 24px rgba(255, 159, 28, 0.3);
 }
 
 .btn:hover {
-  background-color: #e68a0c;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #ff8f0a 0%, #ff5f00 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(255, 159, 28, 0.5);
 }
 
 .btn.large {
-  padding: 16px 48px;
-  font-size: 18px;
+  padding: 18px 48px;
+  font-size: 16px;
 }
 
 /* GRID */
@@ -82,59 +111,168 @@ body {
 
 .grid-3 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 32px;
   margin-top: 48px;
 }
 
 .card {
   padding: 32px;
-  border-radius: 8px;
-  background: white;
-  border: 2px solid #eee;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(46, 196, 182, 0.1) 0%, rgba(255, 159, 28, 0.05) 100%);
+  border: 2px solid rgba(46, 196, 182, 0.3);
+  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 159, 28, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.card > * {
+  position: relative;
+  z-index: 2;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  border-color: var(--secondary);
+  transform: translateY(-8px);
+  border-color: rgba(46, 196, 182, 0.6);
+  background: linear-gradient(135deg, rgba(46, 196, 182, 0.15) 0%, rgba(255, 159, 28, 0.1) 100%);
+  box-shadow: 0 16px 40px rgba(46, 196, 182, 0.2);
 }
 
 .card h3 {
-  font-size: 20px;
+  font-size: 22px;
   margin-bottom: 12px;
-  color: var(--primary);
+  color: #2ec4b6;
+  font-weight: 700;
+}
+
+.card p {
+  color: #d0d0d0;
 }
 
 /* SECTION */
 .section {
-  padding: 80px 0;
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .section:nth-child(even) {
-  background: var(--gray);
+  background: linear-gradient(135deg, rgba(14, 58, 57, 0.5) 0%, rgba(26, 58, 56, 0.5) 100%);
 }
 
 .section h2 {
-  font-size: 40px;
+  font-size: 48px;
   margin-bottom: 48px;
   text-align: center;
-  color: var(--primary);
+  color: #fff;
+  font-weight: 900;
+  background: linear-gradient(135deg, #fff 0%, #2ec4b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section h1 {
+  font-size: 48px;
+  color: #2ec4b6;
+  font-weight: 900;
+  margin-bottom: 32px;
+}
+
+/* PRICING CARDS */
+.card:has(p:contains("$")) {
+  background: linear-gradient(135deg, rgba(46, 196, 182, 0.15) 0%, rgba(14, 58, 57, 0.8) 100%);
+  border: 2px solid #2ec4b6;
+}
+
+.card:has(.large) {
+  border: 3px solid #ff9f1c;
+  background: linear-gradient(135deg, rgba(255, 159, 28, 0.1) 0%, rgba(14, 58, 57, 0.9) 100%);
+}
+
+/* HEADER */
+header {
+  background: rgba(10, 31, 30, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 2px solid rgba(46, 196, 182, 0.2) !important;
+}
+
+header a, header nav a {
+  color: #fff !important;
+}
+
+header .btn {
+  background: linear-gradient(135deg, #ff9f1c 0%, #ff7f0f 100%) !important;
+}
+
+/* FOOTER */
+footer {
+  background: linear-gradient(135deg, #0a1f1e 0%, #0e3a39 100%) !important;
+  border-top: 2px solid rgba(46, 196, 182, 0.2);
+}
+
+footer h4 {
+  color: #2ec4b6;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+footer p, footer li {
+  color: #d0d0d0;
+}
+
+footer a {
+  color: #2ec4b6 !important;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #ff9f1c;
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .hero h1 {
-    font-size: 32px;
+    font-size: 36px;
   }
 
   .section h2 {
-    font-size: 28px;
+    font-size: 32px;
+  }
+
+  .section h1 {
+    font-size: 32px;
   }
 
   .grid-2,
   .grid-3 {
     grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 24px;
+  }
+}
+
+/* ANIMATIONS */
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(46, 196, 182, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(46, 196, 182, 0.8);
   }
 }
