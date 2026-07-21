@@ -1,64 +1,41 @@
 import Link from "next/link";
-import { getBlogContent, getBlogPosts } from "@/lib/markdown";
+import { getBlogPosts } from "@/lib/markdown";
 
-export async function generateStaticParams() {
+export default async function Blog() {
   const posts = await getBlogPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
-
-export default async function BlogPost({ params }: { params: { slug: string } }) {
-  const { slug } = params;
-  const content = await getBlogContent(slug);
-
-  if (!content) {
-    return (
-      <main>
-        <section className="section" style={{ paddingTop: "120px" }}>
-          <div className="container">
-            <h1>Artículo no encontrado</h1>
-            <Link href="/blog" className="btn">
-              Volver al blog
-            </Link>
-          </div>
-        </section>
-      </main>
-    );
-  }
 
   return (
     <main>
-      <article>
-        <section className="section" style={{ paddingTop: "120px" }}>
-          <div className="container" style={{ maxWidth: "900px" }}>
-            <h1 style={{ color: "#2ec4b6", marginBottom: "32px" }}>
-              {slug.replace(/-/g, " ").toUpperCase()}
-            </h1>
+      <section className="section" style={{ paddingTop: "120px" }}>
+        <div className="container" style={{ maxWidth: "820px" }}>
+          <h1 style={{ color: "#0E3A39", marginBottom: "16px" }}>Blog</h1>
+          <p style={{ color: "#666", marginBottom: "48px" }}>
+            Ideas para subir márgenes y entender tu restaurante.
+          </p>
 
-            <div style={{ 
-              lineHeight: "1.8", 
-              fontSize: "16px", 
-              marginBottom: "48px",
-              color: "#d0d0d0"
-            }}>
-              <pre style={{ 
-                fontFamily: "inherit", 
-                whiteSpace: "pre-wrap", 
-                wordWrap: "break-word",
-                background: "rgba(46, 196, 182, 0.1)",
-                padding: "24px",
-                borderRadius: "12px",
-                border: "1px solid rgba(46, 196, 182, 0.3)"
-              }}>
-                {content}
-              </pre>
+          {posts.length === 0 ? (
+            <p>Todavía no hay artículos publicados.</p>
+          ) : (
+            <div style={{ display: "grid", gap: "24px" }}>
+              {posts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="card"
+                  style={{ textDecoration: "none", color: "inherit", display: "block" }}
+                >
+                  <h3 style={{ color: "#0E3A39", marginBottom: "8px" }}>
+                    {post.title}
+                  </h3>
+                  <span style={{ color: "#2EC4B6", fontWeight: "bold" }}>
+                    Leer artículo →
+                  </span>
+                </Link>
+              ))}
             </div>
-
-            <Link href="/blog" className="btn">
-              ← Volver al blog
-            </Link>
-          </div>
-        </section>
-      </article>
+          )}
+        </div>
+      </section>
     </main>
   );
 }
