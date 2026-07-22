@@ -191,6 +191,46 @@ const LINEA = "#eef2f1";
 const money = (n: number) => "$" + n.toLocaleString("es-MX");
 
 type Linea = { id: string; nombre: string; precioUnit: number; qty: number; detalle: string[] };
+type Pedido = { cart: Linea[]; total: number; entrega: "recoger" | "domicilio"; direccion: string; nombre: string; notas: string; telefono?: string };
+
+// Conexión a la Pantalla de Pedidos (Firebase). Config pública (client) — segura de exponer.
+const FB_CONFIG = {
+  apiKey: "AIzaSyCBV1uhuoOwHvSSjMQLo4eBtiduUvErvX8",
+  authDomain: "cremina-pedidos.firebaseapp.com",
+  projectId: "cremina-pedidos",
+  storageBucket: "cremina-pedidos.firebasestorage.app",
+  messagingSenderId: "890540085126",
+  appId: "1:890540085126:web:b24d463f4a21375d752607",
+};
+
+// Escribe el pedido pagado en la nube → aparece en pedidos.html (caja) con alarma,
+// marcado "✅ Pagado con tarjeta". Mismo esquema que espera la pantalla.
+async function enviarACaja(p: Pedido): Promise<boolean> {
+  try {
+    const { initializeApp, getApps, getApp } = await import("firebase/app");
+    const { getFirestore, collection, addDoc, serverTimestamp } = await import("firebase/firestore");
+    const app = getApps().length ? getApp() : initializeApp(FB_CONFIG);
+    await addDoc(collection(getFirestore(app), "orders"), {
+      channel: "tarjeta",
+      paid: true,
+      status: "nuevo",
+      total: p.total,
+      items: p.cart.map((ln) => ({ n: ln.nombre, opts: ln.detalle.map((d) => ({ label: d })), unit: ln.precioUnit, q: ln.qty })),
+      customer: {
+        name: p.nombre?.trim() || "Cliente",
+        phone: p.telefono?.trim() || "",
+        type: p.entrega,
+        notes: p.notas?.trim() || "",
+        address: p.direccion?.trim() || "",
+      },
+      createdAt: serverTimestamp(),
+    });
+    return true;
+  } catch (e) {
+    console.warn("No se registró en caja:", e);
+    return false;
+  }
+}
 
 export default function Pedidos() {
   const [cart, setCart] = useState<Linea[]>([]);
@@ -204,6 +244,8 @@ export default function Pedidos() {
   const [pagando, setPagando] = useState(false);
   const [errPago, setErrPago] = useState<string | null>(null);
   const [pagoOk, setPagoOk] = useState(false);
+  const [telefono, setTelefono] = useState("");
+  const [enCaja, setEnCaja] = useState<"idle" | "ok" | "err">("idle");
 
   const secRefs = useRef<(HTMLElement | null)[]>([]);
   const chipRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -221,8 +263,14 @@ export default function Pedidos() {
   }, [activa]);
   useEffect(() => {
     const p = new URLSearchParams(window.location.search).get("pago");
-    if (p === "ok") { setPagoOk(true); setCart([]); }
-    else if (p === "cancel") {
+    if (p === "ok") {
+      setPagoOk(true); setCart([]);
+      try {
+        const s = sessionStorage.getItem("platify_pedido");
+        if (s) enviarACaja(JSON.parse(s) as Pedido).then((ok) => setEnCaja(ok ? "ok" : "err"));
+        else setEnCaja("err");
+      } catch { setEnCaja("err"); }
+    } else if (p === "cancel") {
       try {
         const s = sessionStorage.getItem("platify_pedido");
         if (s) { const d = JSON.parse(s); setCart(d.cart || []); setEntrega(d.entrega || "recoger"); setDireccion(d.direccion || ""); setNombre(d.nombre || ""); setNotas(d.notas || ""); }
@@ -254,8 +302,6 @@ export default function Pedidos() {
     else addLinea({ nombre: it.nombre, precioUnit: it.precio, qty: 1, detalle: [] });
   }
 
-  type Pedido = { cart: Linea[]; total: number; entrega: "recoger" | "domicilio"; direccion: string; nombre: string; notas: string };
-
   function msgPagado(p: Pedido) {
     const l = [`Hola ${RESTAURANTE.nombre}, PEDIDO PAGADO ✅ (tarjeta):`, ""];
     for (const ln of p.cart) {
@@ -266,6 +312,7 @@ export default function Pedidos() {
     l.push(`Entrega: ${p.entrega === "recoger" ? "Paso a recoger" : "A domicilio"}`);
     if (p.entrega === "domicilio" && p.direccion?.trim()) l.push(`Dirección: ${p.direccion.trim()}`);
     if (p.nombre?.trim()) l.push(`Nombre: ${p.nombre.trim()}`);
+    if (p.telefono?.trim()) l.push(`Teléfono: ${p.telefono.trim()}`);
     if (p.notas?.trim()) l.push(`Notas: ${p.notas.trim()}`);
     return `https://wa.me/${RESTAURANTE.whatsapp}?text=${encodeURIComponent(l.join("\n"))}`;
   }
@@ -274,7 +321,7 @@ export default function Pedidos() {
     if (!cart.length || pagando) return;
     if (entrega === "domicilio" && !direccion.trim()) { setErrPago("Escribe tu dirección de entrega."); return; }
     setPagando(true); setErrPago(null);
-    const pedido: Pedido = { cart, total, entrega, direccion, nombre, notas };
+    const pedido: Pedido = { cart, total, entrega, direccion, nombre, notas, telefono };
     try { sessionStorage.setItem("platify_pedido", JSON.stringify(pedido)); } catch {}
     try {
       const res = await fetch("/api/pedido", {
@@ -295,7 +342,7 @@ export default function Pedidos() {
   }
 
   function avisarPagado() {
-    let pedido: Pedido = { cart, total, entrega, direccion, nombre, notas };
+    let pedido: Pedido = { cart, total, entrega, direccion, nombre, notas, telefono };
     try { const s = sessionStorage.getItem("platify_pedido"); if (s) pedido = JSON.parse(s); } catch {}
     window.open(msgPagado(pedido), "_blank");
   }
@@ -419,6 +466,7 @@ export default function Pedidos() {
                 ))}
               </div>
               <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre" style={inp} />
+              <input value={telefono} onChange={(e) => setTelefono(e.target.value)} placeholder="Teléfono (para avisarte)" inputMode="tel" style={inp} />
               {entrega === "domicilio" && <input value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="Dirección de entrega" style={inp} />}
               <input value={notas} onChange={(e) => setNotas(e.target.value)} placeholder="Notas del pedido (opcional)" style={inp} />
               {errPago && <div style={{ color: "#c0392b", fontSize: "13px", margin: "2px 2px 8px", fontWeight: 600 }}>{errPago}</div>}
@@ -437,9 +485,15 @@ export default function Pedidos() {
             <div style={{ ...sheet, textAlign: "center" }}>
               <div style={{ fontSize: "52px" }}>✅</div>
               <h2 style={{ color: PRIMARY, fontWeight: 800, margin: "6px 0 8px", fontSize: "22px" }}>¡Pago recibido!</h2>
-              <p style={{ color: MUTED, fontSize: "14px", marginBottom: "18px", lineHeight: 1.5 }}>Toca el botón para enviarle tu pedido al restaurante y que empiece a prepararlo.</p>
+              <p style={{ color: MUTED, fontSize: "14px", marginBottom: "18px", lineHeight: 1.5 }}>
+                {enCaja === "ok"
+                  ? "Tu pedido ya entró a la cocina. ¡Lo estamos preparando! 🧑‍🍳"
+                  : enCaja === "err"
+                  ? "Tu pago se registró. Envíalo también por WhatsApp para confirmar con el restaurante."
+                  : "Registrando tu pedido en la cocina…"}
+              </p>
               <button onClick={avisarPagado} style={{ width: "100%", background: "#25D366", color: "#fff", border: "none", borderRadius: "14px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: "pointer" }}>
-                Enviar mi pedido por WhatsApp
+                {enCaja === "ok" ? "Enviar copia por WhatsApp (opcional)" : "Enviar mi pedido por WhatsApp"}
               </button>
               <button onClick={() => setPagoOk(false)} style={{ width: "100%", background: "none", border: "none", color: MUTED, padding: "12px", marginTop: "4px", cursor: "pointer" }}>Cerrar</button>
             </div>
