@@ -288,8 +288,8 @@ export default function Pedidos() {
                   const tieneGrupos = !!(it.grupos && it.grupos.length);
                   const q = tieneGrupos ? enCarrito(it.nombre) : qtySimple(it.nombre);
                   return (
-                    <div key={it.nombre} onClick={() => tieneGrupos && tocar(it)}
-                      style={{ background: "#fff", borderRadius: "14px", padding: "14px", display: "flex", alignItems: "center", gap: "12px", border: `1px solid ${LINEA}`, cursor: tieneGrupos ? "pointer" : "default" }}>
+                    <div key={it.nombre} onClick={() => setCustom(it)}
+                      style={{ background: "#fff", borderRadius: "14px", padding: "14px", display: "flex", alignItems: "center", gap: "12px", border: `1px solid ${LINEA}`, cursor: "pointer" }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontWeight: 700, color: PRIMARY, fontSize: "15px" }}>
                           {it.nombre}{tieneGrupos && <span style={{ color: ACCENT, fontSize: "12px", fontWeight: 700 }}> · personaliza</span>}
@@ -303,13 +303,13 @@ export default function Pedidos() {
                           +{q > 0 && <span style={{ position: "absolute", top: "-6px", right: "-6px", background: PRIMARY, color: "#fff", borderRadius: "10px", fontSize: "11px", padding: "1px 6px", fontWeight: 800 }}>{q}</span>}
                         </button>
                       ) : q === 0 ? (
-                        <button onClick={() => tocar(it)} aria-label={`Agregar ${it.nombre}`}
+                        <button onClick={(e) => { e.stopPropagation(); addLinea({ nombre: it.nombre, precioUnit: it.precio, qty: 1, detalle: [] }); }} aria-label={`Agregar ${it.nombre}`}
                           style={{ background: ORANGE, color: "#fff", border: "none", borderRadius: "12px", width: "42px", height: "42px", fontSize: "24px", fontWeight: 700, cursor: "pointer", flexShrink: 0, lineHeight: 1 }}>+</button>
                       ) : (
                         <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
-                          <button onClick={() => decId(it.nombre + "|")} aria-label="Quitar" style={qtyBtn}>−</button>
+                          <button onClick={(e) => { e.stopPropagation(); decId(it.nombre + "|"); }} aria-label="Quitar" style={qtyBtn}>−</button>
                           <span style={{ fontWeight: 800, minWidth: "20px", textAlign: "center", color: PRIMARY }}>{q}</span>
-                          <button onClick={() => incId(it.nombre + "|")} aria-label="Agregar" style={{ ...qtyBtn, background: ORANGE, color: "#fff", borderColor: ORANGE }}>+</button>
+                          <button onClick={(e) => { e.stopPropagation(); incId(it.nombre + "|"); }} aria-label="Agregar" style={{ ...qtyBtn, background: ORANGE, color: "#fff", borderColor: ORANGE }}>+</button>
                         </div>
                       )}
                     </div>
@@ -389,6 +389,7 @@ export default function Pedidos() {
 function Personalizar({ item, onAdd, onClose }: { item: Item; onAdd: (l: Omit<Linea, "id">) => void; onClose: () => void }) {
   const [sel, setSel] = useState<Record<string, string[]>>({});
   const [qty, setQty] = useState(1);
+  const [comentario, setComentario] = useState("");
   const grupos = item.grupos || [];
 
   const toggle = (g: Grupo, op: Opcion) =>
@@ -409,6 +410,7 @@ function Personalizar({ item, onAdd, onClose }: { item: Item; onAdd: (l: Omit<Li
       const o = g.opciones.find((x) => x.nombre === on);
       detalle.push(o?.precio ? `${on} (+${money(o.precio)})` : `${g.nombre === "Quitar" ? "Sin " : ""}${on}`.replace("Sin Sin ", "Sin "));
     }
+    if (comentario.trim()) detalle.push("📝 " + comentario.trim());
     onAdd({ nombre: item.nombre, precioUnit: unit, qty, detalle });
   }
 
@@ -443,7 +445,14 @@ function Personalizar({ item, onAdd, onClose }: { item: Item; onAdd: (l: Omit<Li
           </div>
         ))}
 
-        <div style={{ display: "flex", alignItems: "center", gap: "14px", margin: "18px 0 14px", justifyContent: "center" }}>
+        <div style={{ marginBottom: "6px" }}>
+          <div style={{ fontWeight: 800, color: PRIMARY, fontSize: "15px", marginBottom: "8px" }}>Comentarios</div>
+          <textarea value={comentario} onChange={(e) => setComentario(e.target.value)} rows={2}
+            placeholder="Ej. sin crema ni verduras, bien dorado, salsa aparte…"
+            style={{ ...inp, resize: "vertical", lineHeight: 1.4 }} />
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "14px", margin: "8px 0 14px", justifyContent: "center" }}>
           <button onClick={() => setQty((q) => Math.max(1, q - 1))} style={qtyBtn}>−</button>
           <span style={{ fontWeight: 800, fontSize: "18px", color: PRIMARY, minWidth: "24px", textAlign: "center" }}>{qty}</span>
           <button onClick={() => setQty((q) => q + 1)} style={{ ...qtyBtn, background: ORANGE, color: "#fff", borderColor: ORANGE }}>+</button>
