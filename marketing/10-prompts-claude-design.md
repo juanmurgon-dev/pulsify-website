@@ -138,3 +138,21 @@ Estos 5 ya existen en `public/posts/`; si quieres re-hacerlos con otro layout, u
 - Frase "Vender mucho no es ganar mucho" (A) · Ad "$100 fundador" (D) · Producto "Así se ve saber cuánto ganas" (C) · "Tu hoja de cálculo te está mintiendo" (B) · Historia "Lleno todos los días… ¿y por qué no te queda?" (A vertical).
 
 > Para CUALQUIER otro post del kit (`03-instagram-posts.md`), arma el prompt igual: **Plantilla + texto en pantalla + "Platify @platify.mx" abajo**.
+
+---
+
+## 🎯 Ads de DECISIÓN (pain point #1: "¿y ahora qué hago?")
+Ángulo: no solo datos, DECISIONES. (Copy completo en `08-ads-listos.md` → ángulo 9.)
+
+### AD Decisión A — "De los números a la decisión" · Plantilla C · Feed 1080×1350
+> Diseño estilo producto (Plantilla C, fondo claro). Título arriba en verde `#0E3A39`: "Deja de ver números. Empieza a **decidir**." (la palabra "decidir" en teal `#2EC4B6`). Debajo, un mockup del panel donde muchos números se ven GRISES/apagados de fondo y encima se destacan 3 TARJETAS DE ACCIÓN grandes, cada una con ícono y color:
+> - Tarjeta naranja: "⬆ Sube $8 · Chilaquiles"
+> - Tarjeta roja suave: "✕ Quita · Malteada — 6%"
+> - Tarjeta teal/dorada: "🏆 Empuja · Enchiladas — 71%"
+> Abajo centrado: logo Platify + @platify.mx. Un solo acento naranja domina. (Versión 9:16: una sola tarjeta de acción a pantalla completa.)
+
+### AD Decisión B — "¿Y ahora qué hago?" · Plantilla A/C · Feed 1080×1350
+> Fondo verde `#0E3A39`. Arriba en crema: "Ves tus números… y te quedas igual:" y debajo GIGANTE en naranja `#FF9F1C`: "¿y ahora qué hago?". Abajo, una tarjeta blanca de recomendación clara con check verde: "✅ Sube $8 a tu platillo estrella → +$6,000 al mes." Logo Platify + @platify.mx abajo.
+
+### AD Decisión C — "Decide con datos, no a ojo" · Plantilla A · Feed 1080×1350
+> Plantilla A (Frase, fondo verde). Triángulo naranja pequeño arriba centrado. Frase gigante en crema con palabra clave en naranja: "Decide con **datos**, no a ojo." Subtexto en teal: "Platify te dice qué mueve tu utilidad hoy." Logo + @platify.mx abajo.
