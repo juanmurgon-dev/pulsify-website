@@ -82,7 +82,7 @@ export default function Home() {
               { icon: "📊", name: "Análisis", desc: "Margen real por platillo, punto de equilibrio y qué decisión tomar.", estado: "Disponible" },
               { icon: "🧾", name: "POS", desc: "Punto de venta completo: cobra, controla y todo se conecta con tus datos.", estado: "Próximamente" },
               { icon: "🛵", name: "Pedidos", desc: "Pedidos y delivery propio, sin pagar 30% de comisión a las apps.", estado: "Próximamente" },
-              { icon: "❤️", name: "Lealtad", desc: "Que tus clientes regresen: puntos, premios y promos que sí dejan.", estado: "Próximamente" },
+              { icon: "🎁", name: "Lealtad", desc: "Que tus clientes regresen: puntos, premios y promos que sí dejan.", estado: "Próximamente" },
             ].map((u, i) => {
               const dispo = u.estado === "Disponible";
               return (
