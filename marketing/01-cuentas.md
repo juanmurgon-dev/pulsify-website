@@ -22,34 +22,46 @@ El nombre para mostrar es distinto al @handle y SÍ pesa en la búsqueda. Incluy
 
 ## 2. Bios optimizadas
 
+> Tip: la **primera línea** es la que más se ve → pon ahí el gancho. Mantén el mismo estilo en IG y TikTok. Cierra siempre con 👇 apuntando al link.
+
 ### Instagram (máx. ~150 caracteres)
 
-**Variante A (enfoque "aha" con dato):**
+**⭐ RECOMENDADA (beneficio directo):**
 ```
-💰 Sabe cuánto ganas DE VERDAD por platillo
-📊 Margen real, punto de equilibrio y alertas
-🥇 Descubre tu "mina de oro"
-👇 Pruébalo en beta $100/mes
+📊 Cuánto GANAS por platillo (no cuánto vendes)
+🍽️ Margen real + alertas para tu restaurante
+👇 Pruébala · beta $100/mes
 ```
 
-**Variante B (enfoque dolor → solución):**
+**Opción tagline:**
 ```
-¿Pones precios al tanteo? 🤔
-Platify te muestra tu margen real por platillo 📈
-Beta para restaurantes 🇲🇽
-👇 Empieza hoy
+📉 Del plato a la boca se cae el margen
+Descubre cuánto ganas por platillo, en serio
+🇲🇽 Beta $100/mes 👇
+```
+
+**Opción dolor → solución:**
+```
+¿Precios al tanteo? 🤔
+Margen real por platillo + punto de equilibrio 📊
+Restaurantes MX · Pruébala 👇
 ```
 
 ### TikTok (máx. ~80 caracteres)
 
-**Variante A:**
+**⭐ RECOMENDADA:**
 ```
-📊 Tu margen real por platillo. Restaurantes MX. Link 👇
+📊 Cuánto ganas por platillo, de verdad · Restaurantes MX 👇
 ```
 
-**Variante B:**
+**Opción tagline:**
 ```
-Deja de poner precios al tanteo 💸 Finanzas para tu resto 👇
+📉 Del plato a la boca se cae el margen · Para tu resto 👇
+```
+
+**Opción dolor:**
+```
+Deja de poner precios al tanteo 💸 Margen real 👇
 ```
 
 ---
