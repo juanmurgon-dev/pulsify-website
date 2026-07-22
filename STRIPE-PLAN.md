@@ -2,17 +2,15 @@
 
 **Negocio:** soluciones digitales para restaurantes/cafeterías medianas en México.
 **Productos Stripe:** Billing (suscripciones), Invoicing (facturas), Tax (IVA).
-**Estado actual (verificado con tu `sk_test`):** cuenta `acct_1Tw8c5…`, país **US**, `charges_enabled=false`, Stripe Tax **pending / 0 registros**.
+**Estado actual (verificado con tu `sk_test`):** cuenta **México** `acct_1Tw8ph…`, país **MX**, moneda default **mxn**, Stripe Tax **pending / 0 registros**. (La cuenta US anterior se descartó.) Checkout de suscripción y de pago único **probados OK en MXN**.
 
 ---
 
 ## 0. Antes que nada — 2 decisiones de fondo
 
-1. **País de la cuenta = US, pero cobras en MXN a clientes mexicanos.**
-   En modo prueba funciona, pero para producción conviene una **cuenta de Stripe en México**:
-   payouts en MXN, métodos locales (OXXO, SPEI, Meses sin Intereses) y cumplimiento.
-   El país de la cuenta **no se puede cambiar** después: si necesitas MX, se crea una cuenta nueva.
-   → **Confírmalo antes de activar (`sk_live`).**
+1. ✅ **Cuenta México creada** (`acct_1Tw8ph…`, país MX, moneda MXN). Habilita payouts en MXN
+   y métodos locales (OXXO, SPEI, Meses sin Intereses). Falta completar la **activación**
+   (datos del negocio + RFC) para pasar a `sk_live`.
 
 2. **Facturación en México = CFDI (SAT), y Stripe NO emite CFDI.**
    Stripe Invoicing genera *facturas/recibos Stripe*, útiles como comprobante, **pero no son el CFDI 4.0**
