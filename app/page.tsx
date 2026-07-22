@@ -1,5 +1,6 @@
 import CTA from "@/components/CTA";
 import Link from "next/link";
+import DashboardMockup from "@/components/DashboardMockup";
 
 const MUTED = "#5a6b6a";
 const PRIMARY = "#0e3a39";
@@ -10,32 +11,37 @@ export default function Home() {
   return (
     <main>
       {/* HERO SECTION */}
-      <section className="section" style={{ paddingTop: "140px", paddingBottom: "80px", background: "linear-gradient(135deg, rgba(46, 196, 182, 0.12) 0%, rgba(255, 238, 184, 0.35) 100%)" }}>
+      <section className="section hero-section" style={{ paddingTop: "140px", paddingBottom: "80px", background: "linear-gradient(135deg, rgba(46, 196, 182, 0.12) 0%, rgba(255, 238, 184, 0.35) 100%)" }}>
         <div className="container">
-          <div style={{ maxWidth: "700px" }}>
-            <h1 style={{
-              fontSize: "68px",
-              fontWeight: "900",
-              lineHeight: "1.1",
-              marginBottom: "24px",
-              background: "linear-gradient(135deg, #0e3a39 0%, #2ec4b6 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent"
-            }}>
-              Mide El Pulso De Tu Negocio
-            </h1>
-            <p style={{ fontSize: "18px", color: MUTED, marginBottom: "32px", lineHeight: "1.6" }}>
-              Análisis profundo, sin comisiones de plataformas. Aumenta márgenes real.
-            </p>
-            <div style={{ display: "flex", gap: "16px" }}>
-              <CTA text="Prueba Gratis" size="large" />
-              <Link href="/blog" className="btn" style={{ background: "rgba(46, 196, 182, 0.12)", border: "2px solid rgba(46, 196, 182, 0.5)", color: PRIMARY, boxShadow: "none" }}>
-                Leer Blog
-              </Link>
+          <div className="hero-grid">
+            <div style={{ maxWidth: "560px" }}>
+              <h1 style={{
+                fontSize: "60px",
+                fontWeight: "800",
+                lineHeight: "1.1",
+                marginBottom: "24px",
+                background: "linear-gradient(135deg, #0e3a39 0%, #2ec4b6 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent"
+              }}>
+                Mide El Pulso De Tu Negocio
+              </h1>
+              <p style={{ fontSize: "18px", color: MUTED, marginBottom: "32px", lineHeight: "1.6" }}>
+                Análisis profundo, sin comisiones de plataformas. Aumenta márgenes real.
+              </p>
+              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                <CTA text="Prueba Gratis" size="large" />
+                <Link href="/blog" className="btn" style={{ background: "rgba(46, 196, 182, 0.12)", border: "2px solid rgba(46, 196, 182, 0.5)", color: PRIMARY, boxShadow: "none" }}>
+                  Leer Blog
+                </Link>
+              </div>
+              <p style={{ marginTop: "32px", color: MUTED, fontSize: "14px" }}>
+                ⭐⭐⭐⭐⭐ 4.9/5 (120+ restaurantes)
+              </p>
             </div>
-            <p style={{ marginTop: "32px", color: MUTED, fontSize: "14px" }}>
-              ⭐⭐⭐⭐⭐ 4.9/5 (120+ restaurantes)
-            </p>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <DashboardMockup />
+            </div>
           </div>
         </div>
       </section>
@@ -43,7 +49,7 @@ export default function Home() {
       {/* PROBLEMA SECTION */}
       <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "center" }}>
+          <div className="split-grid">
             {/* NÚMERO Y TITULO */}
             <div>
               <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
@@ -80,22 +86,10 @@ export default function Home() {
       {/* SOLUCION SECTION */}
       <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px", background: "var(--gray)" }}>
         <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "center" }}>
+          <div className="split-grid">
             {/* VISUAL */}
-            <div style={{
-              background: "linear-gradient(135deg, rgba(46, 196, 182, 0.18) 0%, rgba(255, 159, 28, 0.12) 100%)",
-              borderRadius: "20px",
-              padding: "60px",
-              border: "2px solid rgba(46, 196, 182, 0.25)",
-              minHeight: "400px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              textAlign: "center"
-            }}>
-              <div style={{ fontSize: "100px", marginBottom: "16px" }}>📊</div>
-              <p style={{ color: MUTED, fontSize: "16px" }}>Dashboard Análisis</p>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <DashboardMockup />
             </div>
 
             {/* CONTENIDO */}
