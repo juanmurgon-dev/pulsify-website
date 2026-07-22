@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getBlogContent, getBlogPosts } from "@/lib/markdown";
+import { getBlogPost, getBlogPosts } from "@/lib/markdown";
 import Markdown from "@/components/Markdown";
 import type { Metadata } from "next";
 
@@ -11,34 +11,28 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-// Saca el título (primer #) y una descripción (primer párrafo) del artículo.
-function resumen(content: string) {
-  const heading = content.match(/^#\s+(.+)$/m);
-  const title = heading ? heading[1].trim() : "Artículo";
-  const parrafo = content
-    .split("\n")
-    .map((l) => l.trim())
-    .find((l) => l && !l.startsWith("#") && !l.startsWith("-"));
-  const description = (parrafo || "").slice(0, 160);
-  return { title, description };
-}
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const content = await getBlogContent(slug);
-  if (!content) return { title: "Artículo no encontrado" };
-  const { title, description } = resumen(content);
+  const post = await getBlogPost(slug);
+  if (!post) return { title: "Artículo no encontrado" };
+  const { title, resumen, cover } = post.meta;
   const url = `/blog/${slug}`;
   return {
     title,
-    description,
+    description: resumen,
     alternates: { canonical: url },
-    openGraph: { type: "article", url, title, description },
-    twitter: { card: "summary_large_image", title, description },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description: resumen,
+      images: cover ? [{ url: cover }] : undefined,
+    },
+    twitter: { card: "summary_large_image", title, description: resumen },
   };
 }
 
@@ -48,18 +42,19 @@ export default async function BlogPost({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const content = await getBlogContent(slug);
+  const post = await getBlogPost(slug);
 
-  if (!content) {
+  if (!post) {
     notFound();
   }
 
-  const { title, description } = resumen(content);
+  const { title, resumen, cover } = post.meta;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: title,
-    description,
+    description: resumen,
+    image: cover ? `${SITIO}${cover}` : undefined,
     inLanguage: "es-MX",
     mainEntityOfPage: `${SITIO}/blog/${slug}`,
     publisher: {
@@ -86,6 +81,22 @@ export default async function BlogPost({
               ← Volver al blog
             </Link>
 
+            {cover && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={cover}
+                alt={title}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  aspectRatio: "16 / 9",
+                  objectFit: "cover",
+                  borderRadius: "18px",
+                  marginBottom: "32px",
+                }}
+              />
+            )}
+
             <div
               style={{
                 lineHeight: "1.8",
@@ -93,7 +104,7 @@ export default async function BlogPost({
                 color: "#333",
               }}
             >
-              <Markdown source={content} />
+              <Markdown source={post.body} />
             </div>
 
             <div style={{ marginTop: "48px" }}>
