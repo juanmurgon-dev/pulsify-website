@@ -201,6 +201,9 @@ export default function Pedidos() {
   const [direccion, setDireccion] = useState("");
   const [notas, setNotas] = useState("");
   const [activa, setActiva] = useState(0);
+  const [pagando, setPagando] = useState(false);
+  const [errPago, setErrPago] = useState<string | null>(null);
+  const [pagoOk, setPagoOk] = useState(false);
 
   const secRefs = useRef<(HTMLElement | null)[]>([]);
   const chipRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -216,6 +219,19 @@ export default function Pedidos() {
   useEffect(() => {
     chipRefs.current[activa]?.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
   }, [activa]);
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search).get("pago");
+    if (p === "ok") { setPagoOk(true); setCart([]); }
+    else if (p === "cancel") {
+      try {
+        const s = sessionStorage.getItem("platify_pedido");
+        if (s) { const d = JSON.parse(s); setCart(d.cart || []); setEntrega(d.entrega || "recoger"); setDireccion(d.direccion || ""); setNombre(d.nombre || ""); setNotas(d.notas || ""); }
+      } catch {}
+      setErrPago("El pago se canceló. Tu pedido sigue aquí, intenta de nuevo.");
+      setAbierto(true);
+    }
+    if (p) window.history.replaceState({}, "", "/pedidos");
+  }, []);
 
   function addLinea(l: Omit<Linea, "id">) {
     const id = l.nombre + "|" + l.detalle.join("·");
@@ -238,18 +254,50 @@ export default function Pedidos() {
     else addLinea({ nombre: it.nombre, precioUnit: it.precio, qty: 1, detalle: [] });
   }
 
-  function enviarWhatsApp() {
-    const l = [`Hola ${RESTAURANTE.nombre}, quiero hacer un pedido:`, ""];
-    for (const ln of cart) {
+  type Pedido = { cart: Linea[]; total: number; entrega: "recoger" | "domicilio"; direccion: string; nombre: string; notas: string };
+
+  function msgPagado(p: Pedido) {
+    const l = [`Hola ${RESTAURANTE.nombre}, PEDIDO PAGADO ✅ (tarjeta):`, ""];
+    for (const ln of p.cart) {
       l.push(`• ${ln.qty}x ${ln.nombre} — ${money(ln.qty * ln.precioUnit)}`);
       for (const d of ln.detalle) l.push(`   - ${d}`);
     }
-    l.push("", `Total: ${money(total)}`);
-    l.push(`Entrega: ${entrega === "recoger" ? "Paso a recoger" : "A domicilio"}`);
-    if (entrega === "domicilio" && direccion.trim()) l.push(`Dirección: ${direccion.trim()}`);
-    if (nombre.trim()) l.push(`Nombre: ${nombre.trim()}`);
-    if (notas.trim()) l.push(`Notas: ${notas.trim()}`);
-    window.open(`https://wa.me/${RESTAURANTE.whatsapp}?text=${encodeURIComponent(l.join("\n"))}`, "_blank");
+    l.push("", `Total: ${money(p.total)} (pagado)`);
+    l.push(`Entrega: ${p.entrega === "recoger" ? "Paso a recoger" : "A domicilio"}`);
+    if (p.entrega === "domicilio" && p.direccion?.trim()) l.push(`Dirección: ${p.direccion.trim()}`);
+    if (p.nombre?.trim()) l.push(`Nombre: ${p.nombre.trim()}`);
+    if (p.notas?.trim()) l.push(`Notas: ${p.notas.trim()}`);
+    return `https://wa.me/${RESTAURANTE.whatsapp}?text=${encodeURIComponent(l.join("\n"))}`;
+  }
+
+  async function pagar() {
+    if (!cart.length || pagando) return;
+    if (entrega === "domicilio" && !direccion.trim()) { setErrPago("Escribe tu dirección de entrega."); return; }
+    setPagando(true); setErrPago(null);
+    const pedido: Pedido = { cart, total, entrega, direccion, nombre, notas };
+    try { sessionStorage.setItem("platify_pedido", JSON.stringify(pedido)); } catch {}
+    try {
+      const res = await fetch("/api/pedido", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          items: cart, total, entrega, nombre, restaurante: RESTAURANTE.nombre,
+          notas: notas + (entrega === "domicilio" && direccion.trim() ? ` | Dirección: ${direccion.trim()}` : ""),
+        }),
+      });
+      const data = await res.json();
+      if (data.url) { window.location.href = data.url; return; }
+      setErrPago(data.error || "No se pudo iniciar el pago.");
+    } catch {
+      setErrPago("No se pudo conectar con el pago. Revisa tu internet.");
+    }
+    setPagando(false);
+  }
+
+  function avisarPagado() {
+    let pedido: Pedido = { cart, total, entrega, direccion, nombre, notas };
+    try { const s = sessionStorage.getItem("platify_pedido"); if (s) pedido = JSON.parse(s); } catch {}
+    window.open(msgPagado(pedido), "_blank");
   }
 
   return (
@@ -260,8 +308,8 @@ export default function Pedidos() {
           {RESTAURANTE.nombre}
         </div>
         <div style={{ background: PRIMARY, color: "#fff", padding: "4px 20px 22px", textAlign: "center" }}>
-          <div style={{ fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: ACCENT, fontWeight: 700 }}>🛵 Pedido en línea · sin comisión</div>
-          <p style={{ color: "#cfe0de", marginTop: "6px", fontSize: "13px" }}>Arma tu pedido y envíalo por WhatsApp</p>
+          <div style={{ fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: ACCENT, fontWeight: 700 }}>🛵 Pedido en línea · pago con tarjeta</div>
+          <p style={{ color: "#cfe0de", marginTop: "6px", fontSize: "13px" }}>Arma tu pedido, paga en línea y lo preparamos</p>
         </div>
 
         {/* Pestañas de categorías */}
@@ -372,11 +420,28 @@ export default function Pedidos() {
               </div>
               <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre" style={inp} />
               {entrega === "domicilio" && <input value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="Dirección de entrega" style={inp} />}
-              <input value={notas} onChange={(e) => setNotas(e.target.value)} placeholder="Notas (opcional)" style={inp} />
-              <button onClick={enviarWhatsApp} style={{ width: "100%", background: "#25D366", color: "#fff", border: "none", borderRadius: "14px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: "pointer", marginTop: "8px" }}>
-                Enviar pedido por WhatsApp
+              <input value={notas} onChange={(e) => setNotas(e.target.value)} placeholder="Notas del pedido (opcional)" style={inp} />
+              {errPago && <div style={{ color: "#c0392b", fontSize: "13px", margin: "2px 2px 8px", fontWeight: 600 }}>{errPago}</div>}
+              <button onClick={pagar} disabled={pagando} style={{ width: "100%", background: PRIMARY, color: "#fff", border: "none", borderRadius: "14px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: pagando ? "wait" : "pointer", marginTop: "8px", opacity: pagando ? 0.7 : 1 }}>
+                {pagando ? "Redirigiendo al pago…" : `Pagar ${money(total)}`}
               </button>
-              <button onClick={() => setAbierto(false)} style={{ width: "100%", background: "none", border: "none", color: MUTED, padding: "12px", marginTop: "4px", cursor: "pointer" }}>Seguir agregando</button>
+              <p style={{ textAlign: "center", color: MUTED, fontSize: "12px", marginTop: "8px" }}>🔒 Pago seguro con tarjeta · procesado por Stripe</p>
+              <button onClick={() => setAbierto(false)} style={{ width: "100%", background: "none", border: "none", color: MUTED, padding: "12px", marginTop: "2px", cursor: "pointer" }}>Seguir agregando</button>
+            </div>
+          </div>
+        )}
+
+        {/* Pantalla de éxito tras pagar */}
+        {pagoOk && (
+          <div style={sheetBg}>
+            <div style={{ ...sheet, textAlign: "center" }}>
+              <div style={{ fontSize: "52px" }}>✅</div>
+              <h2 style={{ color: PRIMARY, fontWeight: 800, margin: "6px 0 8px", fontSize: "22px" }}>¡Pago recibido!</h2>
+              <p style={{ color: MUTED, fontSize: "14px", marginBottom: "18px", lineHeight: 1.5 }}>Toca el botón para enviarle tu pedido al restaurante y que empiece a prepararlo.</p>
+              <button onClick={avisarPagado} style={{ width: "100%", background: "#25D366", color: "#fff", border: "none", borderRadius: "14px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: "pointer" }}>
+                Enviar mi pedido por WhatsApp
+              </button>
+              <button onClick={() => setPagoOk(false)} style={{ width: "100%", background: "none", border: "none", color: MUTED, padding: "12px", marginTop: "4px", cursor: "pointer" }}>Cerrar</button>
             </div>
           </div>
         )}
