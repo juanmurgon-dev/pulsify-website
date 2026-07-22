@@ -99,8 +99,8 @@ export default function Pedidos() {
 
   return (
     <main style={{ background: "#f7faf9", minHeight: "100vh", paddingBottom: totalItems ? "96px" : "40px" }}>
-      {/* Encabezado del restaurante */}
-      <header style={{ background: PRIMARY, color: "#fff", padding: "72px 0 28px", textAlign: "center" }}>
+      {/* Encabezado del restaurante (div, no <header>: globals.css fuerza header blanco) */}
+      <div style={{ background: PRIMARY, color: "#fff", padding: "40px 0 28px", textAlign: "center" }}>
         <div className="container">
           <div style={{ fontSize: "13px", letterSpacing: "0.08em", textTransform: "uppercase", color: ACCENT, fontWeight: 700, marginBottom: "8px" }}>
             🛵 Pedido en línea
@@ -110,7 +110,7 @@ export default function Pedidos() {
             Arma tu pedido y envíalo por WhatsApp. Sin comisiones.
           </p>
         </div>
-      </header>
+      </div>
 
       <div className="container" style={{ maxWidth: "720px", paddingTop: "24px" }}>
         {MENU.map((cat) => (
