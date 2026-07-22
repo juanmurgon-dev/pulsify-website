@@ -44,7 +44,7 @@ export default function Home() {
                 Conoce el Margen Real de Cada Platillo
               </h1>
               <p style={{ fontSize: "19px", color: MUTED, marginBottom: "32px", lineHeight: "1.6" }}>
-                PULSIFY analiza tus ventas y te dice cuánto ganas de verdad —
+                PLATIFY analiza tus ventas y te dice cuánto ganas de verdad —
                 por platillo, por día, en tiempo real. Sin hojas de cálculo.
               </p>
               <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
@@ -113,7 +113,7 @@ export default function Home() {
                 02
               </div>
               <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY, lineHeight: "1.2" }}>
-                La Solución: Análisis PULSIFY
+                La Solución: Análisis PLATIFY
               </h2>
               <p style={{ fontSize: "16px", color: MUTED, marginBottom: "32px", lineHeight: "1.7" }}>
                 Todo tu negocio en números claros. Cargas tus ventas y en segundos
@@ -166,7 +166,7 @@ export default function Home() {
                 🚀 Precio de fundador
               </div>
               <h3 style={{ fontSize: "24px", fontWeight: "900", color: PRIMARY, marginBottom: "8px" }}>
-                Análisis PULSIFY — Beta
+                Análisis PLATIFY — Beta
               </h3>
               <p style={{ fontSize: "56px", fontWeight: "900", color: ACCENT, marginBottom: "4px", lineHeight: 1 }}>
                 $100 <span style={{ fontSize: "18px", color: MUTED }}>MXN/mes</span>
@@ -245,7 +245,7 @@ export default function Home() {
           <div style={{ display: "grid", gap: "16px" }}>
             {[
               { q: "¿Qué incluye la beta?", a: "Todo el módulo de análisis: margen por platillo, punto de equilibrio, alertas y tu platillo más rentable. Es el producto que ya está funcionando hoy." },
-              { q: "¿Cómo cargo mis ventas?", a: "Subes tus ventas del punto de venta (o las capturas) y PULSIFY calcula tus márgenes al instante. Te ayudamos en el arranque." },
+              { q: "¿Cómo cargo mis ventas?", a: "Subes tus ventas del punto de venta (o las capturas) y PLATIFY calcula tus márgenes al instante. Te ayudamos en el arranque." },
               { q: "¿El precio de $100/mes sube después?", a: "No mientras seas beta: tu precio de fundador queda congelado. Al salir de beta el precio sube para nuevos usuarios; tú te quedas con el de hoy." },
               { q: "¿Cómo pago y puedo cancelar?", a: "Es una suscripción mensual con tarjeta, de forma segura vía Stripe. Cancelas cuando quieras, sin ataduras." }
             ].map((item, idx) => (

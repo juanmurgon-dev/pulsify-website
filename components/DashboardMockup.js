@@ -1,4 +1,4 @@
-// Mockup del panel de PULSIFY (sin dependencias, con la paleta de marca).
+// Mockup del panel de PLATIFY (sin dependencias, con la paleta de marca).
 // Representa lo que hace el app: margen por platillo, KPIs y alertas.
 const PRIMARY = "#0e3a39";
 const ACCENT = "#2ec4b6";
@@ -31,7 +31,7 @@ export default function DashboardMockup() {
           <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ff5f57", display: "inline-block" }} />
           <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#febc2e", display: "inline-block" }} />
           <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#28c840", display: "inline-block" }} />
-          <span style={{ marginLeft: "8px", fontSize: "12px", fontWeight: 700, color: PRIMARY }}>Panel · PULSIFY</span>
+          <span style={{ marginLeft: "8px", fontSize: "12px", fontWeight: 700, color: PRIMARY }}>Panel · PLATIFY</span>
         </div>
         <span
           style={{

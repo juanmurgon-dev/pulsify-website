@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "PULSIFY - Análisis de Restaurantes",
+  title: "PLATIFY - Análisis de Restaurantes",
   description: "Aumenta tus márgenes sin comisión. Análisis + Pedidos + Lealtad.",
 };
 

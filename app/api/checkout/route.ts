@@ -29,9 +29,9 @@ export async function POST(request: Request) {
             unit_amount: BETA_AMOUNT,
             recurring: { interval: "month" },
             product_data: {
-              name: "PULSIFY Análisis — Suscripción Beta",
+              name: "PLATIFY Análisis — Suscripción Beta",
               description:
-                "Acceso de fundador al análisis financiero de PULSIFY (versión beta), $100 MXN al mes.",
+                "Acceso de fundador al análisis financiero de PLATIFY (versión beta), $100 MXN al mes.",
             },
           },
         },

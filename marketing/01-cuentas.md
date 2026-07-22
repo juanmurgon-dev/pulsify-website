@@ -1,6 +1,6 @@
-# Configuración de cuentas — Instagram y TikTok (@pulsify.mx)
+# Configuración de cuentas — Instagram y TikTok (@platify.mx)
 
-Documento accionable para dejar ambas cuentas listas, alineadas al brief de marca de PULSIFY. Copia y pega directamente.
+Documento accionable para dejar ambas cuentas listas, alineadas al brief de marca de PLATIFY. Copia y pega directamente.
 
 ---
 
@@ -9,14 +9,14 @@ Documento accionable para dejar ambas cuentas listas, alineadas al brief de marc
 El nombre para mostrar es distinto al @handle y SÍ pesa en la búsqueda. Incluye keyword para que te encuentren dueños que buscan "margen", "restaurante", "ganancias".
 
 **Instagram (máx. útil ~30 caracteres, prioriza claridad):**
-- **Recomendado:** `Pulsify · Margen de tu restaurante`
-- Alternativa corta: `Pulsify | Finanzas para restaurantes`
+- **Recomendado:** `Platify · Margen de tu restaurante`
+- Alternativa corta: `Platify | Finanzas para restaurantes`
 
 **TikTok (nombre visible, hasta ~30 caracteres):**
-- **Recomendado:** `Pulsify · Gana más en tu resto`
-- Alternativa: `Pulsify | Margen real de tu menú`
+- **Recomendado:** `Platify · Gana más en tu resto`
+- Alternativa: `Platify | Margen real de tu menú`
 
-> Regla: siempre "Pulsify" primero (marca) + separador (`·` o `|`) + keyword de búsqueda (margen / restaurante / finanzas).
+> Regla: siempre "Platify" primero (marca) + separador (`·` o `|`) + keyword de búsqueda (margen / restaurante / finanzas).
 
 ---
 
@@ -35,7 +35,7 @@ El nombre para mostrar es distinto al @handle y SÍ pesa en la búsqueda. Incluy
 **Variante B (enfoque dolor → solución):**
 ```
 ¿Pones precios al tanteo? 🤔
-Pulsify te muestra tu margen real por platillo 📈
+Platify te muestra tu margen real por platillo 📈
 Beta para restaurantes 🇲🇽
 👇 Empieza hoy
 ```
@@ -85,7 +85,7 @@ Deja de poner precios al tanteo 💸 Finanzas para tu resto 👇
 
 **Concepto:** ícono de marca, NO texto largo (se pierde en el círculo pequeño).
 
-- **Elemento:** el símbolo/ísotipo de Pulsify — idealmente un "pulso" o gráfica ascendente estilizada (línea de latido que sube, guiño al nombre "Pulsify" + crecimiento financiero).
+- **Elemento:** el símbolo/ísotipo de Platify — idealmente un "pulso" o gráfica ascendente estilizada (línea de latido que sube, guiño al nombre "Platify" + crecimiento financiero).
 - **Fondo:** verde profundo `#0e3a39` (sólido) para máximo contraste y presencia.
 - **Ícono en color:** teal `#2ec4b6` como principal, con acento naranja `#ff9f1c` en la punta de la línea (el momento "sube el margen").
 - **Legibilidad:** un solo símbolo centrado, grueso, con aire alrededor (padding). Debe leerse claro a 40x40 px. Nada de texto pequeño ni del wordmark completo.
@@ -98,7 +98,7 @@ Deja de poner precios al tanteo 💸 Finanzas para tu resto 👇
 
 Crea 5 destacados. Cada uno con portada de la paleta (fondo verde `#0e3a39` + ícono lineal teal). Nombres cortos (máx. ~10-12 caracteres para que no se corten).
 
-1. **"Qué es"** — Explicación de Pulsify en 2-3 stories: el problema (precios al tanteo) y qué resuelve.
+1. **"Qué es"** — Explicación de Platify en 2-3 stories: el problema (precios al tanteo) y qué resuelve.
 2. **"Margen"** — Cómo se ve tu margen real por platillo dentro de la app. Capturas + un "antes/después".
 3. **"Mina de oro"** — El feature estrella: cómo detecta tu platillo más rentable. Muy compartible.
 4. **"Precios"** — La oferta beta: $100/mes, precio de fundador congelado, cancela cuando quieras.
@@ -111,8 +111,8 @@ Crea 5 destacados. Cada uno con portada de la paleta (fondo verde `#0e3a39` + í
 
 Configura en el perfil de **empresa** de ambas redes:
 
-- **WhatsApp:** botón de WhatsApp Business con número de atención. Mensaje predefinido sugerido: *"Hola, quiero probar Pulsify en beta 👋"*. Es el canal de conversión #1 para dueños de restaurante en México.
-- **Correo:** un correo de contacto tipo `hola@pulsify.mx` (evita usar el personal). Botón "Correo electrónico" activado en IG.
+- **WhatsApp:** botón de WhatsApp Business con número de atención. Mensaje predefinido sugerido: *"Hola, quiero probar Platify en beta 👋"*. Es el canal de conversión #1 para dueños de restaurante en México.
+- **Correo:** un correo de contacto tipo `hola@platify.mx` (evita usar el personal). Botón "Correo electrónico" activado en IG.
 - **Botón de sitio web:** apuntando a la landing con UTM (`?utm_source=instagram&utm_medium=profile_button`).
 - **Instagram — botón de acción:** si está disponible, agrega botón "Reservar/Registrarse" enlazando a `/checkout`.
 - **TikTok:** activa el enlace en bio (disponible con cuenta Business) y, si califica, el botón de sitio web.
@@ -123,25 +123,25 @@ Configura en el perfil de **empresa** de ambas redes:
 ## 8. Checklist de creación paso a paso
 
 ### Preparación (una vez)
-- [ ] Definir correo de marca `hola@pulsify.mx` y número de WhatsApp Business.
+- [ ] Definir correo de marca `hola@platify.mx` y número de WhatsApp Business.
 - [ ] Exportar foto de perfil (PNG 1080x1080) y 5-6 portadas de highlights.
 - [ ] Tener listos los textos de este documento (bios, nombres, link con UTM).
 
 ### Instagram
-- [ ] Crear cuenta con handle **@pulsify.mx** y correo de marca.
+- [ ] Crear cuenta con handle **@platify.mx** y correo de marca.
 - [ ] Ir a Configuración → Cuenta → Cambiar a **cuenta profesional → Empresa**.
 - [ ] Elegir categoría `Software` / `Empresa de tecnología` y activar "mostrar categoría".
 - [ ] Poner nombre para mostrar (sección 1) y bio (sección 2, variante elegida).
 - [ ] Agregar link con UTM en "Sitio web".
 - [ ] Configurar botones de contacto: WhatsApp, correo, sitio.
 - [ ] Subir foto de perfil.
-- [ ] (Opcional pero recomendado) Conectar a una **página de Facebook** de Pulsify para desbloquear anuncios y catálogo a futuro.
+- [ ] (Opcional pero recomendado) Conectar a una **página de Facebook** de Platify para desbloquear anuncios y catálogo a futuro.
 - [ ] Crear los 5-6 Highlights (aunque sea con placeholders al inicio).
 - [ ] Publicar el post fijado y **fijarlo** (sección 9).
 - [ ] Revisar el perfil desde otro teléfono: ¿se entiende qué haces y cómo probarlo en 3 segundos?
 
 ### TikTok
-- [ ] Crear cuenta con handle **@pulsify.mx** y correo de marca.
+- [ ] Crear cuenta con handle **@platify.mx** y correo de marca.
 - [ ] Perfil → Configuración → **Cuenta → Cambiar a cuenta Business** (categoría `Software`/`Finanzas`).
 - [ ] Poner nombre para mostrar y bio (sección 2).
 - [ ] Activar y pegar el **enlace en bio** con UTM.
@@ -167,7 +167,7 @@ Configura en el perfil de **empresa** de ambas redes:
 4. La "mina de oro": tu platillo más rentable, revelado.
 5. Cierre + CTA: *"Pruébalo en beta $100/mes. Precio de fundador congelado. Link en bio 👆"*.
 
-**Copy sugerido del pie:** *"Dejar de adivinar tus precios cuesta $100 al mes. Pulsify te muestra tu margen real, tu punto de equilibrio en vivo y te avisa cuando un platillo pierde rentabilidad. Beta abierta 🇲🇽 → link en bio."*
+**Copy sugerido del pie:** *"Dejar de adivinar tus precios cuesta $100 al mes. Platify te muestra tu margen real, tu punto de equilibrio en vivo y te avisa cuando un platillo pierde rentabilidad. Beta abierta 🇲🇽 → link en bio."*
 
 ### TikTok (video fijado)
 **Objetivo:** demo rápida y humana. Video de 20-35 seg:
@@ -176,4 +176,4 @@ Configura en el perfil de **empresa** de ambas redes:
 - **Cierre + CTA:** *"Todo esto por $100 al mes en beta. Link en mi bio para probarlo."*
 - **On-screen text** con la paleta de marca; captions siempre activados.
 
-**Caption sugerido:** *"Deja de poner precios al tanteo 💸 Pulsify te dice cuánto ganas de verdad por platillo. Beta para restaurantes en México 🇲🇽 #restaurante #negocios #finanzas #emprendedor"*
+**Caption sugerido:** *"Deja de poner precios al tanteo 💸 Platify te dice cuánto ganas de verdad por platillo. Beta para restaurantes en México 🇲🇽 #restaurante #negocios #finanzas #emprendedor"*

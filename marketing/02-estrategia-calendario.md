@@ -1,12 +1,12 @@
 # Estrategia y calendario de contenido — 30 días
 
-**Marca:** PULSIFY (@pulsify.mx) · **Producto:** app de análisis financiero para restaurantes (beta) · **Oferta:** BETA a $100 MXN/mes (precio de fundador congelado) · **Landing:** https://pulsify-website-six.vercel.app
+**Marca:** PLATIFY (@platify.mx) · **Producto:** app de análisis financiero para restaurantes (beta) · **Oferta:** BETA a $100 MXN/mes (precio de fundador congelado) · **Landing:** https://pulsify-website-six.vercel.app
 
 ---
 
 ## 1. Objetivo de la fase de lanzamiento
 
-**Objetivo principal:** Conseguir los primeros **50 beta-fundadores a $100 MXN/mes** en 30 días, construyendo una audiencia de dueños de restaurantes que asocien a PULSIFY con una idea: *"por fin voy a saber cuánto gano DE VERDAD"*.
+**Objetivo principal:** Conseguir los primeros **50 beta-fundadores a $100 MXN/mes** en 30 días, construyendo una audiencia de dueños de restaurantes que asocien a PLATIFY con una idea: *"por fin voy a saber cuánto gano DE VERDAD"*.
 
 **Objetivo secundario:** Validar qué mensaje convierte (margen, punto de equilibrio, o "platillo que pierde dinero") para escalar en pauta después.
 
@@ -38,7 +38,7 @@
 - Subir el precio del gas/aguacate y NO ajustar tu menú = trabajar gratis.
 - Promociones 2x1 que en realidad te hacen perder dinero.
 
-### Pilar 3 — PULSIFY en acción 📱
+### Pilar 3 — PLATIFY en acción 📱
 **Para qué sirve:** Demostraciones del producto. Screen-recording de la app mostrando margen por platillo, alertas y la "mina de oro". Convierte curiosidad en compra.
 - "Subí las ventas de un taco y la app me dijo mi margen real en 10 seg."
 - Demo de la alerta: "tu platillo bajó de margen" en vivo.
@@ -52,7 +52,7 @@
 
 ### Pilar 5 — Detrás de la beta / fundador 🚀
 **Para qué sirve:** Comunidad y urgencia. Humaniza la marca, explica el precio de fundador y crea FOMO ("congela tu precio antes de que suba").
-- Por qué construí PULSIFY: cansado de ver restaurantes cerrar por no saber sus números.
+- Por qué construí PLATIFY: cansado de ver restaurantes cerrar por no saber sus números.
 - "Precio de fundador $100: lo que significa y por qué sube al salir de beta."
 - Detrás de cámara: cómo elegimos qué alerta programar next.
 
@@ -91,27 +91,27 @@
 | 2 | IG | Escuela de Margen | Carr | "El 30% de food cost es un MITO que te está costando dinero. Aquí el número real." | Guarda esto para tu próxima junta |
 | 3 | IG Stories | — | HIST | Encuesta: "¿Sabes tu margen real por platillo? Sí / No / Ni idea" + resultados | Desliza al link |
 | 4 | IG + TikTok | Errores | R/T | "El platillo que te hace perder dinero está en tu menú AHORITA. Te enseño a cazarlo." | Link in bio → checa tu margen |
-| 5 | IG + TikTok | PULSIFY en acción | R/T | "Subí 1 taco a la app y en 10 segundos me dijo mi margen real. Mira." | Pruébalo gratis en beta |
+| 5 | IG + TikTok | PLATIFY en acción | R/T | "Subí 1 taco a la app y en 10 segundos me dijo mi margen real. Mira." | Pruébalo gratis en beta |
 | 6 | IG | Historias/casos | Post | Cita: "Vender más no es ganar más." (dato de utilidad vs venta) | Guarda y comparte |
 | 7 | IG Stories | — | HIST | Detrás de cámara: grabando la demo + pregunta "¿qué platillo quieres que analice?" | Manda DM |
 | 8 | IG + TikTok | Escuela de Margen | R/T | "Tu punto de equilibrio en una servilleta: cuántos platos DEBES vender hoy para no perder." | Automatízalo en el link |
 | 9 | IG | Errores | Carr | "5 costos ocultos que se comen tu margen (y el #4 casi nadie lo cuenta)." | Guarda esta lista |
 | 10 | IG Stories | — | HIST | Antes/después de un margen (teaser del caso del día 11) | Mañana el caso completo |
 | 11 | IG + TikTok | Historias/casos | R/T | "Esta fonda creía ganar con el menú del día... perdía $18 por plato. Así lo descubrimos." | ¿Te pasa? Link in bio |
-| 12 | IG + TikTok | PULSIFY en acción | R/T | "La alerta que te salva: 'tu platillo bajó de margen'. Te muestro cómo suena la campana." | Actívala en beta |
+| 12 | IG + TikTok | PLATIFY en acción | R/T | "La alerta que te salva: 'tu platillo bajó de margen'. Te muestro cómo suena la campana." | Actívala en beta |
 | 13 | IG | Detrás/fundador | Carr | "Precio de fundador $100/mes: qué incluye y por qué SUBE cuando salgamos de beta." | Congela tu precio hoy |
 | 14 | IG Stories | — | HIST | Caja de preguntas: "¿Qué es lo que más te confunde de tus números?" | Respondo todo |
 | 15 | IG + TikTok | Escuela de Margen | R/T | "Subió el aguacate $40. Si no ajustaste tu precio, estás trabajando GRATIS. Te enseño la regla." | Calcula el tuyo → link |
 | 16 | IG | Errores | Post | "El 2x1 que te encanta puede estar quemando tu utilidad. Haz esta cuenta antes." | Guarda antes de tu promo |
 | 17 | IG Stories | — | HIST | Screen de la "mina de oro" tapada + "¿adivinas cuál es tu platillo más rentable?" | Descúbrelo en el link |
-| 18 | IG + TikTok | PULSIFY en acción | R/T | "Encuentra tu MINA DE ORO: el platillo más rentable que ni sabías que tenías." | Halla la tuya en beta |
+| 18 | IG + TikTok | PLATIFY en acción | R/T | "Encuentra tu MINA DE ORO: el platillo más rentable que ni sabías que tenías." | Halla la tuya en beta |
 | 19 | IG + TikTok | Historias/casos | R/T | "Taquería: su platillo estrella (el más vendido) era el MENOS rentable. Plot twist real." | Revisa el tuyo |
 | 20 | IG | Escuela de Margen | Carr | "Margen vs. ganancia vs. utilidad: la confusión de $ que quiebra restaurantes." | Guarda este glosario |
 | 21 | IG Stories | — | HIST | Cuenta regresiva: "Quedan X lugares de fundador a $100" + link | Aparta tu lugar |
 | 22 | IG + TikTok | Errores | R/T | "3 señales de que estás poniendo precios 'al tanteo' (y cuánto te cuesta al mes)." | Deja el tanteo → link |
 | 23 | IG | Detrás/fundador | Post | Foto real trabajando: "No soy un corporativo. Somos una beta y tú das forma al producto." | Únete a la beta |
 | 24 | IG Stories | — | HIST | Repost de comentario/DM de un beta + reacción | Tú sigues, link in bio |
-| 25 | IG + TikTok | PULSIFY en acción | R/T | "De Excel caótico a saber mi utilidad del día en 1 pantalla. Comparación lado a lado." | Cámbiate en beta |
+| 25 | IG + TikTok | PLATIFY en acción | R/T | "De Excel caótico a saber mi utilidad del día en 1 pantalla. Comparación lado a lado." | Cámbiate en beta |
 | 26 | IG | Escuela de Margen | Carr | "Cómo poner precio a un platillo NUEVO sin perder dinero (paso a paso)." | Guarda para tu próximo menú |
 | 27 | IG Stories | — | HIST | Quiz: "¿Cuánto crees que pierdes al mes por no saber tu margen?" + revelación | Calcúlalo real → link |
 | 28 | IG + TikTok | Historias/casos | R/T | "Beta-fundador subió su utilidad 12% en una semana solo ajustando 2 precios." | Haz lo mismo → link |

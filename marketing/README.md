@@ -1,4 +1,4 @@
-# Kit de Marketing — PULSIFY (@pulsify.mx)
+# Kit de Marketing — PLATIFY (@platify.mx)
 
 Contenido para lanzar la **beta del Análisis** ($100 MXN/mes) en Instagram y TikTok, campaña nacional (México). Todo listo para producir/copiar.
 
@@ -13,19 +13,19 @@ Contenido para lanzar la **beta del Análisis** ($100 MXN/mes) en Instagram y Ti
 
 ## Brief de marca (fuente de verdad para todo el contenido)
 
-- **Producto:** PULSIFY — app de análisis financiero para restaurantes, **ya funcionando** (en beta). Muestra margen real por platillo, punto de equilibrio en tiempo real, alertas de margen bajo y el platillo más rentable ("mina de oro").
+- **Producto:** PLATIFY — app de análisis financiero para restaurantes, **ya funcionando** (en beta). Muestra margen real por platillo, punto de equilibrio en tiempo real, alertas de margen bajo y el platillo más rentable ("mina de oro").
 - **Oferta:** BETA **$100 MXN/mes**, precio de fundador (se congela mientras seas beta, sube al salir de beta). Cancela cuando quieras. Pago con tarjeta (Stripe).
 - **Landing:** https://pulsify-website-six.vercel.app → botón lleva a `/checkout`.
 - **Mercado:** todo México, español mexicano general.
 - **Audiencia:** dueños/operadores de restaurantes, cafés, taquerías, fondas, food trucks (chicos y medianos) que no saben su margen real.
-- **Handle:** @pulsify.mx (Instagram y TikTok).
+- **Handle:** @platify.mx (Instagram y TikTok).
 - **Paleta:** verde `#0e3a39` · teal `#2ec4b6` · naranja `#ff9f1c` · amarillo `#ffeeb8` · fondo claro/blanco. Tipografías **Sora** (títulos) + **Inter** (cuerpo).
 - **Tono:** directo, útil, enfocado en dinero/margen, genera "aha", mexicano y cercano.
 
 ---
 
 ## Próximos pasos sugeridos
-1. **Crear las cuentas** con [01-cuentas.md](01-cuentas.md) (define `hola@pulsify.mx` y un WhatsApp Business).
+1. **Crear las cuentas** con [01-cuentas.md](01-cuentas.md) (define `hola@platify.mx` y un WhatsApp Business).
 2. **Producir el primer lote**: los 3-4 primeros posts/TikToks del [calendario](02-estrategia-calendario.md) para no arrancar en frío.
 3. **Diseño**: los mockups del panel de la landing (`components/DashboardMockup.js`) sirven de base visual para creativos.
 4. **Antes de pautar ads**: instalar Meta Pixel + TikTok Pixel en la landing y disparar el evento `Purchase` desde Stripe (ver [05-ads.md](05-ads.md), sección 1). Sin eso, la pauta va a ciegas.

@@ -25,7 +25,7 @@ export default function Header() {
       <div className="container">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Link href="/" style={{ fontSize: "24px", fontWeight: "bold", color: "#0E3A39", textDecoration: "none" }}>
-            ❤️ PULSIFY
+            ❤️ PLATIFY
           </Link>
 
           <nav style={{ display: "flex", gap: "32px", alignItems: "center" }}>
@@ -58,7 +58,7 @@ export default function Footer() {
       <div className="container">
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "32px", marginBottom: "32px" }}>
           <div>
-            <h4>PULSIFY</h4>
+            <h4>PLATIFY</h4>
             <p>Software para restaurantes inteligentes.</p>
           </div>
           <div>
@@ -79,7 +79,7 @@ export default function Footer() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "32px", textAlign: "center" }}>
-          <p>&copy; 2024 PULSIFY. Todos los derechos reservados.</p>
+          <p>&copy; 2024 PLATIFY. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>
@@ -112,7 +112,7 @@ export default async function BlogPage() {
     <main>
       <section className="section" style={{ paddingTop: "120px" }}>
         <div className="container">
-          <h1 style={{ fontSize: "48px", marginBottom: "48px", color: "#0E3A39" }}>Blog PULSIFY</h1>
+          <h1 style={{ fontSize: "48px", marginBottom: "48px", color: "#0E3A39" }}>Blog PLATIFY</h1>
           <div className="grid-3">
             {posts.map((post) => (
               <Link key={post.slug} href={\`/blog/\${post.slug}\`} style={{ textDecoration: "none" }}>
@@ -220,7 +220,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "PULSIFY - Análisis de Restaurantes",
+  title: "PLATIFY - Análisis de Restaurantes",
   description: "Aumenta tus márgenes sin comisión. Análisis + Pedidos + Lealtad.",
 };
 

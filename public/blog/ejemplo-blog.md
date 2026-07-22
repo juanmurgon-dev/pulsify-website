@@ -13,7 +13,7 @@ Soft te suma números, pero no te dice:
 
 ## La Solución
 
-Con PULSIFY ves todo en tiempo real:
+Con PLATIFY ves todo en tiempo real:
 - Margen por platillo
 - Punto de equilibrio
 - Alertas cuando baja

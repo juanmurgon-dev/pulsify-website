@@ -1,6 +1,6 @@
 # Plan de anuncios pagados — Meta + TikTok Ads
 
-**PULSIFY** — app de análisis financiero para restaurantes · Oferta beta $100 MXN/mes (precio de fundador) · Landing: https://pulsify-website-six.vercel.app · @pulsify.mx
+**PLATIFY** — app de análisis financiero para restaurantes · Oferta beta $100 MXN/mes (precio de fundador) · Landing: https://pulsify-website-six.vercel.app · @platify.mx
 
 ---
 
@@ -96,27 +96,27 @@ Combina intereses de negocio + hostelería. En Meta arma capas (interés de rest
 - **Ángulo:** dolor de margen / ceguera financiera.
 - **Primary text:**
   > Vendes todos los días… ¿pero sabes cuánto GANAS de verdad por platillo?
-  > La mayoría de los dueños no. PULSIFY te lo muestra en segundos: margen real, punto de equilibrio y cuál platillo te está dejando dinero (o quitándotelo).
+  > La mayoría de los dueños no. PLATIFY te lo muestra en segundos: margen real, punto de equilibrio y cuál platillo te está dejando dinero (o quitándotelo).
   > Beta a $100/mes. Cancela cuando quieras.
 - **Headline:** ¿Cuánto ganas de verdad?
 - **Descripción:** Margen real por platillo. Pruébalo.
 - **CTA:** Más información
-- **Concepto (video 9:16):** Pantalla del panel de PULSIFY con la gráfica de margen por platillo llenándose. **Texto en pantalla:** "Tu ticket dice $180… tu margen dice otra cosa."
+- **Concepto (video 9:16):** Pantalla del panel de PLATIFY con la gráfica de margen por platillo llenándose. **Texto en pantalla:** "Tu ticket dice $180… tu margen dice otra cosa."
   - **Primeros 3s:** mano cerrando una caja registradora / ticket saliendo, corte al KPI grande **"MARGEN 62%"** apareciendo. Voz: "Vender no es ganar."
 
 ---
 
-### Variante 2 — Excel vs PULSIFY
+### Variante 2 — Excel vs PLATIFY
 
 - **Ángulo:** Excel/cuaderno vs herramienta real.
 - **Primary text:**
   > ¿Sigues sacando tus números en Excel a las 11 de la noche?
-  > PULSIFY calcula margen por platillo, punto de equilibrio y alertas solo. Cargas tus ventas y ves cuánto ganas DE VERDAD. Sin fórmulas rotas.
+  > PLATIFY calcula margen por platillo, punto de equilibrio y alertas solo. Cargas tus ventas y ves cuánto ganas DE VERDAD. Sin fórmulas rotas.
   > $100/mes en beta. Precio de fundador congelado.
 - **Headline:** Adiós al Excel del restaurante
 - **Descripción:** Tus números, claros y al instante.
 - **CTA:** Más información
-- **Concepto (imagen o video split-screen):** Izquierda: Excel caótico, celdas en rojo, #REF!. Derecha: panel limpio de PULSIFY con KPI 62%. **Texto en pantalla:** "Excel / PULSIFY".
+- **Concepto (imagen o video split-screen):** Izquierda: Excel caótico, celdas en rojo, #REF!. Derecha: panel limpio de PLATIFY con KPI 62%. **Texto en pantalla:** "Excel / PLATIFY".
   - **Primeros 3s (video):** zoom a una hoja de Excel un desmadre → swipe → dashboard ordenado. Voz: "Deja de adivinar tus números."
 
 ---
@@ -126,7 +126,7 @@ Combina intereses de negocio + hostelería. En Meta arma capas (interés de rest
 - **Ángulo:** platillo que pierde dinero / la alerta.
 - **Primary text:**
   > Tienes un platillo que se vende mucho… y te deja casi nada.
-  > PULSIFY te avisa cuando un platillo baja de margen. Ejemplo real: "Sopa — margen 38% ⚠️". Lo detectas hoy, no cuando ya perdiste el mes.
+  > PLATIFY te avisa cuando un platillo baja de margen. Ejemplo real: "Sopa — margen 38% ⚠️". Lo detectas hoy, no cuando ya perdiste el mes.
   > Beta $100/mes. Cancela cuando quieras.
 - **Headline:** Este platillo te cuesta dinero
 - **Descripción:** Alertas cuando baja el margen.
@@ -140,7 +140,7 @@ Combina intereses de negocio + hostelería. En Meta arma capas (interés de rest
 
 - **Ángulo:** urgencia + precio de fundador.
 - **Primary text:**
-  > $100 al mes. Ese es el precio de fundador de PULSIFY… mientras dure la beta.
+  > $100 al mes. Ese es el precio de fundador de PLATIFY… mientras dure la beta.
   > Entras hoy y tu precio se CONGELA aunque el plan suba después. Margen por platillo, punto de equilibrio y tu "mina de oro" identificada.
   > Cancela cuando quieras. Pago seguro con tarjeta.
 - **Headline:** $100 congelados de por vida
@@ -155,7 +155,7 @@ Combina intereses de negocio + hostelería. En Meta arma capas (interés de rest
 
 - **Ángulo:** testimonial / caso de descubrimiento.
 - **Primary text:**
-  > "Pensaba que mi platillo estrella eran las costillas. PULSIFY me mostró que mi verdadera mina de oro eran los tacos: 71% de margen."
+  > "Pensaba que mi platillo estrella eran las costillas. PLATIFY me mostró que mi verdadera mina de oro eran los tacos: 71% de margen."
   > Descubre cuál platillo te hace ganar más y empújalo. Ya funciona, en beta a $100/mes.
   > Cancela cuando quieras.
 - **Headline:** Encuentra tu mina de oro
@@ -171,7 +171,7 @@ Combina intereses de negocio + hostelería. En Meta arma capas (interés de rest
 - **Ángulo:** lleno pero sin utilidad / punto de equilibrio.
 - **Primary text:**
   > El restaurante lleno… y a fin de mes no te queda nada. ¿Te suena?
-  > PULSIFY te dice tu punto de equilibrio en tiempo real y qué platillos te están bajando la utilidad. Llenar mesas no es ganar dinero.
+  > PLATIFY te dice tu punto de equilibrio en tiempo real y qué platillos te están bajando la utilidad. Llenar mesas no es ganar dinero.
   > Beta $100/mes. Empieza hoy.
 - **Headline:** Lleno pero no te queda
 - **Descripción:** Punto de equilibrio en tiempo real.
