@@ -48,9 +48,9 @@ export default function Home() {
                 por platillo, por día, en tiempo real. Sin hojas de cálculo.
               </p>
               <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
-                <CTA text="Comprar la Beta — $100" size="large" href="/checkout" />
+                <CTA text="Empieza por $100/mes" size="large" href="/checkout" />
                 <span style={{ color: MUTED, fontSize: "14px" }}>
-                  Pago único · Cupos limitados
+                  Precio de fundador · Cancela cuando quieras
                 </span>
               </div>
               <p style={{ marginTop: "32px", color: MUTED, fontSize: "14px" }}>
@@ -150,8 +150,8 @@ export default function Home() {
               Lanzamiento Beta
             </h2>
             <p style={{ fontSize: "18px", color: MUTED, maxWidth: "560px", margin: "0 auto" }}>
-              Entra ahora al precio de fundador. Un solo pago, acceso a todo el
-              análisis. El precio sube cuando salgamos de beta.
+              Entra ahora al precio de fundador. $100 al mes por todo el análisis,
+              congelado mientras seas beta. El precio sube cuando salgamos de beta.
             </p>
           </div>
 
@@ -169,9 +169,9 @@ export default function Home() {
                 Análisis PULSIFY — Beta
               </h3>
               <p style={{ fontSize: "56px", fontWeight: "900", color: ACCENT, marginBottom: "4px", lineHeight: 1 }}>
-                $100 <span style={{ fontSize: "18px", color: MUTED }}>MXN</span>
+                $100 <span style={{ fontSize: "18px", color: MUTED }}>MXN/mes</span>
               </p>
-              <p style={{ color: MUTED, fontSize: "14px", marginBottom: "28px" }}>Pago único · Acceso a la beta</p>
+              <p style={{ color: MUTED, fontSize: "14px", marginBottom: "28px" }}>Precio de fundador · Cancela cuando quieras</p>
 
               <ul style={{ listStyle: "none", marginBottom: "32px", textAlign: "left", maxWidth: "280px", marginInline: "auto" }}>
                 {[
@@ -188,7 +188,7 @@ export default function Home() {
                 ))}
               </ul>
 
-              <CTA text="Comprar Ahora — $100" size="large" href="/checkout" />
+              <CTA text="Suscribirme — $100/mes" size="large" href="/checkout" />
               <p style={{ color: MUTED, fontSize: "12px", marginTop: "16px" }}>
                 Pago seguro con Stripe
               </p>
@@ -246,8 +246,8 @@ export default function Home() {
             {[
               { q: "¿Qué incluye la beta?", a: "Todo el módulo de análisis: margen por platillo, punto de equilibrio, alertas y tu platillo más rentable. Es el producto que ya está funcionando hoy." },
               { q: "¿Cómo cargo mis ventas?", a: "Subes tus ventas del punto de venta (o las capturas) y PULSIFY calcula tus márgenes al instante. Te ayudamos en el arranque." },
-              { q: "¿El precio de $100 sube después?", a: "Sí. Es precio de fundador por tiempo limitado. Al salir de beta el precio aumenta; tú entras al precio de hoy." },
-              { q: "¿Cómo pago?", a: "Con tarjeta de crédito o débito de forma segura a través de Stripe. El acceso se activa después de tu compra." }
+              { q: "¿El precio de $100/mes sube después?", a: "No mientras seas beta: tu precio de fundador queda congelado. Al salir de beta el precio sube para nuevos usuarios; tú te quedas con el de hoy." },
+              { q: "¿Cómo pago y puedo cancelar?", a: "Es una suscripción mensual con tarjeta, de forma segura vía Stripe. Cancelas cuando quieras, sin ataduras." }
             ].map((item, idx) => (
               <div key={idx} className="card" style={{ padding: "24px 28px" }}>
                 <h3 style={{ color: PRIMARY, fontSize: "17px", fontWeight: "700", marginBottom: "8px" }}>
@@ -270,10 +270,10 @@ export default function Home() {
             Empieza a Ganar Más Hoy
           </h2>
           <p style={{ fontSize: "18px", color: "rgba(255, 255, 255, 0.9)", marginBottom: "40px", maxWidth: "600px", margin: "0 auto 40px" }}>
-            Entra a la beta por $100. Conoce tu margen real y deja de perder dinero
-            sin darte cuenta.
+            Entra a la beta por $100 al mes. Conoce tu margen real y deja de perder
+            dinero sin darte cuenta.
           </p>
-          <CTA text="Comprar la Beta — $100" size="large" href="/checkout" />
+          <CTA text="Empieza por $100/mes" size="large" href="/checkout" />
         </div>
       </section>
     </main>

@@ -39,8 +39,8 @@ function CheckoutInner() {
         <div style={{ fontSize: "56px", marginBottom: "16px" }}>🎉</div>
         <h1 style={{ color: PRIMARY, marginBottom: "12px" }}>¡Bienvenido a la beta!</h1>
         <p style={{ color: MUTED, marginBottom: "24px" }}>
-          Tu pago se procesó correctamente. Te contactaremos por correo para darte
-          acceso a tu panel de análisis.
+          Tu suscripción se activó correctamente. Te contactaremos por correo para
+          darte acceso a tu panel de análisis.
         </p>
         <Link href="/" className="btn">Volver al inicio</Link>
       </div>
@@ -67,7 +67,8 @@ function CheckoutInner() {
 
       <h1 style={{ color: PRIMARY, marginBottom: "8px" }}>Análisis PULSIFY — Beta</h1>
       <p style={{ color: MUTED, marginBottom: "24px" }}>
-        Acceso completo al análisis financiero de tu restaurante mientras dure la beta.
+        Suscripción mensual con acceso completo al análisis financiero de tu
+        restaurante. Cancela cuando quieras.
       </p>
 
       <div
@@ -81,9 +82,9 @@ function CheckoutInner() {
           marginBottom: "24px",
         }}
       >
-        <span style={{ color: PRIMARY, fontWeight: 600 }}>Acceso Beta (pago único)</span>
+        <span style={{ color: PRIMARY, fontWeight: 600 }}>Suscripción Beta</span>
         <span style={{ fontSize: "32px", fontWeight: 800, color: ACCENT }}>
-          $100 <span style={{ fontSize: "14px", color: MUTED }}>MXN</span>
+          $100 <span style={{ fontSize: "14px", color: MUTED }}>MXN/mes</span>
         </span>
       </div>
 
@@ -116,7 +117,7 @@ function CheckoutInner() {
         className="btn large"
         style={{ width: "100%", border: "none", cursor: loading ? "wait" : "pointer", opacity: loading ? 0.7 : 1 }}
       >
-        {loading ? "Redirigiendo…" : "Pagar con tarjeta — $100 MXN"}
+        {loading ? "Redirigiendo…" : "Suscribirme — $100/mes"}
       </button>
 
       <p style={{ color: MUTED, fontSize: "12px", textAlign: "center", marginTop: "16px" }}>

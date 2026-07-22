@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 
-// Precio de lanzamiento de la beta: $100 MXN (en centavos).
+// Precio de lanzamiento de la beta: $100 MXN/mes (en centavos).
 const BETA_AMOUNT = 10000;
 
 export async function POST(request: Request) {
@@ -20,25 +20,24 @@ export async function POST(request: Request) {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+      mode: "subscription",
       line_items: [
         {
           quantity: 1,
           price_data: {
             currency: "mxn",
             unit_amount: BETA_AMOUNT,
+            recurring: { interval: "month" },
             product_data: {
-              name: "PULSIFY Análisis — Acceso Beta",
+              name: "PULSIFY Análisis — Suscripción Beta",
               description:
-                "Acceso de fundador al análisis financiero de PULSIFY (versión beta).",
+                "Acceso de fundador al análisis financiero de PULSIFY (versión beta), $100 MXN al mes.",
             },
           },
         },
       ],
       success_url: `${origin}/checkout?status=success`,
       cancel_url: `${origin}/checkout?status=cancel`,
-      // Guarda el correo para darte acceso a la beta.
-      customer_creation: "always",
     });
 
     return Response.json({ url: session.url });
