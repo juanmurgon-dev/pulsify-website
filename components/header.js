@@ -8,7 +8,7 @@ export default function Header() {
       <div className="container">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Link href="/" style={{ fontSize: "24px", fontWeight: "bold", color: "#0E3A39", textDecoration: "none" }}>
-            ❤️ PLATIFY
+            PLATIFY
           </Link>
 
           <nav style={{ display: "flex", gap: "32px", alignItems: "center" }}>
