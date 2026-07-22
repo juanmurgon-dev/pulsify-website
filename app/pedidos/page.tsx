@@ -22,8 +22,34 @@ type Item = { nombre: string; precio: number; desc?: string; grupos?: Grupo[] };
 const gLeche: Grupo = { nombre: "Leche", tipo: "unica", opciones: [{ nombre: "Entera" }, { nombre: "Deslactosada" }, { nombre: "De avena", precio: 10 }] };
 const gTemp: Grupo = { nombre: "Temperatura", tipo: "unica", opciones: [{ nombre: "Caliente" }, { nombre: "Frío" }] };
 
-// NOTA: falta agregar la categoría "Desayunos" (el usuario la enviará).
 const MENU: { categoria: string; items: Item[] }[] = [
+  {
+    categoria: "Desayunos",
+    items: [
+      { nombre: "Chilaquiles", precio: 175, desc: "Con papas campesinas y frijoles refritos", grupos: [
+        { nombre: "Tipo", tipo: "unica", obligatorio: true, opciones: [
+          { nombre: "Rojos" }, { nombre: "Verdes" },
+          { nombre: "Chipotle", precio: 15 }, { nombre: "Poblanos", precio: 15 },
+          { nombre: "Birria", precio: 50 },
+        ] },
+      ] },
+      { nombre: "Omelette", precio: 180, desc: "Con frijoles y papas campesinas", grupos: [
+        { nombre: "Tipo", tipo: "unica", obligatorio: true, opciones: [
+          { nombre: "Rajas (jamón y queso)" }, { nombre: "Carnes (chorizo, jamón, tocino)", precio: 10 },
+        ] },
+      ] },
+      { nombre: "Hot Cakes", precio: 155, desc: "Suaves y esponjosos", grupos: [
+        { nombre: "Tipo", tipo: "unica", obligatorio: true, opciones: [
+          { nombre: "Tradicionales" }, { nombre: "Cremina (elote y nuez)", precio: 30 },
+        ] },
+      ] },
+      { nombre: "French Toast", precio: 195, desc: "Pan estilo francés, suave y esponjoso", grupos: [
+        { nombre: "Tipo", tipo: "unica", obligatorio: true, opciones: [
+          { nombre: "Frutos rojos" }, { nombre: "Plátano caramelizado", precio: 15 },
+        ] },
+      ] },
+    ],
+  },
   {
     categoria: "Para empezar",
     items: [
