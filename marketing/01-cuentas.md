@@ -24,9 +24,18 @@ El nombre para mostrar es distinto al @handle y SÍ pesa en la búsqueda. Incluy
 
 > Tip: la **primera línea** es la que más se ve → pon ahí el gancho. Mantén el mismo estilo en IG y TikTok. Cierra siempre con 👇 apuntando al link.
 
+> **Ángulo decisión (el pain point #1 del mercado):** el dueño no quiere más números, quiere saber QUÉ hacer. Tagline estrella: **"No solo te dice tus números. Te dice qué hacer con ellos."**
+
 ### Instagram (máx. ~150 caracteres)
 
-**⭐ RECOMENDADA (beneficio directo):**
+**⭐ RECOMENDADA (enfoque DECISIÓN):**
+```
+🧠 No solo tus números: te decimos QUÉ hacer
+📊 Qué platillo subir, cuál quitar, cuál empujar
+👇 Pruébala · beta $100/mes
+```
+
+**Alterna (beneficio directo):**
 ```
 📊 Cuánto GANAS por platillo (no cuánto vendes)
 🍽️ Margen real + alertas para tu restaurante

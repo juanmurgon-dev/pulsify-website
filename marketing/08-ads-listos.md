@@ -310,6 +310,44 @@ Con Platify defines tus precios con números, no con corazonadas: costo real + m
 
 ---
 
+## 9) DECISIÓN — "No solo datos, decisiones" ⭐ (pain point #1)
+
+**Nombre del anuncio:** `Decision_Producto_v1`
+
+**Primary text — Variante A**
+Tu punto de venta te da mil reportes… ¿pero te dice qué HACER?
+Platify sí: qué platillo subir, cuál quitar y cuál empujar. Del dato a la decisión.
+Beta **$100/mes**, precio de fundador. Cancela cuando quieras.
+👉 platify-website.vercel.app
+
+**Primary text — Variante B**
+Ves tus números y te quedas igual: ¿y ahora qué hago?
+Platify te da la decisión, no solo el dato: te dice qué mueve tu utilidad HOY.
+**$100/mes en beta.** Sin permanencia.
+👉 Decide con datos, no a ojo.
+
+**Headlines:**
+- No más reportes. Decide.
+- Te dice qué hacer, no solo qué pasó
+- Del dato a la decisión
+
+**Descriptions:**
+- Decide con datos. $100/mes.
+- Qué subir, qué quitar, qué empujar.
+
+**Botón CTA:** Más información
+
+**Concepto creativo (Plantilla C — Producto/mockup):**
+1080x1350. Pantalla con muchos números "apagados" y encima 3 **tarjetas de acción** destacadas: `⬆ Sube $8 · Chilaquiles`, `✕ Quita · Malteada (6%)`, `🏆 Empuja · Enchiladas 71%`. Título arriba: *"Deja de ver números. Empieza a decidir."* 9:16: una sola tarjeta de acción a pantalla completa.
+*Video (3s):* dueño viendo el cel con cara de "¿y ahora qué?" → aparece una recomendación clara y grande.
+
+**URL con UTM:**
+`https://platify-website.vercel.app/?utm_source=meta&utm_medium=paid_social&utm_campaign=conversion_beta&utm_content=decision_producto_v1`
+
+**Público sugerido:** México nacional, 25-55, dueños/gerentes de restaurante saturados de reportes que no saben accionar. Intereses: administración de restaurantes, software de negocio, emprendimiento gastronómico. **Buen ángulo para retargeting** (ya te conocen, cierras con "qué hacer").
+
+---
+
 ## Adaptación TikTok (los 8 ángulos)
 Mismo copy, más hablado y directo a cámara. Cambia `utm_source` a **`tiktok`** en cada URL. Formato **9:16**, primeros 3s con hook fuerte (pregunta o número), texto grande en pantalla, CTA hablado "link en la bio". Los que mejor rinden en TikTok: **1 (dolor), 3 (alerta sopa), 6 (lleno pero no te queda), 8 (deja de adivinar)**.
 
