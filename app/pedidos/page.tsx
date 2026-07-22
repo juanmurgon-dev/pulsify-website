@@ -4,21 +4,32 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 // ───────────────────────────────────────────────────────────
 //  Platify Pedidos — app móvil: menú digital → pedido por WhatsApp.
-//  ⬇️ EDITA aquí el número de WhatsApp del restaurante y el menú.
-//  El número va con lada de país, sin "+" ni espacios (México: 52 + 10 dígitos).
+//  ⬇️ EDITA el WhatsApp y el MENÚ. Cada platillo puede tener "grupos"
+//     de opciones:  tipo:"unica" (elige 1)  |  tipo:"multi" (varios).
+//     Una opción con "precio" suma ese extra. Para "quitar" ingredientes,
+//     usa un grupo multi con opciones sin precio (ej. "Sin cebolla").
 // ───────────────────────────────────────────────────────────
 const RESTAURANTE = {
   nombre: "Cremina Café",
-  whatsapp: "526631205109", // ← del menú (663 120 51 09) — VERIFICA que sea el WhatsApp correcto
+  whatsapp: "526631205109", // ← del menú (663 120 51 09) — VERIFICA que sea el correcto
 };
 
-type Item = { nombre: string; precio: number; desc?: string };
+type Opcion = { nombre: string; precio?: number };
+type Grupo = { nombre: string; tipo: "unica" | "multi"; obligatorio?: boolean; opciones: Opcion[] };
+type Item = { nombre: string; precio: number; desc?: string; grupos?: Grupo[] };
+
+// Grupos reutilizables (ejemplos):
+const gLeche: Grupo = { nombre: "Leche", tipo: "unica", opciones: [{ nombre: "Entera" }, { nombre: "Deslactosada" }, { nombre: "De avena", precio: 10 }] };
+const gTemp: Grupo = { nombre: "Temperatura", tipo: "unica", opciones: [{ nombre: "Caliente" }, { nombre: "Frío" }] };
+
 // NOTA: falta agregar la categoría "Desayunos" (el usuario la enviará).
 const MENU: { categoria: string; items: Item[] }[] = [
   {
     categoria: "Para empezar",
     items: [
-      { nombre: "Queso Fundido", precio: 160, desc: "Champiñón, carnes o rajas" },
+      { nombre: "Queso Fundido", precio: 160, desc: "A elegir", grupos: [
+        { nombre: "Guiso", tipo: "unica", obligatorio: true, opciones: [{ nombre: "Champiñón" }, { nombre: "Carnes" }, { nombre: "Rajas" }] },
+      ] },
       { nombre: "Champiñones al Ajillo", precio: 170 },
       { nombre: "Crema de Tomate", precio: 130 },
       { nombre: "Crema de Brócoli", precio: 140 },
@@ -29,7 +40,8 @@ const MENU: { categoria: string; items: Item[] }[] = [
     items: [
       { nombre: "Carpaccio de Salmón", precio: 260, desc: "Salmón fresco, spring mix, feta y reducción balsámica" },
       { nombre: "Ensalada Betabel", precio: 225, desc: "Betabel asado, frutos rojos, feta y pistache" },
-      { nombre: "Ensalada Caesar", precio: 210, desc: "Romana, croutones y aderezo caesar con parmesano" },
+      { nombre: "Ensalada Caesar", precio: 210, desc: "Romana, croutones y aderezo caesar con parmesano",
+        grupos: [{ nombre: "Extras", tipo: "multi", opciones: [{ nombre: "Pollo a la plancha", precio: 65 }, { nombre: "Aguacate", precio: 55 }] }] },
       { nombre: "Ensalada Oriental", precio: 210, desc: "Mix de lechugas, aderezo thai, pollo y crujientes" },
     ],
   },
@@ -46,12 +58,19 @@ const MENU: { categoria: string; items: Item[] }[] = [
     items: [
       { nombre: "Pechuga Cremina", precio: 320, desc: "Pechuga rellena de queso y espinaca sobre risotto pesto" },
       { nombre: "Salmón al Risotto", precio: 360, desc: "Salmón a las finas hierbas sobre risotto cremoso" },
-      { nombre: "Arrachera Grill", precio: 370, desc: "Arrachera al término con papa al horno" },
-      { nombre: "Corte New York", precio: 380, desc: "New York en chimichurri con papas a la francesa" },
-      { nombre: "Arrachera Fries", precio: 250, desc: "Papas con guacamole, crema, quesos y 200g de arrachera" },
+      { nombre: "Arrachera Grill", precio: 370, desc: "Arrachera al término con papa al horno",
+        grupos: [{ nombre: "Término", tipo: "unica", obligatorio: true, opciones: [{ nombre: "Término medio" }, { nombre: "Tres cuartos" }, { nombre: "Bien cocida" }] }] },
+      { nombre: "Corte New York", precio: 380, desc: "New York en chimichurri con papas a la francesa",
+        grupos: [{ nombre: "Término", tipo: "unica", obligatorio: true, opciones: [{ nombre: "Término medio" }, { nombre: "Tres cuartos" }, { nombre: "Bien cocida" }] }] },
+      { nombre: "Arrachera Fries", precio: 250, desc: "Papas con guacamole, crema, quesos y 200g de arrachera",
+        grupos: [
+          { nombre: "Extras", tipo: "multi", opciones: [{ nombre: "Extra arrachera", precio: 110 }, { nombre: "Extra queso", precio: 30 }] },
+          { nombre: "Quitar", tipo: "multi", opciones: [{ nombre: "Sin crema" }, { nombre: "Sin guacamole" }] },
+        ] },
       { nombre: "Milanesa Napolitana", precio: 280, desc: "Milanesa de res gratinada con espagueti" },
       { nombre: "Pollo a la Parmesana", precio: 280, desc: "Pechuga empanizada, marinara y parmesano" },
-      { nombre: "Hamburguesa de Rib Eye", precio: 325, desc: "Rib eye, tocino, pepper jack y cebolla caramelizada" },
+      { nombre: "Hamburguesa de Rib Eye", precio: 325, desc: "Rib eye, tocino, pepper jack y cebolla caramelizada",
+        grupos: [{ nombre: "Quitar", tipo: "multi", opciones: [{ nombre: "Sin cebolla" }, { nombre: "Sin tomate" }, { nombre: "Sin tocino" }] }] },
     ],
   },
   {
@@ -59,7 +78,8 @@ const MENU: { categoria: string; items: Item[] }[] = [
     items: [
       { nombre: "Grilled Cheese Birria", precio: 235, desc: "Birria con mezcla de quesos y consomé" },
       { nombre: "Sandwich de Arrachera", precio: 235, desc: "Arrachera, pimientos, cebolla y queso monterrey" },
-      { nombre: "Sandwich de Pollo", precio: 235, desc: "Pollo a la plancha, tocino, aguacate y pesto" },
+      { nombre: "Sandwich de Pollo", precio: 235, desc: "Pollo a la plancha, tocino, aguacate y pesto",
+        grupos: [{ nombre: "Quitar", tipo: "multi", opciones: [{ nombre: "Sin aguacate" }, { nombre: "Sin tocino" }, { nombre: "Sin pesto" }] }] },
       { nombre: "Croissant", precio: 145, desc: "Cuernito con huevo, jamón, tocino, queso y aguacate" },
     ],
   },
@@ -79,19 +99,27 @@ const MENU: { categoria: string; items: Item[] }[] = [
       { nombre: "Americano", precio: 45 },
       { nombre: "Americano Refill", precio: 60 },
       { nombre: "Cortado", precio: 55 },
-      { nombre: "Flat White", precio: 65 },
-      { nombre: "Capuccino", precio: 75 },
-      { nombre: "Latte", precio: 90 },
+      { nombre: "Flat White", precio: 65, grupos: [gLeche, gTemp] },
+      { nombre: "Capuccino", precio: 75, grupos: [gLeche, gTemp] },
+      { nombre: "Latte", precio: 90, grupos: [gLeche, gTemp, { nombre: "Extras", tipo: "multi", opciones: [{ nombre: "Shot de espresso", precio: 20 }] }] },
       { nombre: "Espresso Tonic", precio: 70 },
-      { nombre: "Chai", precio: 70, desc: "Especias, plátano o vainilla" },
-      { nombre: "Matcha Latte", precio: 90 },
-      { nombre: "Latte de la Casa", precio: 90, desc: "Tiramisú, mazapán, cremina o 3 leches" },
+      { nombre: "Chai", precio: 70, grupos: [
+        { nombre: "Sabor", tipo: "unica", obligatorio: true, opciones: [{ nombre: "Especias" }, { nombre: "Plátano" }, { nombre: "Vainilla" }] },
+        gLeche, gTemp,
+      ] },
+      { nombre: "Matcha Latte", precio: 90, grupos: [gLeche, gTemp] },
+      { nombre: "Latte de la Casa", precio: 90, grupos: [
+        { nombre: "Sabor", tipo: "unica", obligatorio: true, opciones: [{ nombre: "Tiramisú" }, { nombre: "Mazapán" }, { nombre: "Cremina" }, { nombre: "3 leches", precio: 15 }] },
+        gLeche, gTemp,
+      ] },
     ],
   },
   {
     categoria: "Bebidas",
     items: [
-      { nombre: "Cremina Spritz", precio: 75, desc: "Frutos rojos, fresa, jamaica-limón, matcha citrus, lavanda o fruta de la pasión" },
+      { nombre: "Cremina Spritz", precio: 75, grupos: [
+        { nombre: "Sabor", tipo: "unica", obligatorio: true, opciones: [{ nombre: "Frutos rojos" }, { nombre: "Fresa" }, { nombre: "Jamaica-limón" }, { nombre: "Matcha citrus" }, { nombre: "Lavanda" }, { nombre: "Fruta de la pasión" }] },
+      ] },
       { nombre: "Coca Cola", precio: 35 },
       { nombre: "Coca Cola Cero", precio: 45 },
       { nombre: "Coca Cola Light", precio: 60 },
@@ -109,7 +137,7 @@ const MENU: { categoria: string; items: Item[] }[] = [
       { nombre: "Cheesecake de Guayaba", precio: 95 },
       { nombre: "Flan de Elote", precio: 95 },
       { nombre: "Crème Brûlée", precio: 95 },
-      { nombre: "Pastel de Crepas", precio: 95, desc: "Elote, café o dulce de leche" },
+      { nombre: "Pastel de Crepas", precio: 95, grupos: [{ nombre: "Sabor", tipo: "unica", obligatorio: true, opciones: [{ nombre: "Elote" }, { nombre: "Café" }, { nombre: "Dulce de leche" }] }] },
     ],
   },
   {
@@ -136,8 +164,11 @@ const MUTED = "#5a6b6a";
 const LINEA = "#eef2f1";
 const money = (n: number) => "$" + n.toLocaleString("es-MX");
 
+type Linea = { id: string; nombre: string; precioUnit: number; qty: number; detalle: string[] };
+
 export default function Pedidos() {
-  const [cart, setCart] = useState<Record<string, number>>({});
+  const [cart, setCart] = useState<Linea[]>([]);
+  const [custom, setCustom] = useState<Item | null>(null);
   const [abierto, setAbierto] = useState(false);
   const [nombre, setNombre] = useState("");
   const [entrega, setEntrega] = useState<"recoger" | "domicilio">("recoger");
@@ -148,48 +179,45 @@ export default function Pedidos() {
   const secRefs = useRef<(HTMLElement | null)[]>([]);
   const chipRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const precioDe = useMemo(() => {
-    const m: Record<string, number> = {};
-    for (const c of MENU) for (const it of c.items) m[it.nombre] = it.precio;
-    return m;
-  }, []);
-
-  // Marca la categoría visible mientras el usuario hace scroll.
   useEffect(() => {
     const obs = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) setActiva(Number((e.target as HTMLElement).dataset.idx));
-        }
-      },
+      (entries) => { for (const e of entries) if (e.isIntersecting) setActiva(Number((e.target as HTMLElement).dataset.idx)); },
       { rootMargin: "-120px 0px -70% 0px", threshold: 0 }
     );
     secRefs.current.forEach((s) => s && obs.observe(s));
     return () => obs.disconnect();
   }, []);
-
-  // Centra el chip activo en su barra.
   useEffect(() => {
     chipRefs.current[activa]?.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
   }, [activa]);
 
-  const add = (n: string) => setCart((c) => ({ ...c, [n]: (c[n] || 0) + 1 }));
-  const rem = (n: string) =>
+  function addLinea(l: Omit<Linea, "id">) {
+    const id = l.nombre + "|" + l.detalle.join("·");
     setCart((c) => {
-      const q = (c[n] || 0) - 1;
-      const nc = { ...c };
-      if (q <= 0) delete nc[n];
-      else nc[n] = q;
-      return nc;
+      const i = c.findIndex((x) => x.id === id);
+      if (i >= 0) { const nc = [...c]; nc[i] = { ...nc[i], qty: nc[i].qty + l.qty }; return nc; }
+      return [...c, { id, ...l }];
     });
+  }
+  const incId = (id: string) => setCart((c) => c.map((l) => (l.id === id ? { ...l, qty: l.qty + 1 } : l)));
+  const decId = (id: string) => setCart((c) => c.flatMap((l) => (l.id === id ? (l.qty > 1 ? [{ ...l, qty: l.qty - 1 }] : []) : [l])));
+  const qtySimple = (n: string) => cart.find((x) => x.id === n + "|")?.qty || 0;
+  const enCarrito = (n: string) => cart.filter((x) => x.nombre === n).reduce((a, l) => a + l.qty, 0);
 
-  const lineas = Object.entries(cart).filter(([, q]) => q > 0);
-  const totalItems = lineas.reduce((a, [, q]) => a + q, 0);
-  const total = lineas.reduce((a, [n, q]) => a + q * (precioDe[n] || 0), 0);
+  const totalItems = cart.reduce((a, l) => a + l.qty, 0);
+  const total = cart.reduce((a, l) => a + l.qty * l.precioUnit, 0);
+
+  function tocar(it: Item) {
+    if (it.grupos && it.grupos.length) setCustom(it);
+    else addLinea({ nombre: it.nombre, precioUnit: it.precio, qty: 1, detalle: [] });
+  }
 
   function enviarWhatsApp() {
     const l = [`Hola ${RESTAURANTE.nombre}, quiero hacer un pedido:`, ""];
-    for (const [n, q] of lineas) l.push(`• ${q}x ${n} — ${money(q * (precioDe[n] || 0))}`);
+    for (const ln of cart) {
+      l.push(`• ${ln.qty}x ${ln.nombre} — ${money(ln.qty * ln.precioUnit)}`);
+      for (const d of ln.detalle) l.push(`   - ${d}`);
+    }
     l.push("", `Total: ${money(total)}`);
     l.push(`Entrega: ${entrega === "recoger" ? "Paso a recoger" : "A domicilio"}`);
     if (entrega === "domicilio" && direccion.trim()) l.push(`Dirección: ${direccion.trim()}`);
@@ -200,29 +228,22 @@ export default function Pedidos() {
 
   return (
     <div style={{ background: "#dfe7e6", minHeight: "100vh" }}>
-      {/* Marco tipo celular */}
       <div style={{ maxWidth: "460px", margin: "0 auto", background: "#f7faf9", minHeight: "100vh", position: "relative", boxShadow: "0 0 40px rgba(14,58,57,0.15)" }}>
-        {/* Barra superior fija (app bar) */}
-        <div style={{ position: "sticky", top: 0, zIndex: 30, background: PRIMARY, color: "#fff", height: "54px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", fontWeight: 800, fontSize: "17px" }}>
-          <span>{RESTAURANTE.nombre}</span>
+        {/* App bar */}
+        <div style={{ position: "sticky", top: 0, zIndex: 30, background: PRIMARY, color: "#fff", height: "54px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "17px" }}>
+          {RESTAURANTE.nombre}
         </div>
-
-        {/* Hero compacto */}
         <div style={{ background: PRIMARY, color: "#fff", padding: "4px 20px 22px", textAlign: "center" }}>
-          <div style={{ fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: ACCENT, fontWeight: 700 }}>
-            🛵 Pedido en línea · sin comisión
-          </div>
+          <div style={{ fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: ACCENT, fontWeight: 700 }}>🛵 Pedido en línea · sin comisión</div>
           <p style={{ color: "#cfe0de", marginTop: "6px", fontSize: "13px" }}>Arma tu pedido y envíalo por WhatsApp</p>
         </div>
 
-        {/* Pestañas de categorías (scroll horizontal, sticky) */}
+        {/* Pestañas de categorías */}
         <div style={{ position: "sticky", top: "54px", zIndex: 25, background: "#fff", borderBottom: `1px solid ${LINEA}`, display: "flex", gap: "8px", overflowX: "auto", padding: "10px 14px", WebkitOverflowScrolling: "touch" }}>
           {MENU.map((c, i) => {
             const act = i === activa;
             return (
-              <button
-                key={c.categoria}
-                ref={(el) => { chipRefs.current[i] = el; }}
+              <button key={c.categoria} ref={(el) => { chipRefs.current[i] = el; }}
                 onClick={() => secRefs.current[i]?.scrollIntoView({ behavior: "smooth" })}
                 style={{ flexShrink: 0, border: "none", cursor: "pointer", borderRadius: "20px", padding: "8px 14px", fontSize: "13px", fontWeight: 700, background: act ? PRIMARY : "#eef2f1", color: act ? "#fff" : MUTED, transition: "all .2s" }}>
                 {c.categoria}
@@ -231,35 +252,38 @@ export default function Pedidos() {
           })}
         </div>
 
-        {/* Secciones del menú */}
+        {/* Menú */}
         <div style={{ padding: "8px 14px", paddingBottom: totalItems ? "104px" : "40px" }}>
           {MENU.map((cat, i) => (
-            <section
-              key={cat.categoria}
-              data-idx={i}
-              ref={(el) => { secRefs.current[i] = el; }}
-              style={{ scrollMarginTop: "112px", marginBottom: "18px" }}>
+            <section key={cat.categoria} data-idx={i} ref={(el) => { secRefs.current[i] = el; }} style={{ scrollMarginTop: "112px", marginBottom: "18px" }}>
               <h2 style={{ fontSize: "20px", fontWeight: 800, color: PRIMARY, margin: "12px 2px 10px" }}>{cat.categoria}</h2>
               <div style={{ display: "grid", gap: "8px" }}>
                 {cat.items.map((it) => {
-                  const q = cart[it.nombre] || 0;
+                  const tieneGrupos = !!(it.grupos && it.grupos.length);
+                  const q = tieneGrupos ? enCarrito(it.nombre) : qtySimple(it.nombre);
                   return (
-                    <div key={it.nombre} style={{ background: "#fff", borderRadius: "14px", padding: "14px", display: "flex", alignItems: "center", gap: "12px", border: `1px solid ${LINEA}` }}>
+                    <div key={it.nombre} onClick={() => tieneGrupos && tocar(it)}
+                      style={{ background: "#fff", borderRadius: "14px", padding: "14px", display: "flex", alignItems: "center", gap: "12px", border: `1px solid ${LINEA}`, cursor: tieneGrupos ? "pointer" : "default" }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontWeight: 700, color: PRIMARY, fontSize: "15px" }}>{it.nombre}</div>
+                        <div style={{ fontWeight: 700, color: PRIMARY, fontSize: "15px" }}>
+                          {it.nombre}{tieneGrupos && <span style={{ color: ACCENT, fontSize: "12px", fontWeight: 700 }}> · personaliza</span>}
+                        </div>
                         {it.desc && <div style={{ color: MUTED, fontSize: "12.5px", marginTop: "2px", lineHeight: 1.4 }}>{it.desc}</div>}
                         <div style={{ color: ACCENT, fontWeight: 800, marginTop: "5px", fontSize: "15px" }}>{money(it.precio)}</div>
                       </div>
-                      {q === 0 ? (
-                        <button onClick={() => add(it.nombre)} aria-label={`Agregar ${it.nombre}`}
-                          style={{ background: ORANGE, color: "#fff", border: "none", borderRadius: "12px", width: "42px", height: "42px", fontSize: "24px", fontWeight: 700, cursor: "pointer", flexShrink: 0, lineHeight: 1 }}>
-                          +
+                      {tieneGrupos ? (
+                        <button onClick={(e) => { e.stopPropagation(); tocar(it); }} aria-label={`Personalizar ${it.nombre}`}
+                          style={{ position: "relative", background: ORANGE, color: "#fff", border: "none", borderRadius: "12px", width: "42px", height: "42px", fontSize: "24px", fontWeight: 700, cursor: "pointer", flexShrink: 0, lineHeight: 1 }}>
+                          +{q > 0 && <span style={{ position: "absolute", top: "-6px", right: "-6px", background: PRIMARY, color: "#fff", borderRadius: "10px", fontSize: "11px", padding: "1px 6px", fontWeight: 800 }}>{q}</span>}
                         </button>
+                      ) : q === 0 ? (
+                        <button onClick={() => tocar(it)} aria-label={`Agregar ${it.nombre}`}
+                          style={{ background: ORANGE, color: "#fff", border: "none", borderRadius: "12px", width: "42px", height: "42px", fontSize: "24px", fontWeight: 700, cursor: "pointer", flexShrink: 0, lineHeight: 1 }}>+</button>
                       ) : (
                         <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
-                          <button onClick={() => rem(it.nombre)} aria-label="Quitar" style={qtyBtn}>−</button>
+                          <button onClick={() => decId(it.nombre + "|")} aria-label="Quitar" style={qtyBtn}>−</button>
                           <span style={{ fontWeight: 800, minWidth: "20px", textAlign: "center", color: PRIMARY }}>{q}</span>
-                          <button onClick={() => add(it.nombre)} aria-label="Agregar" style={{ ...qtyBtn, background: ORANGE, color: "#fff", borderColor: ORANGE }}>+</button>
+                          <button onClick={() => incId(it.nombre + "|")} aria-label="Agregar" style={{ ...qtyBtn, background: ORANGE, color: "#fff", borderColor: ORANGE }}>+</button>
                         </div>
                       )}
                     </div>
@@ -273,11 +297,10 @@ export default function Pedidos() {
           </p>
         </div>
 
-        {/* Barra fija del carrito (dentro del marco) */}
+        {/* Barra del carrito */}
         {totalItems > 0 && (
           <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "min(460px, 100%)", background: "#fff", borderTop: `1px solid ${LINEA}`, padding: "12px 16px", boxShadow: "0 -6px 20px rgba(14,58,57,0.1)", zIndex: 40 }}>
-            <button onClick={() => setAbierto(true)}
-              style={{ width: "100%", background: ACCENT, color: "#fff", border: "none", borderRadius: "14px", padding: "15px 18px", fontWeight: 800, fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px" }}>
+            <button onClick={() => setAbierto(true)} style={{ width: "100%", background: ACCENT, color: "#fff", border: "none", borderRadius: "14px", padding: "15px 18px", fontWeight: 800, fontSize: "16px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <span style={{ background: "rgba(255,255,255,0.25)", borderRadius: "8px", padding: "2px 9px", fontSize: "14px" }}>{totalItems}</span>
               <span>Ver pedido</span>
               <span>{money(total)}</span>
@@ -285,47 +308,49 @@ export default function Pedidos() {
           </div>
         )}
 
-        {/* Hoja inferior: pedido + datos */}
+        {/* Hoja: personalizar platillo */}
+        {custom && <Personalizar item={custom} onClose={() => setCustom(null)} onAdd={(l) => { addLinea(l); setCustom(null); }} />}
+
+        {/* Hoja: pedido + datos */}
         {abierto && (
-          <div onClick={(e) => { if (e.target === e.currentTarget) setAbierto(false); }}
-            style={{ position: "fixed", inset: 0, background: "rgba(14,58,57,0.5)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 100 }}>
-            <div style={{ background: "#fff", width: "min(460px, 100%)", borderRadius: "22px 22px 0 0", padding: "22px", maxHeight: "92vh", overflowY: "auto" }}>
-              <div style={{ width: "44px", height: "5px", background: "#dfe7e6", borderRadius: "3px", margin: "0 auto 16px" }} />
+          <div onClick={(e) => { if (e.target === e.currentTarget) setAbierto(false); }} style={sheetBg}>
+            <div style={sheet}>
+              <div style={grip} />
               <h2 style={{ color: PRIMARY, margin: "0 0 12px", fontWeight: 800, fontSize: "20px" }}>Tu pedido</h2>
-              <div style={{ display: "grid", gap: "8px", marginBottom: "16px" }}>
-                {lineas.map(([n, q]) => (
-                  <div key={n} style={{ display: "flex", justifyContent: "space-between", gap: "10px", fontSize: "15px", color: PRIMARY }}>
-                    <span>{q}× {n}</span>
-                    <span style={{ fontWeight: 700 }}>{money(q * (precioDe[n] || 0))}</span>
+              <div style={{ display: "grid", gap: "12px", marginBottom: "16px" }}>
+                {cart.map((ln) => (
+                  <div key={ln.id} style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 700, color: PRIMARY, fontSize: "15px" }}>{ln.nombre}</div>
+                      {ln.detalle.map((d, k) => <div key={k} style={{ color: MUTED, fontSize: "12.5px" }}>{d}</div>)}
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px" }}>
+                        <button onClick={() => decId(ln.id)} style={qtyBtnSm}>−</button>
+                        <span style={{ fontWeight: 800, minWidth: "18px", textAlign: "center", color: PRIMARY }}>{ln.qty}</span>
+                        <button onClick={() => incId(ln.id)} style={{ ...qtyBtnSm, background: ORANGE, color: "#fff", borderColor: ORANGE }}>+</button>
+                      </div>
+                    </div>
+                    <div style={{ fontWeight: 700, color: PRIMARY }}>{money(ln.qty * ln.precioUnit)}</div>
                   </div>
                 ))}
-                <div style={{ display: "flex", justifyContent: "space-between", borderTop: `1px solid ${LINEA}`, paddingTop: "10px", marginTop: "4px", fontSize: "17px", fontWeight: 800, color: PRIMARY }}>
+                <div style={{ display: "flex", justifyContent: "space-between", borderTop: `1px solid ${LINEA}`, paddingTop: "10px", fontSize: "17px", fontWeight: 800, color: PRIMARY }}>
                   <span>Total</span><span>{money(total)}</span>
                 </div>
               </div>
 
               <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
                 {(["recoger", "domicilio"] as const).map((op) => (
-                  <button key={op} onClick={() => setEntrega(op)}
-                    style={{ flex: 1, padding: "12px", borderRadius: "12px", border: `2px solid ${entrega === op ? ACCENT : LINEA}`, background: entrega === op ? "rgba(46,196,182,0.1)" : "#fff", color: PRIMARY, fontWeight: 700, cursor: "pointer" }}>
+                  <button key={op} onClick={() => setEntrega(op)} style={{ flex: 1, padding: "12px", borderRadius: "12px", border: `2px solid ${entrega === op ? ACCENT : LINEA}`, background: entrega === op ? "rgba(46,196,182,0.1)" : "#fff", color: PRIMARY, fontWeight: 700, cursor: "pointer" }}>
                     {op === "recoger" ? "Paso a recoger" : "A domicilio"}
                   </button>
                 ))}
               </div>
-
               <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre" style={inp} />
-              {entrega === "domicilio" && (
-                <input value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="Dirección de entrega" style={inp} />
-              )}
-              <input value={notas} onChange={(e) => setNotas(e.target.value)} placeholder="Notas (opcional): sin cebolla, extra salsa…" style={inp} />
-
-              <button onClick={enviarWhatsApp}
-                style={{ width: "100%", background: "#25D366", color: "#fff", border: "none", borderRadius: "14px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: "pointer", marginTop: "8px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+              {entrega === "domicilio" && <input value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="Dirección de entrega" style={inp} />}
+              <input value={notas} onChange={(e) => setNotas(e.target.value)} placeholder="Notas (opcional)" style={inp} />
+              <button onClick={enviarWhatsApp} style={{ width: "100%", background: "#25D366", color: "#fff", border: "none", borderRadius: "14px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: "pointer", marginTop: "8px" }}>
                 Enviar pedido por WhatsApp
               </button>
-              <button onClick={() => setAbierto(false)} style={{ width: "100%", background: "none", border: "none", color: MUTED, padding: "12px", marginTop: "4px", cursor: "pointer" }}>
-                Seguir agregando
-              </button>
+              <button onClick={() => setAbierto(false)} style={{ width: "100%", background: "none", border: "none", color: MUTED, padding: "12px", marginTop: "4px", cursor: "pointer" }}>Seguir agregando</button>
             </div>
           </div>
         )}
@@ -334,11 +359,83 @@ export default function Pedidos() {
   );
 }
 
-const qtyBtn: React.CSSProperties = {
-  width: "38px", height: "38px", borderRadius: "10px", border: "2px solid #e6efee",
-  background: "#fff", color: "#0e3a39", fontSize: "20px", fontWeight: 700, cursor: "pointer", lineHeight: 1,
-};
-const inp: React.CSSProperties = {
-  width: "100%", padding: "14px", borderRadius: "12px", border: "1px solid #dfe7e6",
-  marginBottom: "10px", fontSize: "15px", fontFamily: "inherit",
-};
+// ── Hoja para personalizar un platillo ──
+function Personalizar({ item, onAdd, onClose }: { item: Item; onAdd: (l: Omit<Linea, "id">) => void; onClose: () => void }) {
+  const [sel, setSel] = useState<Record<string, string[]>>({});
+  const [qty, setQty] = useState(1);
+  const grupos = item.grupos || [];
+
+  const toggle = (g: Grupo, op: Opcion) =>
+    setSel((s) => {
+      const cur = s[g.nombre] || [];
+      if (g.tipo === "unica") return { ...s, [g.nombre]: [op.nombre] };
+      return { ...s, [g.nombre]: cur.includes(op.nombre) ? cur.filter((x) => x !== op.nombre) : [...cur, op.nombre] };
+    });
+
+  const extras = grupos.flatMap((g) => (sel[g.nombre] || []).map((on) => g.opciones.find((o) => o.nombre === on)?.precio || 0)).reduce((a, b) => a + b, 0);
+  const unit = item.precio + extras;
+  const faltan = grupos.filter((g) => g.obligatorio && !(sel[g.nombre]?.length));
+
+  function agregar() {
+    if (faltan.length) return;
+    const detalle: string[] = [];
+    for (const g of grupos) for (const on of sel[g.nombre] || []) {
+      const o = g.opciones.find((x) => x.nombre === on);
+      detalle.push(o?.precio ? `${on} (+${money(o.precio)})` : `${g.nombre === "Quitar" ? "Sin " : ""}${on}`.replace("Sin Sin ", "Sin "));
+    }
+    onAdd({ nombre: item.nombre, precioUnit: unit, qty, detalle });
+  }
+
+  return (
+    <div onClick={(e) => { if (e.target === e.currentTarget) onClose(); }} style={sheetBg}>
+      <div style={sheet}>
+        <div style={grip} />
+        <h2 style={{ color: PRIMARY, margin: "0 0 2px", fontWeight: 800, fontSize: "20px" }}>{item.nombre}</h2>
+        {item.desc && <p style={{ color: MUTED, fontSize: "13px", margin: "0 0 14px" }}>{item.desc}</p>}
+
+        {grupos.map((g) => (
+          <div key={g.nombre} style={{ marginBottom: "16px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+              <span style={{ fontWeight: 800, color: PRIMARY, fontSize: "15px" }}>{g.nombre}</span>
+              <span style={{ color: MUTED, fontSize: "12px" }}>{g.obligatorio ? "Obligatorio" : g.tipo === "multi" ? "Varios" : "Elige 1"}</span>
+            </div>
+            <div style={{ display: "grid", gap: "8px" }}>
+              {g.opciones.map((op) => {
+                const on = (sel[g.nombre] || []).includes(op.nombre);
+                return (
+                  <button key={op.nombre} onClick={() => toggle(g, op)}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 14px", borderRadius: "12px", border: `2px solid ${on ? ACCENT : LINEA}`, background: on ? "rgba(46,196,182,0.08)" : "#fff", cursor: "pointer", textAlign: "left" }}>
+                    <span style={{ color: PRIMARY, fontWeight: 600 }}>{op.nombre}</span>
+                    <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      {op.precio ? <span style={{ color: ORANGE, fontWeight: 700, fontSize: "14px" }}>+{money(op.precio)}</span> : null}
+                      <span style={{ width: "22px", height: "22px", borderRadius: g.tipo === "unica" ? "50%" : "6px", border: `2px solid ${on ? ACCENT : "#cdd8d6"}`, background: on ? ACCENT : "#fff", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "13px", fontWeight: 800 }}>{on ? "✓" : ""}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+
+        <div style={{ display: "flex", alignItems: "center", gap: "14px", margin: "18px 0 14px", justifyContent: "center" }}>
+          <button onClick={() => setQty((q) => Math.max(1, q - 1))} style={qtyBtn}>−</button>
+          <span style={{ fontWeight: 800, fontSize: "18px", color: PRIMARY, minWidth: "24px", textAlign: "center" }}>{qty}</span>
+          <button onClick={() => setQty((q) => q + 1)} style={{ ...qtyBtn, background: ORANGE, color: "#fff", borderColor: ORANGE }}>+</button>
+        </div>
+
+        <button onClick={agregar} disabled={faltan.length > 0}
+          style={{ width: "100%", background: faltan.length ? "#cdd8d6" : ACCENT, color: "#fff", border: "none", borderRadius: "14px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: faltan.length ? "not-allowed" : "pointer" }}>
+          {faltan.length ? `Elige: ${faltan.map((g) => g.nombre).join(", ")}` : `Agregar — ${money(unit * qty)}`}
+        </button>
+        <button onClick={onClose} style={{ width: "100%", background: "none", border: "none", color: MUTED, padding: "12px", marginTop: "4px", cursor: "pointer" }}>Cancelar</button>
+      </div>
+    </div>
+  );
+}
+
+const qtyBtn: React.CSSProperties = { width: "38px", height: "38px", borderRadius: "10px", border: "2px solid #e6efee", background: "#fff", color: "#0e3a39", fontSize: "20px", fontWeight: 700, cursor: "pointer", lineHeight: 1 };
+const qtyBtnSm: React.CSSProperties = { ...qtyBtn, width: "30px", height: "30px", fontSize: "17px", borderRadius: "8px" };
+const inp: React.CSSProperties = { width: "100%", padding: "14px", borderRadius: "12px", border: "1px solid #dfe7e6", marginBottom: "10px", fontSize: "15px", fontFamily: "inherit" };
+const sheetBg: React.CSSProperties = { position: "fixed", inset: 0, background: "rgba(14,58,57,0.5)", display: "flex", alignItems: "flex-end", justifyContent: "center", zIndex: 100 };
+const sheet: React.CSSProperties = { background: "#fff", width: "min(460px, 100%)", borderRadius: "22px 22px 0 0", padding: "22px", maxHeight: "92vh", overflowY: "auto" };
+const grip: React.CSSProperties = { width: "44px", height: "5px", background: "#dfe7e6", borderRadius: "3px", margin: "0 auto 16px" };
