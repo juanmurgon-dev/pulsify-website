@@ -44,8 +44,9 @@ export default function Home() {
                 Del Plato a la Boca se Cae el Margen
               </h1>
               <p style={{ fontSize: "19px", color: MUTED, marginBottom: "32px", lineHeight: "1.6" }}>
-                Datos reales. Márgenes visibles. Ganancias inteligentes.
-                PLATIFY te dice cuánto ganas de verdad por platillo, en tiempo real.
+                El sistema completo para tu restaurante: <b>Análisis</b>, <b>POS</b>,
+                <b> Pedidos</b> y <b>Lealtad</b>. Empieza hoy con Análisis y conoce tu
+                margen real por platillo.
               </p>
               <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
                 <CTA text="Empieza por $100/mes" size="large" href="/checkout" />
@@ -60,6 +61,44 @@ export default function Home() {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <DashboardMockup />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ECOSISTEMA — 4 unidades */}
+      <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px", background: "var(--gray)" }}>
+        <div className="container">
+          <div style={{ textAlign: "center", marginBottom: "56px" }}>
+            <h2 style={{ fontSize: "44px", fontWeight: 900, marginBottom: "16px", color: PRIMARY }}>
+              Un ecosistema, cuatro herramientas
+            </h2>
+            <p style={{ fontSize: "18px", color: MUTED, maxWidth: "640px", margin: "0 auto" }}>
+              Platify es el sistema completo para tu restaurante. Empieza con Análisis;
+              lo demás viene en camino.
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px" }}>
+            {[
+              { icon: "📊", name: "Análisis", desc: "Margen real por platillo, punto de equilibrio y qué decisión tomar.", estado: "Disponible" },
+              { icon: "🧾", name: "POS", desc: "Punto de venta completo: cobra, controla y todo se conecta con tus datos.", estado: "Próximamente" },
+              { icon: "🛵", name: "Pedidos", desc: "Pedidos y delivery propio, sin pagar 30% de comisión a las apps.", estado: "Próximamente" },
+              { icon: "❤️", name: "Lealtad", desc: "Que tus clientes regresen: puntos, premios y promos que sí dejan.", estado: "Próximamente" },
+            ].map((u, i) => {
+              const dispo = u.estado === "Disponible";
+              return (
+                <div key={i} className="card" style={{ padding: "28px", display: "flex", flexDirection: "column", border: dispo ? "2px solid #2ec4b6" : "1px solid rgba(46, 196, 182, 0.2)" }}>
+                  <div style={{ fontSize: "34px", marginBottom: "12px" }}>{u.icon}</div>
+                  <h3 style={{ fontSize: "20px", fontWeight: 800, color: PRIMARY, margin: "0 0 8px" }}>Platify {u.name}</h3>
+                  <span style={{ alignSelf: "flex-start", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", padding: "4px 10px", borderRadius: "20px", marginBottom: "12px", background: dispo ? "rgba(46, 196, 182, 0.15)" : "rgba(90, 107, 106, 0.12)", color: dispo ? "#148b7f" : MUTED }}>
+                    {dispo ? "✓ Disponible" : "Próximamente"}
+                  </span>
+                  <p style={{ color: MUTED, fontSize: "14px", lineHeight: 1.6, flex: 1, margin: 0 }}>{u.desc}</p>
+                  {dispo && (
+                    <a href="/checkout" style={{ marginTop: "16px", color: ACCENT, fontWeight: 700, textDecoration: "none", fontSize: "14px" }}>Empieza — $100/mes →</a>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
