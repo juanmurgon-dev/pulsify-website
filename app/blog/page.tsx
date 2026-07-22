@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { getBlogPosts } from "@/lib/markdown";
 
+export const metadata = {
+  title: "Blog: márgenes y decisiones para tu restaurante",
+  description:
+    "Guías prácticas de food cost, margen por platillo, punto de equilibrio, precios y control de costos para dueños de restaurantes en México.",
+  alternates: { canonical: "/blog" },
+};
+
 export default async function Blog() {
   const posts = await getBlogPosts();
 
