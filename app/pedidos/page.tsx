@@ -9,44 +9,122 @@ import { useMemo, useState } from "react";
 // ───────────────────────────────────────────────────────────
 const RESTAURANTE = {
   nombre: "Cremina Café",
-  whatsapp: "5216641234567", // ← reemplázalo por el WhatsApp real
+  whatsapp: "526631205109", // ← del menú (663 120 51 09) — VERIFICA que sea el WhatsApp correcto
 };
 
 type Item = { nombre: string; precio: number; desc?: string };
+// NOTA: falta agregar la categoría "Desayunos" (el usuario la enviará).
 const MENU: { categoria: string; items: Item[] }[] = [
   {
-    categoria: "Desayunos",
+    categoria: "Para empezar",
     items: [
-      { nombre: "Chilaquiles", precio: 120, desc: "Verdes o rojos, con pollo o huevo" },
-      { nombre: "Omelette", precio: 110, desc: "3 huevos, relleno a elegir" },
-      { nombre: "Hot Cakes", precio: 95, desc: "Con miel de maple y mantequilla" },
-      { nombre: "Sandwich de desayuno", precio: 105, desc: "Huevo, tocino y queso" },
+      { nombre: "Queso Fundido", precio: 160, desc: "Champiñón, carnes o rajas" },
+      { nombre: "Champiñones al Ajillo", precio: 170 },
+      { nombre: "Crema de Tomate", precio: 130 },
+      { nombre: "Crema de Brócoli", precio: 140 },
     ],
   },
   {
-    categoria: "Comida",
+    categoria: "Ensaladas",
     items: [
-      { nombre: "Alfredo Cordon Blue", precio: 225, desc: "Pasta cremosa con pollo empanizado" },
-      { nombre: "Arrachera Grill", precio: 260, desc: "Con guarnición y salsas" },
-      { nombre: "Ensalada de la casa", precio: 145, desc: "Mixta, aderezo a elegir" },
-      { nombre: "Pizzeta", precio: 130, desc: "Margarita, pepperoni o 4 quesos" },
+      { nombre: "Carpaccio de Salmón", precio: 260, desc: "Salmón fresco, spring mix, feta y reducción balsámica" },
+      { nombre: "Ensalada Betabel", precio: 225, desc: "Betabel asado, frutos rojos, feta y pistache" },
+      { nombre: "Ensalada Caesar", precio: 210, desc: "Romana, croutones y aderezo caesar con parmesano" },
+      { nombre: "Ensalada Oriental", precio: 210, desc: "Mix de lechugas, aderezo thai, pollo y crujientes" },
+    ],
+  },
+  {
+    categoria: "Pastas",
+    items: [
+      { nombre: "Alfredo Cordon Blue", precio: 225, desc: "Fetuccini alfredo con pollo cordon bleu" },
+      { nombre: "Pasta al Pesto", precio: 180, desc: "Penne en pesto de albahaca con nuez y pistache" },
+      { nombre: "Pasta Penne al Chipotle", precio: 190, desc: "Cremosa salsa chipotle y parmesano" },
+    ],
+  },
+  {
+    categoria: "Platos fuertes",
+    items: [
+      { nombre: "Pechuga Cremina", precio: 320, desc: "Pechuga rellena de queso y espinaca sobre risotto pesto" },
+      { nombre: "Salmón al Risotto", precio: 360, desc: "Salmón a las finas hierbas sobre risotto cremoso" },
+      { nombre: "Arrachera Grill", precio: 370, desc: "Arrachera al término con papa al horno" },
+      { nombre: "Corte New York", precio: 380, desc: "New York en chimichurri con papas a la francesa" },
+      { nombre: "Arrachera Fries", precio: 250, desc: "Papas con guacamole, crema, quesos y 200g de arrachera" },
+      { nombre: "Milanesa Napolitana", precio: 280, desc: "Milanesa de res gratinada con espagueti" },
+      { nombre: "Pollo a la Parmesana", precio: 280, desc: "Pechuga empanizada, marinara y parmesano" },
+      { nombre: "Hamburguesa de Rib Eye", precio: 325, desc: "Rib eye, tocino, pepper jack y cebolla caramelizada" },
+    ],
+  },
+  {
+    categoria: "Sandwiches",
+    items: [
+      { nombre: "Grilled Cheese Birria", precio: 235, desc: "Birria con mezcla de quesos y consomé" },
+      { nombre: "Sandwich de Arrachera", precio: 235, desc: "Arrachera, pimientos, cebolla y queso monterrey" },
+      { nombre: "Sandwich de Pollo", precio: 235, desc: "Pollo a la plancha, tocino, aguacate y pesto" },
+      { nombre: "Croissant", precio: 145, desc: "Cuernito con huevo, jamón, tocino, queso y aguacate" },
+    ],
+  },
+  {
+    categoria: "Pizzetas",
+    items: [
+      { nombre: "Margarita", precio: 125 },
+      { nombre: "Pepperoni", precio: 125 },
+      { nombre: "Pesto", precio: 135 },
+      { nombre: "4 Quesos", precio: 135 },
     ],
   },
   {
     categoria: "Barra de Café",
     items: [
-      { nombre: "Latte", precio: 65, desc: "Caliente o frío" },
-      { nombre: "Capuccino", precio: 70 },
-      { nombre: "Chai", precio: 80 },
-      { nombre: "Matcha", precio: 90 },
+      { nombre: "Espresso", precio: 35 },
+      { nombre: "Americano", precio: 45 },
+      { nombre: "Americano Refill", precio: 60 },
+      { nombre: "Cortado", precio: 55 },
+      { nombre: "Flat White", precio: 65 },
+      { nombre: "Capuccino", precio: 75 },
+      { nombre: "Latte", precio: 90 },
+      { nombre: "Espresso Tonic", precio: 70 },
+      { nombre: "Chai", precio: 70, desc: "Especias, plátano o vainilla" },
+      { nombre: "Matcha Latte", precio: 90 },
+      { nombre: "Latte de la Casa", precio: 90, desc: "Tiramisú, mazapán, cremina o 3 leches" },
+    ],
+  },
+  {
+    categoria: "Bebidas",
+    items: [
+      { nombre: "Cremina Spritz", precio: 75, desc: "Frutos rojos, fresa, jamaica-limón, matcha citrus, lavanda o fruta de la pasión" },
+      { nombre: "Coca Cola", precio: 35 },
+      { nombre: "Coca Cola Cero", precio: 45 },
+      { nombre: "Coca Cola Light", precio: 60 },
+      { nombre: "Sprite", precio: 55 },
+      { nombre: "Fanta", precio: 65 },
+      { nombre: "Fresca", precio: 75 },
+      { nombre: "Topo Chico", precio: 90 },
+      { nombre: "Agua Embotellada", precio: 30 },
     ],
   },
   {
     categoria: "Postres",
     items: [
-      { nombre: "Cheesecake de guayaba", precio: 95 },
-      { nombre: "Flan de elote", precio: 85 },
-      { nombre: "Pastel de crepas", precio: 135, desc: "Dulce de leche / café / elote" },
+      // ⚠️ El menú no traía precio de postres — ajústalos. Puse $95 de placeholder.
+      { nombre: "Cheesecake de Guayaba", precio: 95 },
+      { nombre: "Flan de Elote", precio: 95 },
+      { nombre: "Crème Brûlée", precio: 95 },
+      { nombre: "Pastel de Crepas", precio: 95, desc: "Elote, café o dulce de leche" },
+    ],
+  },
+  {
+    categoria: "Extras",
+    items: [
+      { nombre: "Arrachera", precio: 110 },
+      { nombre: "Pollo", precio: 65 },
+      { nombre: "Aguacate", precio: 55 },
+      { nombre: "Tocino Premium", precio: 50 },
+      { nombre: "Huevo", precio: 25 },
+      { nombre: "Pan de la Casa", precio: 40 },
+      { nombre: "Quesadillas de Maíz (3 pz)", precio: 55 },
+      { nombre: "Quesadillas de Harina (2 pz)", precio: 80 },
+      { nombre: "Chiles Toreados", precio: 35 },
+      { nombre: "Papas Fritas", precio: 95 },
     ],
   },
 ];
