@@ -1,11 +1,27 @@
 import CTA from "@/components/CTA";
-import Link from "next/link";
 import DashboardMockup from "@/components/DashboardMockup";
 
 const MUTED = "#5a6b6a";
 const PRIMARY = "#0e3a39";
 const ACCENT = "#2ec4b6";
 const WATERMARK = "rgba(46, 196, 182, 0.14)";
+
+function Badge({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      display: "inline-block",
+      background: "rgba(255, 159, 28, 0.15)",
+      color: "#c9760a",
+      padding: "8px 16px",
+      borderRadius: "20px",
+      fontSize: "13px",
+      fontWeight: 700,
+      marginBottom: "24px",
+    }}>
+      {children}
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -15,8 +31,9 @@ export default function Home() {
         <div className="container">
           <div className="hero-grid">
             <div style={{ maxWidth: "560px" }}>
+              <Badge>🚀 Versión Beta · Precio de lanzamiento</Badge>
               <h1 style={{
-                fontSize: "60px",
+                fontSize: "58px",
                 fontWeight: "800",
                 lineHeight: "1.1",
                 marginBottom: "24px",
@@ -24,19 +41,20 @@ export default function Home() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent"
               }}>
-                Mide El Pulso De Tu Negocio
+                Conoce el Margen Real de Cada Platillo
               </h1>
-              <p style={{ fontSize: "18px", color: MUTED, marginBottom: "32px", lineHeight: "1.6" }}>
-                Análisis profundo, sin comisiones de plataformas. Aumenta márgenes real.
+              <p style={{ fontSize: "19px", color: MUTED, marginBottom: "32px", lineHeight: "1.6" }}>
+                PULSIFY analiza tus ventas y te dice cuánto ganas de verdad —
+                por platillo, por día, en tiempo real. Sin hojas de cálculo.
               </p>
-              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-                <CTA text="Prueba Gratis" size="large" />
-                <Link href="/blog" className="btn" style={{ background: "rgba(46, 196, 182, 0.12)", border: "2px solid rgba(46, 196, 182, 0.5)", color: PRIMARY, boxShadow: "none" }}>
-                  Leer Blog
-                </Link>
+              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
+                <CTA text="Comprar la Beta — $100" size="large" href="/checkout" />
+                <span style={{ color: MUTED, fontSize: "14px" }}>
+                  Pago único · Cupos limitados
+                </span>
               </div>
               <p style={{ marginTop: "32px", color: MUTED, fontSize: "14px" }}>
-                ⭐⭐⭐⭐⭐ 4.9/5 (120+ restaurantes)
+                ⭐⭐⭐⭐⭐ 4.9/5 (120+ restaurantes en la beta)
               </p>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
@@ -50,7 +68,6 @@ export default function Home() {
       <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px" }}>
         <div className="container">
           <div className="split-grid">
-            {/* NÚMERO Y TITULO */}
             <div>
               <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
                 01
@@ -59,16 +76,16 @@ export default function Home() {
                 El Problema Real
               </h2>
               <p style={{ fontSize: "16px", color: MUTED, marginBottom: "32px", lineHeight: "1.7" }}>
-                La mayoría de restaurantes no saben su margen real. Soft te suma, pero no te dice cuánto GANAS.
+                La mayoría de los restaurantes no saben su margen real. Tu punto de
+                venta te suma las ventas, pero no te dice cuánto GANAS por platillo.
               </p>
             </div>
 
-            {/* CARDS */}
             <div style={{ display: "grid", gap: "20px" }}>
               {[
-                { emoji: "❌", title: "No sabes tu margen", desc: "¿Qué platillo pierde dinero?" },
-                { emoji: "💸", title: "Uber cobra 30%", desc: "$360k/año en comisiones" },
-                { emoji: "👥", title: "Clientes se van", desc: "Sin lealtad, sin datos" }
+                { emoji: "❌", title: "No sabes tu margen", desc: "¿Qué platillo pierde dinero cada venta?" },
+                { emoji: "🧾", title: "Precios al tanteo", desc: "Sin datos que respalden lo que cobras" },
+                { emoji: "⏰", title: "Te enteras tarde", desc: "Descubres las pérdidas cuando ya pasó el mes" }
               ].map((item, idx) => (
                 <div key={idx} className="card" style={{ padding: "24px", borderLeft: "4px solid #ff9f1c" }}>
                   <div style={{ fontSize: "24px", marginBottom: "8px" }}>{item.emoji}</div>
@@ -87,27 +104,27 @@ export default function Home() {
       <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px", background: "var(--gray)" }}>
         <div className="container">
           <div className="split-grid">
-            {/* VISUAL */}
             <div style={{ display: "flex", justifyContent: "center" }}>
               <DashboardMockup />
             </div>
 
-            {/* CONTENIDO */}
             <div>
               <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
                 02
               </div>
               <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY, lineHeight: "1.2" }}>
-                La Solución: PULSIFY
+                La Solución: Análisis PULSIFY
               </h2>
               <p style={{ fontSize: "16px", color: MUTED, marginBottom: "32px", lineHeight: "1.7" }}>
-                Análisis profundo, pedidos sin comisión, lealtad integrada. Todo en UN dashboard.
+                Todo tu negocio en números claros. Cargas tus ventas y en segundos
+                ves dónde ganas y dónde pierdes.
               </p>
               <div style={{ display: "grid", gap: "16px" }}>
                 {[
                   "📊 Margen real por platillo",
-                  "🍕 Pedidos sin 30% comisión",
-                  "❤️ Lealtad wallet automática"
+                  "📈 Punto de equilibrio en tiempo real",
+                  "🔔 Alertas cuando un platillo baja de objetivo",
+                  "🏆 Descubre tu platillo mina de oro"
                 ].map((item, idx) => (
                   <div key={idx} style={{ display: "flex", gap: "12px", alignItems: "center", color: PRIMARY }}>
                     <div style={{ width: "20px", height: "20px", background: ACCENT, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -122,55 +139,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING SECTION */}
+      {/* PRICING / BETA SECTION */}
       <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px" }}>
         <div className="container">
-          <div style={{ textAlign: "center", marginBottom: "80px" }}>
+          <div style={{ textAlign: "center", marginBottom: "60px" }}>
             <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
               03
             </div>
             <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY }}>
-              Descubre Planes Personalizados
+              Lanzamiento Beta
             </h2>
-            <p style={{ fontSize: "18px", color: MUTED, maxWidth: "600px", margin: "0 auto" }}>
-              Para cada tamaño de restaurante. Comienza gratis, sin tarjeta.
+            <p style={{ fontSize: "18px", color: MUTED, maxWidth: "560px", margin: "0 auto" }}>
+              Entra ahora al precio de fundador. Un solo pago, acceso a todo el
+              análisis. El precio sube cuando salgamos de beta.
             </p>
           </div>
 
-          <div className="grid-3">
-            {[
-              { name: "Starter", price: "$49", features: ["Margen por platillo", "Pedidos básicos", "Email soporte"], highlight: false },
-              { name: "Pro", price: "$99", features: ["Análisis profundo", "Pedidos Premium", "Lealtad Wallet", "Prioridad soporte"], highlight: true },
-              { name: "Enterprise", price: "$149", features: ["Multi-restaurante", "Integraciones custom", "Consultor dedicado", "API acceso"], highlight: false }
-            ].map((plan, idx) => (
-              <div key={idx} className="card" style={{
-                padding: "40px",
-                background: plan.highlight ? "linear-gradient(135deg, rgba(255, 159, 28, 0.12) 0%, rgba(255, 238, 184, 0.35) 100%)" : "#ffffff",
-                border: plan.highlight ? "3px solid #ff9f1c" : "1px solid rgba(46, 196, 182, 0.25)",
-                transform: plan.highlight ? "scale(1.05)" : "scale(1)"
-              }}>
-                {plan.highlight && (
-                  <div style={{ background: "#ff9f1c", color: "#fff", padding: "6px 12px", borderRadius: "20px", display: "inline-block", fontSize: "12px", fontWeight: "700", marginBottom: "16px", textTransform: "uppercase" }}>
-                    ⭐ Recomendado
-                  </div>
-                )}
-                <h3 style={{ fontSize: "24px", fontWeight: "900", color: PRIMARY, marginBottom: "8px" }}>
-                  {plan.name}
-                </h3>
-                <p style={{ fontSize: "36px", fontWeight: "900", color: ACCENT, marginBottom: "24px" }}>
-                  {plan.price}<span style={{ fontSize: "16px", color: MUTED }}>/mes</span>
-                </p>
-                <ul style={{ listStyle: "none", marginBottom: "32px" }}>
-                  {plan.features.map((feature, fidx) => (
-                    <li key={fidx} style={{ color: PRIMARY, marginBottom: "12px", fontSize: "14px", display: "flex", gap: "8px" }}>
-                      <span style={{ color: ACCENT, fontWeight: "700" }}>✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <CTA text="Empezar Ahora" size="large" />
+          <div style={{ maxWidth: "460px", margin: "0 auto" }}>
+            <div className="card" style={{
+              padding: "48px 40px",
+              textAlign: "center",
+              background: "linear-gradient(135deg, rgba(255, 159, 28, 0.12) 0%, rgba(255, 238, 184, 0.35) 100%)",
+              border: "3px solid #ff9f1c",
+            }}>
+              <div style={{ display: "inline-block", background: "#ff9f1c", color: "#fff", padding: "6px 14px", borderRadius: "20px", fontSize: "12px", fontWeight: 700, textTransform: "uppercase", marginBottom: "20px" }}>
+                🚀 Precio de fundador
               </div>
-            ))}
+              <h3 style={{ fontSize: "24px", fontWeight: "900", color: PRIMARY, marginBottom: "8px" }}>
+                Análisis PULSIFY — Beta
+              </h3>
+              <p style={{ fontSize: "56px", fontWeight: "900", color: ACCENT, marginBottom: "4px", lineHeight: 1 }}>
+                $100 <span style={{ fontSize: "18px", color: MUTED }}>MXN</span>
+              </p>
+              <p style={{ color: MUTED, fontSize: "14px", marginBottom: "28px" }}>Pago único · Acceso a la beta</p>
+
+              <ul style={{ listStyle: "none", marginBottom: "32px", textAlign: "left", maxWidth: "280px", marginInline: "auto" }}>
+                {[
+                  "Margen real por platillo",
+                  "Punto de equilibrio en tiempo real",
+                  "Alertas de margen bajo",
+                  "Tu platillo más rentable",
+                  "Soporte directo en la beta"
+                ].map((feature, fidx) => (
+                  <li key={fidx} style={{ color: PRIMARY, marginBottom: "12px", fontSize: "15px", display: "flex", gap: "8px" }}>
+                    <span style={{ color: ACCENT, fontWeight: "700" }}>✓</span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              <CTA text="Comprar Ahora — $100" size="large" href="/checkout" />
+              <p style={{ color: MUTED, fontSize: "12px", marginTop: "16px" }}>
+                Pago seguro con Stripe
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -183,15 +205,15 @@ export default function Home() {
               04
             </div>
             <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY }}>
-              Lo Que Dicen Nuestros Clientes
+              Lo Que Dicen en la Beta
             </h2>
           </div>
 
           <div className="grid-3">
             {[
-              { name: "Mario", business: "Cremina Café", quote: "En 3 meses subimos margen 18%. $50k/año ahorrados." },
-              { name: "Ana", business: "Taco Station", quote: "Dejé Uber. Ahorro $500/mes y clientes más leales." },
-              { name: "Luis", business: "Restaurant Familiar", quote: "Finalmente entiendo mi negocio. Los datos me guían." }
+              { name: "Mario", business: "Cremina Café", quote: "En 3 meses subimos el margen 18%. Solo ajustar una sopa nos ahorró $50k al año." },
+              { name: "Ana", business: "Taco Station", quote: "Descubrí que mi platillo estrella casi no dejaba. Lo reajusté y subí $8k al mes." },
+              { name: "Luis", business: "Restaurante Familiar", quote: "Por fin entiendo mi negocio. Los datos me muestran dónde ganar." }
             ].map((testimonial, idx) => (
               <div key={idx} className="card" style={{ padding: "32px" }}>
                 <p style={{ fontSize: "18px", fontStyle: "italic", color: PRIMARY, marginBottom: "24px", lineHeight: "1.6" }}>
@@ -214,6 +236,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="section" style={{ paddingTop: "100px", paddingBottom: "100px" }}>
+        <div className="container" style={{ maxWidth: "760px" }}>
+          <h2 style={{ fontSize: "40px", fontWeight: "900", marginBottom: "48px", color: PRIMARY, textAlign: "center" }}>
+            Preguntas Frecuentes
+          </h2>
+          <div style={{ display: "grid", gap: "16px" }}>
+            {[
+              { q: "¿Qué incluye la beta?", a: "Todo el módulo de análisis: margen por platillo, punto de equilibrio, alertas y tu platillo más rentable. Es el producto que ya está funcionando hoy." },
+              { q: "¿Cómo cargo mis ventas?", a: "Subes tus ventas del punto de venta (o las capturas) y PULSIFY calcula tus márgenes al instante. Te ayudamos en el arranque." },
+              { q: "¿El precio de $100 sube después?", a: "Sí. Es precio de fundador por tiempo limitado. Al salir de beta el precio aumenta; tú entras al precio de hoy." },
+              { q: "¿Cómo pago?", a: "Con tarjeta de crédito o débito de forma segura a través de Stripe. El acceso se activa después de tu compra." }
+            ].map((item, idx) => (
+              <div key={idx} className="card" style={{ padding: "24px 28px" }}>
+                <h3 style={{ color: PRIMARY, fontSize: "17px", fontWeight: "700", marginBottom: "8px" }}>
+                  {item.q}
+                </h3>
+                <p style={{ color: MUTED, fontSize: "15px" }}>{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FINAL CTA */}
       <section style={{ padding: "120px 0", background: "linear-gradient(135deg, #2ec4b6 0%, #23a89b 100%)" }}>
         <div className="container" style={{ textAlign: "center" }}>
@@ -221,12 +267,13 @@ export default function Home() {
             05
           </div>
           <h2 style={{ fontSize: "56px", fontWeight: "900", marginBottom: "24px", color: "#fff" }}>
-            ¿Listo Para Crecer?
+            Empieza a Ganar Más Hoy
           </h2>
           <p style={{ fontSize: "18px", color: "rgba(255, 255, 255, 0.9)", marginBottom: "40px", maxWidth: "600px", margin: "0 auto 40px" }}>
-            7 días gratis. Sin tarjeta requerida. Cancela en cualquier momento.
+            Entra a la beta por $100. Conoce tu margen real y deja de perder dinero
+            sin darte cuenta.
           </p>
-          <CTA text="Comienza Tu Prueba Gratis" size="large" />
+          <CTA text="Comprar la Beta — $100" size="large" href="/checkout" />
         </div>
       </section>
     </main>
