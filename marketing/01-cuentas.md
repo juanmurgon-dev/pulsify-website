@@ -58,12 +58,12 @@ Deja de poner precios al tanteo 💸 Finanzas para tu resto 👇
 
 **Recomendación: link DIRECTO a la landing**, no Linktree.
 
-- **URL a poner:** `https://pulsify-website-six.vercel.app`
+- **URL a poner:** `https://platify-website.vercel.app`
 - **Por qué directo y no Linktree:** tienes UNA sola acción deseada (que prueben la beta y lleguen a `/checkout`). Un Linktree agrega un clic extra y fuga de intención. Menos fricción = más conversión.
 - **Cuándo sí conviene Linktree/landing de links:** solo cuando tengas 3+ destinos vivos (WhatsApp de soporte, blog, casos de éxito, demo en video). Por ahora, no.
 - **Tip de tracking:** usa una URL con UTM para saber qué red convierte, por ejemplo:
-  - Instagram: `https://pulsify-website-six.vercel.app/?utm_source=instagram&utm_medium=bio`
-  - TikTok: `https://pulsify-website-six.vercel.app/?utm_source=tiktok&utm_medium=bio`
+  - Instagram: `https://platify-website.vercel.app/?utm_source=instagram&utm_medium=bio`
+  - TikTok: `https://platify-website.vercel.app/?utm_source=tiktok&utm_medium=bio`
 - **Texto del botón/CTA en la bio:** "Pruébalo en beta 👇" o "Empieza hoy 👇".
 
 ---

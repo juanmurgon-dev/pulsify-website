@@ -1,6 +1,6 @@
 # Plan de anuncios pagados — Meta + TikTok Ads
 
-**PLATIFY** — app de análisis financiero para restaurantes · Oferta beta $100 MXN/mes (precio de fundador) · Landing: https://pulsify-website-six.vercel.app · @platify.mx
+**PLATIFY** — app de análisis financiero para restaurantes · Oferta beta $100 MXN/mes (precio de fundador) · Landing: https://platify-website.vercel.app · @platify.mx
 
 ---
 
@@ -211,7 +211,7 @@ Combina intereses de negocio + hostelería. En Meta arma capas (interés de rest
 
 ### UTMs para la landing
 
-Base: `https://pulsify-website-six.vercel.app/?`
+Base: `https://platify-website.vercel.app/?`
 
 | Parámetro | Meta | TikTok |
 |---|---|---|
@@ -223,11 +223,11 @@ Base: `https://pulsify-website-six.vercel.app/?`
 
 **Ejemplo Meta (usa macros dinámicos):**
 ```
-https://pulsify-website-six.vercel.app/?utm_source=instagram&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_content={{ad.name}}&utm_term={{adset.name}}
+https://platify-website.vercel.app/?utm_source=instagram&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_content={{ad.name}}&utm_term={{adset.name}}
 ```
 **Ejemplo TikTok:**
 ```
-https://pulsify-website-six.vercel.app/?utm_source=tiktok&utm_medium=paid_social&utm_campaign=TIK_Conv_F1_2026-07&utm_content=Sopa38_Video_V3_a
+https://platify-website.vercel.app/?utm_source=tiktok&utm_medium=paid_social&utm_campaign=TIK_Conv_F1_2026-07&utm_content=Sopa38_Video_V3_a
 ```
 
 ---

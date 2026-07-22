@@ -1,6 +1,6 @@
 # Estrategia y calendario de contenido — 30 días
 
-**Marca:** PLATIFY (@platify.mx) · **Producto:** app de análisis financiero para restaurantes (beta) · **Oferta:** BETA a $100 MXN/mes (precio de fundador congelado) · **Landing:** https://pulsify-website-six.vercel.app
+**Marca:** PLATIFY (@platify.mx) · **Producto:** app de análisis financiero para restaurantes (beta) · **Oferta:** BETA a $100 MXN/mes (precio de fundador congelado) · **Landing:** https://platify-website.vercel.app
 
 ---
 

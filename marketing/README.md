@@ -15,7 +15,7 @@ Contenido para lanzar la **beta del Análisis** ($100 MXN/mes) en Instagram y Ti
 
 - **Producto:** PLATIFY — app de análisis financiero para restaurantes, **ya funcionando** (en beta). Muestra margen real por platillo, punto de equilibrio en tiempo real, alertas de margen bajo y el platillo más rentable ("mina de oro").
 - **Oferta:** BETA **$100 MXN/mes**, precio de fundador (se congela mientras seas beta, sube al salir de beta). Cancela cuando quieras. Pago con tarjeta (Stripe).
-- **Landing:** https://pulsify-website-six.vercel.app → botón lleva a `/checkout`.
+- **Landing:** https://platify-website.vercel.app → botón lleva a `/checkout`.
 - **Mercado:** todo México, español mexicano general.
 - **Audiencia:** dueños/operadores de restaurantes, cafés, taquerías, fondas, food trucks (chicos y medianos) que no saben su margen real.
 - **Handle:** @platify.mx (Instagram y TikTok).
