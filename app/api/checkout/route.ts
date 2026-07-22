@@ -2,6 +2,9 @@ import Stripe from "stripe";
 
 // Precio de lanzamiento de la beta: $100 MXN/mes (en centavos).
 const BETA_AMOUNT = 10000;
+// Prende Stripe Tax (IVA) solo cuando ya haya un registro fiscal activo en el
+// Dashboard. Sin registro, automatic_tax NO cobra impuesto (y NO da error).
+const AUTO_TAX = process.env.STRIPE_AUTOMATIC_TAX === "true";
 
 export async function POST(request: Request) {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -21,6 +24,8 @@ export async function POST(request: Request) {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
+      // No pasamos payment_method_types: Stripe elige los métodos elegibles
+      // dinámicamente desde el Dashboard (mejor conversión).
       line_items: [
         {
           quantity: 1,
@@ -28,6 +33,7 @@ export async function POST(request: Request) {
             currency: "mxn",
             unit_amount: BETA_AMOUNT,
             recurring: { interval: "month" },
+            tax_behavior: "inclusive", // precios MX con IVA incluido
             product_data: {
               name: "PLATIFY Análisis — Suscripción Beta",
               description:
@@ -36,7 +42,10 @@ export async function POST(request: Request) {
           },
         },
       ],
-      success_url: `${origin}/checkout?status=success`,
+      allow_promotion_codes: true, // cupones de fundador / referidos
+      tax_id_collection: { enabled: true }, // captura RFC (para facturación CFDI)
+      ...(AUTO_TAX ? { automatic_tax: { enabled: true } } : {}),
+      success_url: `${origin}/checkout?status=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout?status=cancel`,
     });
 
