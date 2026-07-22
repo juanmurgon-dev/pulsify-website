@@ -65,7 +65,7 @@ function CheckoutInner() {
         🚀 Precio de fundador
       </div>
 
-      <h1 style={{ color: PRIMARY, marginBottom: "8px" }}>Análisis PLATIFY — Beta</h1>
+      <h1 style={{ color: PRIMARY, marginBottom: "8px" }}>Tu Análisis Inteligente Te Espera</h1>
       <p style={{ color: MUTED, marginBottom: "24px" }}>
         Suscripción mensual con acceso completo al análisis financiero de tu
         restaurante. Cancela cuando quieras.

@@ -41,11 +41,11 @@ export default function Home() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent"
               }}>
-                Conoce el Margen Real de Cada Platillo
+                Del Plato a la Boca se Cae el Margen
               </h1>
               <p style={{ fontSize: "19px", color: MUTED, marginBottom: "32px", lineHeight: "1.6" }}>
-                PLATIFY analiza tus ventas y te dice cuánto ganas de verdad —
-                por platillo, por día, en tiempo real. Sin hojas de cálculo.
+                Datos reales. Márgenes visibles. Ganancias inteligentes.
+                PLATIFY te dice cuánto ganas de verdad por platillo, en tiempo real.
               </p>
               <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}>
                 <CTA text="Empieza por $100/mes" size="large" href="/checkout" />
@@ -72,8 +72,8 @@ export default function Home() {
               <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
                 01
               </div>
-              <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY, lineHeight: "1.2" }}>
-                El Problema Real
+              <h2 style={{ fontSize: "44px", fontWeight: "900", marginBottom: "24px", color: PRIMARY, lineHeight: "1.2" }}>
+                Del Plato a la Boca: Donde se Pierden Tus Ganancias
               </h2>
               <p style={{ fontSize: "16px", color: MUTED, marginBottom: "32px", lineHeight: "1.7" }}>
                 La mayoría de los restaurantes no saben su margen real. Tu punto de
@@ -113,11 +113,11 @@ export default function Home() {
                 02
               </div>
               <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY, lineHeight: "1.2" }}>
-                La Solución: Análisis PLATIFY
+                Platify: Tu Restaurante Inteligente
               </h2>
               <p style={{ fontSize: "16px", color: MUTED, marginBottom: "32px", lineHeight: "1.7" }}>
-                Todo tu negocio en números claros. Cargas tus ventas y en segundos
-                ves dónde ganas y dónde pierdes.
+                Datos + análisis = ganancias. Todo en un dashboard: cargas tus
+                ventas y en segundos ves dónde ganas y dónde pierdes.
               </p>
               <div style={{ display: "grid", gap: "16px" }}>
                 {[
@@ -204,9 +204,12 @@ export default function Home() {
             <div style={{ fontSize: "120px", fontWeight: "900", color: WATERMARK, lineHeight: "1", marginBottom: "32px" }}>
               04
             </div>
-            <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "24px", color: PRIMARY }}>
-              Lo Que Dicen en la Beta
+            <h2 style={{ fontSize: "48px", fontWeight: "900", marginBottom: "16px", color: PRIMARY }}>
+              Restaurantes Que Ya Ganan Con Datos
             </h2>
+            <p style={{ fontSize: "18px", color: MUTED, maxWidth: "560px", margin: "0 auto" }}>
+              Ves tu margen real y tomas decisiones que pegan.
+            </p>
           </div>
 
           <div className="grid-3">
@@ -267,7 +270,7 @@ export default function Home() {
             05
           </div>
           <h2 style={{ fontSize: "56px", fontWeight: "900", marginBottom: "24px", color: "#fff" }}>
-            Empieza a Ganar Más Hoy
+            Tu Restaurante Merece Inteligencia
           </h2>
           <p style={{ fontSize: "18px", color: "rgba(255, 255, 255, 0.9)", marginBottom: "40px", maxWidth: "600px", margin: "0 auto 40px" }}>
             Entra a la beta por $100 al mes. Conoce tu margen real y deja de perder

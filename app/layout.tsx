@@ -15,8 +15,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "PLATIFY - Análisis de Restaurantes",
-  description: "Aumenta tus márgenes sin comisión. Análisis + Pedidos + Lealtad.",
+  title: "PLATIFY — Del Plato a la Boca se Cae el Margen",
+  description: "Análisis inteligente para restaurantes. Conoce tu margen real por platillo, en tiempo real. Datos reales, márgenes visibles, ganancias inteligentes.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

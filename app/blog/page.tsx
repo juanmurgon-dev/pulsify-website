@@ -8,9 +8,9 @@ export default async function Blog() {
     <main>
       <section className="section" style={{ paddingTop: "120px" }}>
         <div className="container" style={{ maxWidth: "820px" }}>
-          <h1 style={{ color: "#0E3A39", marginBottom: "16px" }}>Blog</h1>
+          <h1 style={{ color: "#0E3A39", marginBottom: "16px" }}>Datos Que Hacen Ganar</h1>
           <p style={{ color: "#666", marginBottom: "48px" }}>
-            Ideas para subir márgenes y entender tu restaurante.
+            Análisis, estrategias y datos para restaurantes inteligentes.
           </p>
 
           {posts.length === 0 ? (
