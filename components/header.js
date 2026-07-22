@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+  if (pathname && pathname.startsWith("/pedidos")) return null; // página de comensal: sin chrome de marketing
   return (
     <header style={{ background: "white", borderBottom: "1px solid #eee", padding: "16px 0", position: "sticky", top: 0, zIndex: 100 }}>
       <div className="container">
