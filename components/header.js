@@ -7,14 +7,14 @@ export default function Header() {
     <header style={{ background: "white", borderBottom: "1px solid #eee", padding: "16px 0", position: "sticky", top: 0, zIndex: 100 }}>
       <div className="container">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Link href="/" style={{ fontSize: "24px", fontWeight: "bold", color: "#0E3A39", textDecoration: "none" }}>
-            PLATIFY
+          <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+            <img src="/brand/platify-wordmark.png" alt="Platify" style={{ height: "28px", width: "auto", display: "block" }} />
           </Link>
 
           <nav style={{ display: "flex", gap: "32px", alignItems: "center" }}>
             <Link href="/" style={{ textDecoration: "none", color: "#333" }}>Inicio</Link>
             <Link href="/blog" style={{ textDecoration: "none", color: "#333" }}>Blog</Link>
-            <Link href="/checkout" className="btn" style={{ margin: 0 }}>Prueba gratis</Link>
+            <Link href="/checkout" className="btn" style={{ margin: 0 }}>Empieza · $100/mes</Link>
           </nav>
         </div>
       </div>
