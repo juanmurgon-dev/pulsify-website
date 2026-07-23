@@ -3,6 +3,21 @@ import Stripe from "stripe";
 // Cobro en línea de un pedido de Platify Pedidos (Stripe Checkout).
 // Stripe guarda el pedido (line_items + metadata) y ES la fuente de la
 // Pantalla de Pedidos (/caja lo lee vía /api/caja). No hay base de datos aparte.
+const DESCUENTO_PLAZA = 10; // % para empleados de la plaza
+const norm = (t: unknown) => String(t || "").replace(/\D/g, "");
+const emailFor = (tel: string) => `${tel}@sellos.platify.mx`;
+
+// Cupón reutilizable para el descuento de empleados de la plaza (se crea una vez).
+async function couponPlaza(stripe: Stripe): Promise<string> {
+  const id = `plaza${DESCUENTO_PLAZA}`;
+  try {
+    await stripe.coupons.retrieve(id);
+  } catch {
+    await stripe.coupons.create({ id, percent_off: DESCUENTO_PLAZA, duration: "forever", name: `Empleado plaza (${DESCUENTO_PLAZA}%)` });
+  }
+  return id;
+}
+
 export async function POST(request: Request) {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) {
@@ -34,7 +49,6 @@ export async function POST(request: Request) {
       },
     }));
 
-    // Datos del pedido que verá la caja (metadata; máx 500 chars por valor).
     const metadata = {
       fuente: "platify-pedidos",
       cliente: String(body.nombre || "").slice(0, 120),
@@ -44,14 +58,25 @@ export async function POST(request: Request) {
       notas: String(body.notas || "").slice(0, 300),
     };
 
+    // Descuento de plaza (automático) vs cupones (que el cliente teclea).
+    // Stripe no permite combinar `discounts` con `allow_promotion_codes`.
+    const tel = norm(body.telefono);
+    let descuentos: { coupon: string }[] | undefined;
+    if (tel.length >= 7) {
+      const r = await stripe.customers.list({ email: emailFor(tel), limit: 1 });
+      if (r.data[0]?.metadata?.segmento === "plaza") {
+        descuentos = [{ coupon: await couponPlaza(stripe) }];
+      }
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
       success_url: `${origin}/pedidos?pago=ok`,
       cancel_url: `${origin}/pedidos?pago=cancel`,
       metadata,
-      // El flag "atendido" se marca sobre el PaymentIntent (siempre actualizable).
       payment_intent_data: { metadata: { fuente: "platify-pedidos" } },
+      ...(descuentos ? { discounts: descuentos } : { allow_promotion_codes: true }),
     });
 
     return Response.json({ url: session.url });

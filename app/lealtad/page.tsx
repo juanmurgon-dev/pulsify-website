@@ -10,7 +10,7 @@ const CREAM = "#ffeeb8";
 const MUTED = "#5a6b6a";
 const NEGOCIO = "Cremina Café"; // ← editable
 
-type Saldo = { encontrado: boolean; nombre: string; sellos: number; meta: number; faltan: number; puedeCanjear: boolean };
+type Saldo = { encontrado: boolean; nombre: string; sellos: number; meta: number; faltan: number; puedeCanjear: boolean; segmento?: string; descuento?: number };
 
 export default function Lealtad() {
   const [tel, setTel] = useState("");
@@ -74,6 +74,11 @@ export default function Lealtad() {
                 <div style={{ fontSize: "1rem", color: "rgba(255,255,255,.85)" }}>
                   {saldo.encontrado ? <>Tienes <b style={{ color: CREAM }}>{saldo.sellos}</b> {saldo.sellos === 1 ? "sello" : "sellos"} · te faltan <b style={{ color: ORANGE }}>{saldo.faltan}</b> para tu premio</>
                     : <>Aún no tienes sellos. ¡Pide en caja que te den de alta! 🎟️</>}
+                </div>
+              )}
+              {!!saldo.descuento && (
+                <div style={{ marginTop: "12px", display: "inline-block", background: "rgba(255,159,28,.18)", border: `1px solid ${ORANGE}`, borderRadius: "999px", padding: "5px 12px", fontSize: ".82rem", fontWeight: 700, color: CREAM }}>
+                  🏢 Empleado de plaza · {saldo.descuento}% en tus pedidos
                 </div>
               )}
               {saldo.nombre && <div style={{ marginTop: "8px", fontSize: ".82rem", color: "rgba(255,255,255,.5)" }}>{saldo.nombre}</div>}

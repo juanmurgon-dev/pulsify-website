@@ -9,7 +9,7 @@ const ACCENT = "#2ec4b6";
 const ORANGE = "#ff9f1c";
 const MUTED = "#5a6b6a";
 
-type Cliente = { encontrado?: boolean; nombre: string; sellos: number; meta: number; puedeCanjear: boolean };
+type Cliente = { encontrado?: boolean; nombre: string; sellos: number; meta: number; puedeCanjear: boolean; segmento?: string };
 
 export default function LealtadCaja() {
   const [key, setKey] = useState("");
@@ -50,9 +50,20 @@ export default function LealtadCaja() {
       const d = await res.json();
       if (!res.ok) { setMsg(d.error || "Error"); }
       else {
-        setCli({ nombre: d.nombre, sellos: d.sellos, meta: d.meta, puedeCanjear: d.puedeCanjear, encontrado: true });
+        setCli({ nombre: d.nombre, sellos: d.sellos, meta: d.meta, puedeCanjear: d.puedeCanjear, encontrado: true, segmento: d.segmento });
         setMsg(a === "sello" ? "✅ Sello agregado" : "🎁 Premio canjeado");
       }
+    } catch { setMsg("Error de conexión"); }
+    setBusy(false);
+  }
+
+  async function segmento(seg: string) {
+    setBusy(true); setMsg("");
+    try {
+      const res = await fetch(`/api/lealtad`, { method: "POST", headers: { "content-type": "application/json", "x-caja-key": key }, body: JSON.stringify({ tel, nombre, accion: "segmento", segmento: seg }) });
+      const d = await res.json();
+      if (!res.ok) setMsg(d.error || "Error");
+      else { setCli((c) => (c ? { ...c, segmento: d.segmento } : c)); setMsg(seg === "plaza" ? "🏢 Marcado como empleado de plaza (10% en pedidos)" : "Segmento quitado"); }
     } catch { setMsg("Error de conexión"); }
     setBusy(false);
   }
@@ -99,6 +110,10 @@ export default function LealtadCaja() {
                 <button onClick={() => accion("sello")} disabled={busy} style={{ flex: 1, background: ORANGE, color: "#fff", border: "none", borderRadius: "12px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: "pointer" }}>＋ Sello</button>
                 <button onClick={() => accion("canjea")} disabled={busy || !cli.puedeCanjear} style={{ flex: 1, background: cli.puedeCanjear ? ACCENT : "#cdd8d6", color: "#fff", border: "none", borderRadius: "12px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: cli.puedeCanjear ? "pointer" : "not-allowed" }}>🎁 Canjear</button>
               </div>
+              <button onClick={() => segmento(cli.segmento === "plaza" ? "" : "plaza")} disabled={busy}
+                style={{ width: "100%", marginTop: "10px", background: cli.segmento === "plaza" ? PRIMARY : "#eef2f1", color: cli.segmento === "plaza" ? "#fff" : MUTED, border: "none", borderRadius: "12px", padding: "12px", fontWeight: 700, cursor: "pointer" }}>
+                🏢 Empleado de plaza {cli.segmento === "plaza" ? "✓ (10% en pedidos)" : "— marcar"}
+              </button>
             </div>
           )}
           {msg && <div style={{ marginTop: "12px", textAlign: "center", fontWeight: 700, color: PRIMARY }}>{msg}</div>}

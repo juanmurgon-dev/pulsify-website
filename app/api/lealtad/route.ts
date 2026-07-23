@@ -4,6 +4,7 @@ import Stripe from "stripe";
 // Backend = Stripe Customers (metadata.sellos). Sin base de datos aparte.
 // Modelo: junta META sellos → premio (café/postre gratis). Balance, no acumulado histórico.
 const META = 10; // sellos para un premio
+const DESCUENTO_PLAZA = 10; // % de descuento para empleados de la plaza
 const norm = (t: unknown) => String(t || "").replace(/\D/g, "");
 
 // Acciones de caja usan la misma contraseña que la Pantalla de Pedidos.
@@ -33,6 +34,7 @@ export async function GET(request: Request) {
   try {
     const c = await buscar(stripe, tel);
     const sellos = c ? parseInt(c.metadata?.sellos || "0", 10) : 0;
+    const segmento = c?.metadata?.segmento || "";
     return Response.json({
       encontrado: !!c,
       nombre: c?.name || "",
@@ -40,6 +42,8 @@ export async function GET(request: Request) {
       meta: META,
       faltan: Math.max(0, META - sellos),
       puedeCanjear: sellos >= META,
+      segmento,
+      descuento: segmento === "plaza" ? DESCUENTO_PLAZA : 0,
     });
   } catch (e) {
     return Response.json({ error: e instanceof Error ? e.message : "Error" }, { status: 500 });
@@ -80,10 +84,13 @@ export async function POST(request: Request) {
     }
 
     if (accion === "sello" || accion === "canjea") {
-      c = await stripe.customers.update(c.id, { metadata: { fuente: "platify-lealtad", sellos: String(sellos) } });
+      c = await stripe.customers.update(c.id, { metadata: { ...c.metadata, sellos: String(sellos) } });
+    } else if (accion === "segmento") {
+      c = await stripe.customers.update(c.id, { metadata: { ...c.metadata, segmento: String(body.segmento || "").slice(0, 20) } });
     }
 
-    return Response.json({ ok: true, nombre: c.name || "", sellos, meta: META, puedeCanjear: sellos >= META });
+    const segmento = c.metadata?.segmento || "";
+    return Response.json({ ok: true, nombre: c.name || "", sellos, meta: META, puedeCanjear: sellos >= META, segmento, descuento: segmento === "plaza" ? DESCUENTO_PLAZA : 0 });
   } catch (e) {
     return Response.json({ error: e instanceof Error ? e.message : "Error" }, { status: 500 });
   }
