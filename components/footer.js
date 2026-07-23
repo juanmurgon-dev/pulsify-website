@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
   const pathname = usePathname();
   // Pantallas tipo app (comensal / caja): sin chrome de marketing
-  if (pathname && (pathname.startsWith("/pedidos") || pathname.startsWith("/caja"))) return null;
+  if (pathname && (pathname.startsWith("/pedidos") || pathname.startsWith("/caja") || pathname.startsWith("/lealtad"))) return null;
   return (
     <footer style={{ background: "#0E3A39", color: "white", padding: "48px 0", marginTop: "80px" }}>
       <div className="container">

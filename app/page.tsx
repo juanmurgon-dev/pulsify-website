@@ -78,23 +78,25 @@ export default function Home() {
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px" }}>
-            {[
-              { icon: "📊", name: "Análisis", desc: "Margen real por platillo, punto de equilibrio y qué decisión tomar.", estado: "Disponible" },
+            {([
+              { icon: "📊", name: "Análisis", desc: "Margen real por platillo, punto de equilibrio y qué decisión tomar.", estado: "Disponible", href: "/checkout", cta: "Empieza — $100/mes →" },
               { icon: "🧾", name: "POS", desc: "Punto de venta completo: cobra, controla y todo se conecta con tus datos.", estado: "Próximamente" },
-              { icon: "🛵", name: "Pedidos", desc: "Pedidos y delivery propio, sin pagar 30% de comisión a las apps.", estado: "Próximamente" },
-              { icon: "🎁", name: "Lealtad", desc: "Que tus clientes regresen: puntos, premios y promos que sí dejan.", estado: "Próximamente" },
-            ].map((u, i) => {
+              { icon: "🛵", name: "Pedidos", desc: "Menú digital y pedidos con pago en línea, sin pagar 30% de comisión a las apps.", estado: "Beta", href: "/pedidos", cta: "Ver demo →" },
+              { icon: "🎁", name: "Lealtad", desc: "Tarjeta de sellos digital: junta sellos y canjea premios. Que tus clientes regresen.", estado: "Beta", href: "/lealtad", cta: "Ver demo →" },
+            ] as { icon: string; name: string; desc: string; estado: string; href?: string; cta?: string }[]).map((u, i) => {
               const dispo = u.estado === "Disponible";
+              const beta = u.estado === "Beta";
+              const acento = dispo ? "#2ec4b6" : beta ? "#ff9f1c" : null;
               return (
-                <div key={i} className="card" style={{ padding: "28px", display: "flex", flexDirection: "column", border: dispo ? "2px solid #2ec4b6" : "1px solid rgba(46, 196, 182, 0.2)" }}>
+                <div key={i} className="card" style={{ padding: "28px", display: "flex", flexDirection: "column", border: acento ? `2px solid ${acento}` : "1px solid rgba(46, 196, 182, 0.2)" }}>
                   <div style={{ fontSize: "34px", marginBottom: "12px" }}>{u.icon}</div>
                   <h3 style={{ fontSize: "20px", fontWeight: 800, color: PRIMARY, margin: "0 0 8px" }}>Platify {u.name}</h3>
-                  <span style={{ alignSelf: "flex-start", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", padding: "4px 10px", borderRadius: "20px", marginBottom: "12px", background: dispo ? "rgba(46, 196, 182, 0.15)" : "rgba(90, 107, 106, 0.12)", color: dispo ? "#148b7f" : MUTED }}>
-                    {dispo ? "✓ Disponible" : "Próximamente"}
+                  <span style={{ alignSelf: "flex-start", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", padding: "4px 10px", borderRadius: "20px", marginBottom: "12px", background: dispo ? "rgba(46, 196, 182, 0.15)" : beta ? "rgba(255, 159, 28, 0.15)" : "rgba(90, 107, 106, 0.12)", color: dispo ? "#148b7f" : beta ? "#c9740a" : MUTED }}>
+                    {dispo ? "✓ Disponible" : beta ? "● Beta" : "Próximamente"}
                   </span>
                   <p style={{ color: MUTED, fontSize: "14px", lineHeight: 1.6, flex: 1, margin: 0 }}>{u.desc}</p>
-                  {dispo && (
-                    <a href="/checkout" style={{ marginTop: "16px", color: ACCENT, fontWeight: 700, textDecoration: "none", fontSize: "14px" }}>Empieza — $100/mes →</a>
+                  {u.href && (
+                    <a href={u.href} style={{ marginTop: "16px", color: ACCENT, fontWeight: 700, textDecoration: "none", fontSize: "14px" }}>{u.cta}</a>
                   )}
                 </div>
               );

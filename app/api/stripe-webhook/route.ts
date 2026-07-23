@@ -26,9 +26,19 @@ export async function POST(request: Request) {
 
   switch (event.type) {
     case "checkout.session.completed": {
-      // const s = event.data.object as Stripe.Checkout.Session;
-      // TODO: marcar la suscripción del usuario como activa en Supabase
-      //       (mapear s.customer / s.customer_email → tu usuario).
+      const s = event.data.object as Stripe.Checkout.Session;
+      // Platify Lealtad: cada pedido pagado suma 1 sello automáticamente (por teléfono).
+      const tel = (s.metadata?.telefono || "").replace(/\D/g, "");
+      if (s.metadata?.fuente === "platify-pedidos" && tel.length >= 7) {
+        try {
+          const r = await stripe.customers.search({ query: `metadata['fuente']:'platify-lealtad' AND phone:'${tel}'`, limit: 1 });
+          let c = r.data[0];
+          if (!c) c = await stripe.customers.create({ phone: tel, name: s.metadata?.cliente || undefined, metadata: { fuente: "platify-lealtad", sellos: "0" } });
+          const sellos = parseInt(c.metadata?.sellos || "0", 10) + 1;
+          await stripe.customers.update(c.id, { metadata: { fuente: "platify-lealtad", sellos: String(sellos) } });
+        } catch (e) { console.warn("Lealtad auto-sello falló:", e); }
+      }
+      // TODO (suscripción beta): marcar acceso activo si aplica.
       break;
     }
     case "customer.subscription.updated":
