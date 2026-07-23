@@ -1,7 +1,8 @@
 import Stripe from "stripe";
 
 // Cobro en línea de un pedido de Platify Pedidos (Stripe Checkout).
-// Requiere STRIPE_SECRET_KEY en el entorno (Vercel).
+// Stripe guarda el pedido (line_items + metadata) y ES la fuente de la
+// Pantalla de Pedidos (/caja lo lee vía /api/caja). No hay base de datos aparte.
 export async function POST(request: Request) {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) {
@@ -28,22 +29,29 @@ export async function POST(request: Request) {
         currency: "mxn",
         unit_amount: Math.round(Number(ln.precioUnit) * 100),
         product_data: {
-          name: String(ln.nombre + (ln.detalle?.length ? " (" + ln.detalle.join(", ") + ")" : "")).slice(0, 250),
+          name: String(ln.nombre + (ln.detalle?.length ? " · " + ln.detalle.join(", ") : "")).slice(0, 250),
         },
       },
     }));
+
+    // Datos del pedido que verá la caja (metadata; máx 500 chars por valor).
+    const metadata = {
+      fuente: "platify-pedidos",
+      cliente: String(body.nombre || "").slice(0, 120),
+      telefono: String(body.telefono || "").slice(0, 40),
+      tipo: String(body.entrega || "").slice(0, 20),
+      direccion: String(body.direccion || "").slice(0, 200),
+      notas: String(body.notas || "").slice(0, 300),
+    };
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
       success_url: `${origin}/pedidos?pago=ok`,
       cancel_url: `${origin}/pedidos?pago=cancel`,
-      metadata: {
-        restaurante: String(body.restaurante || "").slice(0, 200),
-        entrega: String(body.entrega || "").slice(0, 50),
-        cliente: String(body.nombre || "").slice(0, 200),
-        notas: String(body.notas || "").slice(0, 480),
-      },
+      metadata,
+      // El flag "atendido" se marca sobre el PaymentIntent (siempre actualizable).
+      payment_intent_data: { metadata: { fuente: "platify-pedidos" } },
     });
 
     return Response.json({ url: session.url });

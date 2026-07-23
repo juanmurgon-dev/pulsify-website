@@ -193,45 +193,6 @@ const money = (n: number) => "$" + n.toLocaleString("es-MX");
 type Linea = { id: string; nombre: string; precioUnit: number; qty: number; detalle: string[] };
 type Pedido = { cart: Linea[]; total: number; entrega: "recoger" | "domicilio"; direccion: string; nombre: string; notas: string; telefono?: string };
 
-// Conexión a la Pantalla de Pedidos (Firebase). Config pública (client) — segura de exponer.
-const FB_CONFIG = {
-  apiKey: "AIzaSyCBV1uhuoOwHvSSjMQLo4eBtiduUvErvX8",
-  authDomain: "cremina-pedidos.firebaseapp.com",
-  projectId: "cremina-pedidos",
-  storageBucket: "cremina-pedidos.firebasestorage.app",
-  messagingSenderId: "890540085126",
-  appId: "1:890540085126:web:b24d463f4a21375d752607",
-};
-
-// Escribe el pedido pagado en la nube → aparece en pedidos.html (caja) con alarma,
-// marcado "✅ Pagado con tarjeta". Mismo esquema que espera la pantalla.
-async function enviarACaja(p: Pedido): Promise<boolean> {
-  try {
-    const { initializeApp, getApps, getApp } = await import("firebase/app");
-    const { getFirestore, collection, addDoc, serverTimestamp } = await import("firebase/firestore");
-    const app = getApps().length ? getApp() : initializeApp(FB_CONFIG);
-    await addDoc(collection(getFirestore(app), "orders"), {
-      channel: "tarjeta",
-      paid: true,
-      status: "nuevo",
-      total: p.total,
-      items: p.cart.map((ln) => ({ n: ln.nombre, opts: ln.detalle.map((d) => ({ label: d })), unit: ln.precioUnit, q: ln.qty })),
-      customer: {
-        name: p.nombre?.trim() || "Cliente",
-        phone: p.telefono?.trim() || "",
-        type: p.entrega,
-        notes: p.notas?.trim() || "",
-        address: p.direccion?.trim() || "",
-      },
-      createdAt: serverTimestamp(),
-    });
-    return true;
-  } catch (e) {
-    console.warn("No se registró en caja:", e);
-    return false;
-  }
-}
-
 export default function Pedidos() {
   const [cart, setCart] = useState<Linea[]>([]);
   const [custom, setCustom] = useState<Item | null>(null);
@@ -245,7 +206,6 @@ export default function Pedidos() {
   const [errPago, setErrPago] = useState<string | null>(null);
   const [pagoOk, setPagoOk] = useState(false);
   const [telefono, setTelefono] = useState("");
-  const [enCaja, setEnCaja] = useState<"idle" | "ok" | "err">("idle");
 
   const secRefs = useRef<(HTMLElement | null)[]>([]);
   const chipRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -265,11 +225,6 @@ export default function Pedidos() {
     const p = new URLSearchParams(window.location.search).get("pago");
     if (p === "ok") {
       setPagoOk(true); setCart([]);
-      try {
-        const s = sessionStorage.getItem("platify_pedido");
-        if (s) enviarACaja(JSON.parse(s) as Pedido).then((ok) => setEnCaja(ok ? "ok" : "err"));
-        else setEnCaja("err");
-      } catch { setEnCaja("err"); }
     } else if (p === "cancel") {
       try {
         const s = sessionStorage.getItem("platify_pedido");
@@ -328,8 +283,7 @@ export default function Pedidos() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          items: cart, total, entrega, nombre, restaurante: RESTAURANTE.nombre,
-          notas: notas + (entrega === "domicilio" && direccion.trim() ? ` | Dirección: ${direccion.trim()}` : ""),
+          items: cart, total, entrega, nombre, telefono, direccion, notas, restaurante: RESTAURANTE.nombre,
         }),
       });
       const data = await res.json();
@@ -486,14 +440,10 @@ export default function Pedidos() {
               <div style={{ fontSize: "52px" }}>✅</div>
               <h2 style={{ color: PRIMARY, fontWeight: 800, margin: "6px 0 8px", fontSize: "22px" }}>¡Pago recibido!</h2>
               <p style={{ color: MUTED, fontSize: "14px", marginBottom: "18px", lineHeight: 1.5 }}>
-                {enCaja === "ok"
-                  ? "Tu pedido ya entró a la cocina. ¡Lo estamos preparando! 🧑‍🍳"
-                  : enCaja === "err"
-                  ? "Tu pago se registró. Envíalo también por WhatsApp para confirmar con el restaurante."
-                  : "Registrando tu pedido en la cocina…"}
+                Tu pedido ya entró a la cocina. ¡Lo estamos preparando! 🧑‍🍳
               </p>
               <button onClick={avisarPagado} style={{ width: "100%", background: "#25D366", color: "#fff", border: "none", borderRadius: "14px", padding: "16px", fontWeight: 800, fontSize: "16px", cursor: "pointer" }}>
-                {enCaja === "ok" ? "Enviar copia por WhatsApp (opcional)" : "Enviar mi pedido por WhatsApp"}
+                Enviar copia por WhatsApp (opcional)
               </button>
               <button onClick={() => setPagoOk(false)} style={{ width: "100%", background: "none", border: "none", color: MUTED, padding: "12px", marginTop: "4px", cursor: "pointer" }}>Cerrar</button>
             </div>
