@@ -18,19 +18,24 @@ export async function GET(request: Request) {
   if (!autorizado(request)) return Response.json({ error: "Contraseña incorrecta." }, { status: 401 });
 
   const stripe = new Stripe(key);
+  const hist = new URL(request.url).searchParams.get("hist") === "1";
   try {
-    const desde = Math.floor(Date.now() / 1000) - 8 * 3600; // últimas 8 horas
+    // Activos: últimas 8h, solo sin atender.  Historial: últimos 3 días, todos.
+    const desde = Math.floor(Date.now() / 1000) - (hist ? 3 * 24 * 3600 : 8 * 3600);
     const list = await stripe.checkout.sessions.list({ limit: 100, created: { gte: desde }, expand: ["data.payment_intent"] });
 
-    const activos = list.data.filter((s) => {
-      const pi = s.payment_intent as PI;
-      const atendido = pi && typeof pi === "object" && pi.metadata?.atendido === "si";
-      return s.payment_status === "paid" && s.metadata?.fuente === "platify-pedidos" && !atendido;
-    });
+    const pagados = list.data.filter((s) => s.payment_status === "paid" && s.metadata?.fuente === "platify-pedidos");
+    const seleccion = hist
+      ? pagados
+      : pagados.filter((s) => {
+          const pi = s.payment_intent as PI;
+          return !(pi && typeof pi === "object" && pi.metadata?.atendido === "si");
+        });
 
     const orders = await Promise.all(
-      activos.map(async (s) => {
+      seleccion.map(async (s) => {
         const li = await stripe.checkout.sessions.listLineItems(s.id, { limit: 50 });
+        const pi = s.payment_intent as PI;
         return {
           id: s.id,
           created: s.created,
@@ -40,12 +45,13 @@ export async function GET(request: Request) {
           tipo: s.metadata?.tipo || "",
           direccion: s.metadata?.direccion || "",
           notas: s.metadata?.notas || "",
+          atendido: !!(pi && typeof pi === "object" && pi.metadata?.atendido === "si"),
           items: li.data.map((x) => ({ n: x.description || "", q: x.quantity || 1, importe: (x.amount_total ?? 0) / 100 })),
         };
       })
     );
 
-    orders.sort((a, b) => a.created - b.created);
+    orders.sort((a, b) => (hist ? b.created - a.created : a.created - b.created));
     return Response.json({ orders });
   } catch (err) {
     return Response.json({ error: err instanceof Error ? err.message : "Error" }, { status: 500 });

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 // Pantalla de Pedidos (caja) — lee los pedidos pagados de Stripe vía /api/caja.
 // Sin Firebase. Se protege con contraseña (CAJA_PASSWORD en Vercel).
 type Item = { n: string; q: number; importe: number };
-type Order = { id: string; created: number; total: number; cliente: string; telefono: string; tipo: string; direccion: string; notas: string; items: Item[] };
+type Order = { id: string; created: number; total: number; cliente: string; telefono: string; tipo: string; direccion: string; notas: string; items: Item[]; atendido?: boolean };
 
 const PRIMARY = "#0e3a39";
 const CREAM = "#ffedb8";
@@ -19,7 +19,7 @@ export default function Caja() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [conn, setConn] = useState<"on" | "off">("off");
   const [muted, setMuted] = useState(false);
-  const [turno, setTurno] = useState(false);
+  const [vista, setVista] = useState<"activos" | "historial">("activos");
 
   const audioRef = useRef<AudioContext | null>(null);
   const vistos = useRef<Set<string>>(new Set());
@@ -47,36 +47,39 @@ export default function Caja() {
     }
   }, []);
 
-  const cargar = useCallback(async (k: string) => {
+  const cargar = useCallback(async (k: string, v: "activos" | "historial") => {
     try {
-      const res = await fetch(`/api/caja?key=${encodeURIComponent(k)}`, { cache: "no-store" });
+      const res = await fetch(`/api/caja?key=${encodeURIComponent(k)}${v === "historial" ? "&hist=1" : ""}`, { cache: "no-store" });
       if (res.status === 401) { setErr("Contraseña incorrecta."); setEntrado(false); setConn("off"); return; }
       const data = await res.json();
       if (!res.ok) { setConn("off"); return; }
       setConn("on");
       const nuevos: Order[] = data.orders || [];
-      // ¿hay pedidos que no habíamos visto? → alarma
-      const hayNuevo = nuevos.some((o) => !vistos.current.has(o.id));
-      nuevos.forEach((o) => vistos.current.add(o.id));
+      if (v === "activos") {
+        // ¿hay pedidos que no habíamos visto? → alarma
+        const hayNuevo = nuevos.some((o) => !vistos.current.has(o.id));
+        nuevos.forEach((o) => vistos.current.add(o.id));
+        if (hayNuevo && nuevos.length > 0 && !muted) beep();
+      }
       setOrders(nuevos);
-      if (hayNuevo && nuevos.length > 0 && !muted) beep();
     } catch { setConn("off"); }
   }, [muted, beep]);
 
-  // Polling cada 6s cuando ya entró
+  // Polling cada 6s cuando ya entró (recarga al cambiar de vista)
   useEffect(() => {
     if (!entrado) return;
-    cargar(key);
-    const t = setInterval(() => cargar(key), 6000);
+    setOrders([]);
+    cargar(key, vista);
+    const t = setInterval(() => cargar(key, vista), 6000);
     return () => clearInterval(t);
-  }, [entrado, key, cargar]);
+  }, [entrado, key, vista, cargar]);
 
-  // Alarma en bucle mientras haya pedidos sin atender (cada 3s)
+  // Alarma en bucle mientras haya pedidos activos sin atender (cada 3s)
   useEffect(() => {
-    if (!entrado || muted || orders.length === 0) return;
+    if (!entrado || muted || vista !== "activos" || orders.length === 0) return;
     const t = setInterval(() => beep(), 3000);
     return () => clearInterval(t);
-  }, [entrado, muted, orders.length, beep]);
+  }, [entrado, muted, vista, orders.length, beep]);
 
   async function entrar(e: React.FormEvent) {
     e.preventDefault();
@@ -87,7 +90,7 @@ export default function Caja() {
     if (res.status === 401) { setErr("Contraseña incorrecta."); return; }
     if (!res.ok) { setErr("No se pudo conectar. Revisa que STRIPE_SECRET_KEY esté configurada."); return; }
     localStorage.setItem("caja_key", key);
-    setEntrado(true); setTurno(true);
+    setEntrado(true);
     const data = await res.json();
     (data.orders || []).forEach((o: Order) => vistos.current.add(o.id));
     setOrders(data.orders || []);
@@ -143,11 +146,20 @@ export default function Caja() {
         </div>
       </header>
 
+      <div style={{ display: "flex", gap: "8px", padding: "10px 16px 0", maxWidth: "1100px", margin: "0 auto" }}>
+        {(["activos", "historial"] as const).map((v) => (
+          <button key={v} onClick={() => setVista(v)}
+            style={{ border: "none", cursor: "pointer", borderRadius: "999px", padding: "9px 18px", fontWeight: 700, fontSize: "14px", background: vista === v ? PRIMARY : "#e7e2d3", color: vista === v ? "#fff" : "#6f6a5c" }}>
+            {v === "activos" ? "🔔 Activos" : "🗂️ Historial"}
+          </button>
+        ))}
+      </div>
+
       <main style={{ padding: "16px", maxWidth: "1100px", margin: "0 auto" }}>
         {orders.length === 0 ? (
           <div style={{ textAlign: "center", color: "#6f6a5c", padding: "60px 20px" }}>
-            <div style={{ fontFamily: "Poppins,sans-serif", fontSize: "1.8rem", fontWeight: 800, color: PRIMARY, marginBottom: ".3rem" }}>Todo al día</div>
-            No hay pedidos pendientes. Cuando entre uno nuevo, sonará la alarma. 🔔
+            <div style={{ fontFamily: "Poppins,sans-serif", fontSize: "1.8rem", fontWeight: 800, color: PRIMARY, marginBottom: ".3rem" }}>{vista === "activos" ? "Todo al día" : "Sin historial"}</div>
+            {vista === "activos" ? "No hay pedidos pendientes. Cuando entre uno nuevo, sonará la alarma. 🔔" : "No hay pedidos en los últimos 3 días."}
           </div>
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "14px" }}>
@@ -159,7 +171,7 @@ export default function Caja() {
                     <span style={{ fontSize: ".72rem", textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 700, padding: ".2rem .6rem", borderRadius: "999px", color: "#fff", background: domicilio ? "#c98a2b" : "#3f8a5c" }}>
                       {domicilio ? "🛵 Domicilio" : "🏪 Recoger"}
                     </span>
-                    <span style={{ fontSize: ".78rem", color: "#6f6a5c" }}>{new Date(o.created * 1000).toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" })}</span>
+                    <span style={{ fontSize: ".78rem", color: "#6f6a5c" }}>{new Date(o.created * 1000).toLocaleString("es-MX", vista === "historial" ? { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" } : { hour: "2-digit", minute: "2-digit" })}</span>
                   </div>
                   <div style={{ fontWeight: 700, color: PRIMARY, fontSize: "1.05rem" }}>{o.cliente || "Cliente"}</div>
                   {o.telefono && <div style={{ fontSize: ".85rem", color: PRIMARY }}>📞 {o.telefono}</div>}
@@ -180,7 +192,11 @@ export default function Caja() {
 
                   <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "12px" }}>
                     <span style={{ flex: 1, fontSize: "1.35rem", fontWeight: 700, color: PRIMARY }}>{money(o.total)}</span>
-                    <button onClick={() => atendido(o.id)} style={{ background: PRIMARY, color: "#fff", border: "none", borderRadius: "12px", padding: "12px 18px", fontWeight: 800, cursor: "pointer", fontSize: "15px" }}>✓ Atendido</button>
+                    {vista === "activos" ? (
+                      <button onClick={() => atendido(o.id)} style={{ background: PRIMARY, color: "#fff", border: "none", borderRadius: "12px", padding: "12px 18px", fontWeight: 800, cursor: "pointer", fontSize: "15px" }}>✓ Atendido</button>
+                    ) : (
+                      <span style={{ fontSize: ".82rem", fontWeight: 700, color: o.atendido ? "#3f8a5c" : "#c98a2b" }}>{o.atendido ? "✓ Atendido" : "● Pendiente"}</span>
+                    )}
                   </div>
                 </div>
               );
