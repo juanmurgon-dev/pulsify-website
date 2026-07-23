@@ -15,6 +15,23 @@ Objetivo: **reemplazar Parrot** en Cremina, por fases, con un POS que además
 | Servicio | Mesa + mostrador | Necesita **plano de mesas** y **modo barra** rápido |
 | Dolor actual | Lento + no conecta datos | Diferenciador: **rápido** + **datos integrados** con Análisis |
 
+## ⭐ Módulo PRIORITARIO: Recetas + Costeo + Inventario (el "cerebro")
+Lo que el usuario nunca ha logrado (por complicado en Parrot/Soft): **recetas y costeo
+que se crucen con compras e inventario.** Es el mayor diferenciador y va PRIMERO.
+
+- **Vive en Análisis** (PWA `cifra-dev`), no en el sitio Next.js — ahí están `costos_platillo`,
+  `productos_venta`, márgenes, y las views de insumos/compras/proveedores que **ya existen**.
+- **Buena noticia:** la app ya saca el **precio de cada insumo de tus tickets de compra**
+  (última compra). Falta solo el eslabón: **RECETAS** (platillo → insumos + cantidad).
+- Con recetas: costo por platillo **automático** (Σ cantidad × precio insumo) → alimenta el margen;
+  inventario = compras − (ventas × receta); merma = teórico − conteo físico.
+- Decisiones del usuario: recetas **desde cero** (precargo la lista de platillos), **algunas
+  preparaciones base** (sub-recetas), **todo junto con inventario**, **costeo por última compra**.
+- Esquema nuevo: `supabase/recetas-inventario.sql` (tablas `recetas`, `inventario_conteos`,
+  `inventario_ajustes`). `costos_platillo` pasa de manual a **calculado** por la app.
+- Vistas a construir en `cifra-dev` (staging primero): **Recetas** (nueva, el eslabón),
+  y enriquecer **Inventario** (stock teórico + conteo/merma) y **Margen** (costo desde receta).
+
 ## Arquitectura
 - **Front:** POS web en `/pos` (Next.js, misma app Platify), instalable como app en la tablet.
 - **Datos:** **Supabase** (Postgres). A diferencia de Pedidos/Lealtad (que viven en Stripe),
