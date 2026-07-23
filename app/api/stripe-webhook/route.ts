@@ -31,9 +31,10 @@ export async function POST(request: Request) {
       const tel = (s.metadata?.telefono || "").replace(/\D/g, "");
       if (s.metadata?.fuente === "platify-pedidos" && tel.length >= 7) {
         try {
-          const r = await stripe.customers.search({ query: `metadata['fuente']:'platify-lealtad' AND phone:'${tel}'`, limit: 1 });
+          const email = `${tel}@sellos.platify.mx`;
+          const r = await stripe.customers.list({ email, limit: 1 });
           let c = r.data[0];
-          if (!c) c = await stripe.customers.create({ phone: tel, name: s.metadata?.cliente || undefined, metadata: { fuente: "platify-lealtad", sellos: "0" } });
+          if (!c) c = await stripe.customers.create({ email, phone: tel, name: s.metadata?.cliente || undefined, metadata: { fuente: "platify-lealtad", sellos: "0" } });
           const sellos = parseInt(c.metadata?.sellos || "0", 10) + 1;
           await stripe.customers.update(c.id, { metadata: { fuente: "platify-lealtad", sellos: String(sellos) } });
         } catch (e) { console.warn("Lealtad auto-sello falló:", e); }

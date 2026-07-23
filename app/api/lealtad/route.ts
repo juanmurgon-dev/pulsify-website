@@ -14,11 +14,12 @@ function autorizado(req: Request): boolean {
   return given === pass;
 }
 
+// Clave determinista por teléfono. Usamos email (no phone) porque
+// customers.list({email}) es consistente AL INSTANTE; customers.search tarda en indexar.
+const emailFor = (tel: string) => `${tel}@sellos.platify.mx`;
+
 async function buscar(stripe: Stripe, tel: string): Promise<Stripe.Customer | null> {
-  const r = await stripe.customers.search({
-    query: `metadata['fuente']:'platify-lealtad' AND phone:'${tel}'`,
-    limit: 1,
-  });
+  const r = await stripe.customers.list({ email: emailFor(tel), limit: 1 });
   return r.data[0] ?? null;
 }
 
@@ -61,6 +62,7 @@ export async function POST(request: Request) {
     let c = await buscar(stripe, tel);
     if (!c) {
       c = await stripe.customers.create({
+        email: emailFor(tel),
         phone: tel,
         name: String(body.nombre || "").slice(0, 80) || undefined,
         metadata: { fuente: "platify-lealtad", sellos: "0" },
