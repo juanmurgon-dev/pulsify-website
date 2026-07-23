@@ -31,6 +31,23 @@ cada cliente de lealtad es un Stripe Customer con `metadata.sellos`. Funciona ho
 - Canjear → resta 10 (queda en 0).
 - Canjear sin sellos → error controlado.
 
+## Fase 1 — Reemplazo de Auvora (descuentos + cupones) ✅ hecho
+Meta acordada: **reemplazar Auvora por fases**. Esto es lo primero (probado en vivo):
+
+- **Descuentos de empleados de la plaza:** en `/lealtad/caja`, botón **"🏢 Empleado de plaza"** marca
+  al cliente (`metadata.segmento='plaza'`). Cuando ese teléfono pide en `/pedidos`, se le aplica
+  **10% automático** (Stripe Coupon `plaza10`, se crea solo). Constante `DESCUENTO_PLAZA` editable.
+  Probado: pedido $100 → cobra $90.
+- **Cupones:** el checkout de Pedidos ahora lleva `allow_promotion_codes: true` (para clientes sin
+  descuento de plaza; Stripe no permite combinar descuento automático + campo de cupón en la misma sesión).
+  **Crear cupones** en Stripe Dashboard → *Product catalog → Coupons* (o *Promotion codes*), ej. `BIENVENIDA`,
+  `2X1MARTES`. El cliente los teclea en el checkout.
+
+### Falta de esta fase (Auvora también lo tiene)
+- **Tarjetas de regalo** (código con saldo) — siguiente pieza fácil.
+- **Tarjeta en Wallet (Apple/Google) + escaneo con cámara** — requiere cuentas Apple Developer / Google Wallet.
+- **Notificaciones push / CRM** — se atan naturalmente al wallet pass.
+
 ## Pendientes / decisiones para revisar
 1. **Auto-sello por pedido pagado:** el código está listo en el webhook, pero **requiere
    `STRIPE_WEBHOOK_SECRET`** (configurar el webhook en el Dashboard de Stripe → apuntar a
