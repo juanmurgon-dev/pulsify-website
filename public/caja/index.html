@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Platify · Pedidos</title>
+<meta name="theme-color" content="#0e3a39" />
+<link rel="icon" type="image/png" href="assets/icon-192.png" />
+<link rel="apple-touch-icon" href="assets/icon-192.png" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --green:#0e3a39; --green-deep:#092726; --cream:#ffedb8; --paper:#f4efe2;
+    --ink:#22201a; --muted:#6f6a5c; --gold:#d9a441; --line:rgba(14,58,57,.14);
+    --recoger:#3f8a5c; --entrega:#c98a2b; --alarm:#c0563f; --wa:#25d366;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:'Poppins',system-ui,sans-serif;background:var(--paper);color:var(--ink);
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  h1,h2,h3{font-family:'Playfair Display',serif}
+
+  /* Barra superior */
+  header{position:sticky;top:0;z-index:20;background:var(--green);color:var(--cream);
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 1.1rem;flex-wrap:wrap}
+  header .brand{display:flex;align-items:center;gap:.6rem}
+  header .mark{font-family:'Poppins',sans-serif;font-weight:800;font-size:1.4rem;line-height:1;letter-spacing:-.02em}
+  .mark .tri{color:#ff9f1c;font-size:.82em;margin-right:.1em;vertical-align:.03em}
+  header .mark small{display:block;font-family:'Poppins';font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,237,184,.7)}
+  .hstats{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+  .pill{background:rgba(255,237,184,.12);border:1px solid rgba(255,237,184,.25);border-radius:999px;padding:.3rem .8rem;font-size:.85rem;display:flex;align-items:center;gap:.4rem}
+  .pill.count{background:var(--cream);color:var(--green);font-weight:700}
+  .pill.count.zero{background:rgba(255,237,184,.12);color:var(--cream);font-weight:500}
+  .dot{width:9px;height:9px;border-radius:50%;background:#8a8}
+  .dot.on{background:#5fd08a;box-shadow:0 0 0 3px rgba(95,208,138,.25)}
+  .dot.off{background:var(--alarm)}
+  .iconbtn{background:rgba(255,237,184,.12);border:1px solid rgba(255,237,184,.25);color:var(--cream);
+    border-radius:10px;width:40px;height:40px;cursor:pointer;font-size:1.1rem;display:grid;place-items:center}
+  .iconbtn:hover{background:rgba(255,237,184,.22)}
+  .iconbtn.active{background:var(--alarm);border-color:var(--alarm)}
+
+  /* Aviso de estado (demo / setup) */
+  .banner{padding:.6rem 1.1rem;font-size:.86rem;text-align:center;color:#5a4a1a;background:#ffe9ad;border-bottom:1px solid #e6cd7e}
+  .banner b{color:#7a5a00}
+  .banner.hide{display:none}
+
+  /* Rejilla de pedidos */
+  main{padding:1.1rem;max-width:1400px;margin:0 auto}
+  .empty{text-align:center;color:var(--muted);padding:4rem 1rem}
+  .empty .script{font-family:'Grand Hotel',cursive;font-size:2.6rem;color:var(--green);display:block;margin-bottom:.3rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
+
+  .card{background:#fff;border-radius:16px;border:1px solid var(--line);overflow:hidden;
+    box-shadow:0 14px 34px -22px rgba(14,58,57,.5);display:flex;flex-direction:column;
+    border-left:6px solid var(--recoger)}
+  .card.entrega{border-left-color:var(--entrega)}
+  .card.nuevo{animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(192,86,63,0)}50%{box-shadow:0 0 0 5px rgba(192,86,63,.35)}}
+  .card-head{padding:.8rem 1rem;background:rgba(14,58,57,.04);display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem}
+  .tipo{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;padding:.2rem .6rem;border-radius:999px;color:#fff;background:var(--recoger)}
+  .tipo.entrega{background:var(--entrega)}
+  .card-head .who{font-weight:600;font-size:1.05rem}
+  .card-head .when{font-size:.8rem;color:var(--muted)}
+  .card-head .phone{font-size:.85rem;color:var(--green)}
+  .card-body{padding:.6rem 1rem;flex:1}
+  .li{display:flex;justify-content:space-between;gap:.6rem;padding:.45rem 0;border-bottom:1px dashed var(--line)}
+  .li:last-child{border-bottom:none}
+  .li .q{font-weight:700;color:var(--green)}
+  .li .nm{flex:1}
+  .li .opts{display:block;font-size:.8rem;color:var(--muted)}
+  .li .lp{font-weight:600;color:var(--green);white-space:nowrap}
+  .notes{background:#fff6df;border:1px solid #efd799;border-radius:10px;padding:.5rem .7rem;font-size:.85rem;margin-top:.5rem}
+  .paybadge{display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:600;padding:.15rem .5rem;border-radius:999px;margin-top:.5rem}
+  .paybadge.pagado{background:rgba(63,138,92,.15);color:var(--recoger)}
+  .paybadge.porcobrar{background:rgba(217,164,65,.18);color:#a9791f}
+  .card-foot{padding:.8rem 1rem;border-top:1px solid var(--line);display:flex;gap:.6rem;align-items:center}
+  .total{flex:1;font-size:1.35rem;font-weight:700;color:var(--green)}
+  .done{background:var(--green);color:var(--cream);border:none;border-radius:12px;padding:.7rem 1.2rem;font-size:1rem;font-weight:600;cursor:pointer;font-family:'Poppins';display:flex;align-items:center;gap:.4rem}
+  .done:hover{background:var(--green-deep)}
+
+  /* Overlays */
+  .overlay{position:fixed;inset:0;z-index:40;background:var(--green);color:var(--cream);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;gap:1.2rem}
+  .overlay.hide{display:none}
+  .overlay .mark{font-family:'Poppins',sans-serif;font-weight:800;font-size:2.4rem;letter-spacing:-.02em}
+  .overlay h2{font-size:1.6rem}
+  .overlay p{color:rgba(255,248,230,.85);max-width:420px;font-weight:300}
+  .big-btn{background:var(--cream);color:var(--green);border:none;border-radius:14px;padding:1.1rem 2.2rem;font-size:1.2rem;font-weight:600;cursor:pointer;font-family:'Poppins';display:inline-flex;align-items:center;gap:.6rem}
+  .big-btn:hover{background:#fff;transform:translateY(-2px)}
+  .login-form{display:flex;flex-direction:column;gap:.7rem;width:min(320px,90vw)}
+  .login-form input{padding:.8rem 1rem;border-radius:10px;border:1px solid rgba(255,237,184,.3);background:rgba(255,255,255,.08);color:var(--cream);font-size:1rem}
+  .login-form input::placeholder{color:rgba(255,237,184,.5)}
+  .login-form .err{color:#ffb4a1;font-size:.85rem;min-height:1.1rem}
+  .demo-btn{position:fixed;bottom:18px;right:18px;z-index:15;background:var(--gold);color:#fff;border:none;
+    border-radius:999px;padding:.8rem 1.3rem;font-size:.95rem;font-weight:600;cursor:pointer;box-shadow:0 10px 26px -10px rgba(217,164,65,.7)}
+  .demo-btn:hover{filter:brightness(1.06)}
+  .demo-btn.hide{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span class="mark"><span class="tri">▲</span>Platify<small>Pedidos · Caja</small></span></div>
+  <div class="hstats">
+    <span class="pill"><span class="dot" id="conn"></span><span id="connTxt">Conectando…</span></span>
+    <span class="pill count zero" id="countPill">0 pedidos</span>
+    <button class="iconbtn" id="muteBtn" title="Silenciar alarma">🔔</button>
+  </div>
+</header>
+
+<div class="banner hide" id="banner"></div>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">
+    <span class="script">Todo al día</span>
+    No hay pedidos pendientes. Cuando entre uno nuevo, sonará la alarma. 🔔
+  </div>
+</main>
+
+<button class="demo-btn hide" id="demoBtn">＋ Pedido de prueba</button>
+
+<!-- Overlay: iniciar turno (desbloquea sonido) -->
+<div class="overlay hide" id="startOverlay">
+  <span class="mark"><span class="tri">▲</span>Platify</span>
+  <h2>Pantalla de Pedidos</h2>
+  <p>Toca para iniciar el turno. Así se activa el <b>sonido de alarma</b> y la pantalla se mantiene encendida.</p>
+  <button class="big-btn" id="startBtn">▶ Iniciar turno</button>
+</div>
+
+<!-- Overlay: login (solo si Firebase está configurado) -->
+<div class="overlay hide" id="loginOverlay">
+  <span class="mark"><span class="tri">▲</span>Platify</span>
+  <h2>Acceso de caja</h2>
+  <p>Inicia sesión con la cuenta del negocio para ver los pedidos.</p>
+  <form class="login-form" id="loginForm">
+    <input type="email" id="email" placeholder="Correo" autocomplete="username" required>
+    <input type="password" id="pass" placeholder="Contraseña" autocomplete="current-password" required>
+    <div class="err" id="loginErr"></div>
+    <button class="big-btn" type="submit" style="justify-content:center">Entrar</button>
+  </form>
+</div>
+
+<script src="data/firebase-config.js"></script>
+<script>
+const FB_VER = '10.12.2';
+const cfg = window.FIREBASE_CONFIG;
+const READY = !!window.FIREBASE_READY;
+
+const state = { orders:[], turno:false, muted:false, signedIn:!READY, demo:!READY };
+let db=null, auth=null, fs=null;
+let markAtendidoRemote = null;
+
+const $ = s => document.querySelector(s);
+const grid=$('#grid'), empty=$('#empty');
+
+/* ---------------- AUDIO / ALARMA ---------------- */
+let audioCtx=null;
+function unlockAudio(){
+  if(audioCtx) { audioCtx.resume?.(); return; }
+  try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+}
+function tone(freq, start, dur){
+  if(!audioCtx) return;
+  const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+  o.type='square'; o.frequency.value=freq; o.connect(g); g.connect(audioCtx.destination);
+  const t=audioCtx.currentTime+start;
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(0.35,t+0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.start(t); o.stop(t+dur+0.02);
+}
+function beepPattern(){ tone(880,0,0.18); tone(1175,0.22,0.18); tone(880,0.44,0.2); }
+let alarmTimer=null;
+function refreshAlarm(){
+  const shouldRing = state.turno && !state.muted && state.orders.length>0;
+  if(shouldRing && !alarmTimer){
+    beepPattern();
+    alarmTimer=setInterval(beepPattern, 2600);
+  } else if(!shouldRing && alarmTimer){
+    clearInterval(alarmTimer); alarmTimer=null;
+  }
+}
+
+/* ---------------- WAKE LOCK (pantalla encendida) ---------------- */
+let wakeLock=null;
+async function keepAwake(){
+  try{ if('wakeLock' in navigator){ wakeLock = await navigator.wakeLock.request('screen'); } }catch(e){}
+}
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && state.turno) keepAwake(); });
+
+/* ---------------- RENDER ---------------- */
+function fmt(n){ return '$'+Math.round(n).toLocaleString('es-MX'); }
+function ago(ts){
+  if(!ts) return 'ahora';
+  const ms = Date.now() - ts;
+  const m = Math.floor(ms/60000);
+  if(m<1) return 'hace un momento';
+  if(m===1) return 'hace 1 min';
+  if(m<60) return 'hace '+m+' min';
+  const h=Math.floor(m/60); return 'hace '+h+' h';
+}
+function render(){
+  const n = state.orders.length;
+  const cp=$('#countPill');
+  cp.textContent = n===0 ? '0 pedidos' : (n===1?'1 pedido nuevo':n+' pedidos nuevos');
+  cp.classList.toggle('zero', n===0);
+  empty.style.display = n===0 ? 'block':'none';
+  grid.innerHTML='';
+  state.orders.forEach(o=>{
+    const tipo = (o.customer&&o.customer.type)||'recoger';
+    const card=document.createElement('div');
+    card.className='card nuevo '+(tipo==='entrega'?'entrega':'');
+    const items=(o.items||[]).map(it=>{
+      const opts = it.opts&&it.opts.length ? `<span class="opts">${it.opts.map(x=>x.label).join(', ')}</span>`:'';
+      return `<div class="li"><span class="q">${it.q}×</span><span class="nm">${esc(it.n)}${opts}</span><span class="lp">${fmt((it.unit||0)*it.q)}</span></div>`;
+    }).join('');
+    const notes = o.customer&&o.customer.notes ? `<div class="notes">📝 ${esc(o.customer.notes)}</div>`:'';
+    const pay = o.channel==='tarjeta'
+      ? `<span class="paybadge pagado">✅ Pagado con tarjeta</span>`
+      : `<span class="paybadge porcobrar">● Cobrar en caja</span>`;
+    card.innerHTML=`
+      <div class="card-head">
+        <div>
+          <span class="tipo ${tipo==='entrega'?'entrega':''}">${tipo==='entrega'?'🛵 Entrega':'🥡 Para recoger'}</span>
+          <div class="who">${esc((o.customer&&o.customer.name)||'Cliente')}</div>
+          ${o.customer&&o.customer.phone?`<div class="phone">📞 ${esc(o.customer.phone)}</div>`:''}
+        </div>
+        <div class="when" data-ts="${o._ts||''}">${ago(o._ts)}</div>
+      </div>
+      <div class="card-body">${items}${notes}<div>${pay}</div></div>
+      <div class="card-foot">
+        <span class="total">${fmt(o.total||0)}</span>
+        <button class="done">✓ Atendido</button>
+      </div>`;
+    card.querySelector('.done').onclick = ()=>attend(o.id);
+    grid.appendChild(card);
+  });
+  refreshAlarm();
+}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+setInterval(()=>{ document.querySelectorAll('.when').forEach(el=>{ const ts=+el.dataset.ts; if(ts) el.textContent=ago(ts); }); }, 20000);
+
+/* ---------------- ACCIONES ---------------- */
+async function attend(id){
+  if(state.demo){ state.orders=state.orders.filter(o=>o.id!==id); render(); return; }
+  try{ await markAtendidoRemote(id); }catch(e){ alert('No se pudo marcar como atendido. Revisa la conexión.'); }
+}
+
+/* ---------------- GATES / OVERLAYS ---------------- */
+function updateGates(){
+  const needLogin = READY && !state.signedIn;
+  $('#loginOverlay').classList.toggle('hide', !needLogin);
+  const needStart = !needLogin && !state.turno;
+  $('#startOverlay').classList.toggle('hide', !needStart);
+  $('#demoBtn').classList.toggle('hide', !(state.demo && state.turno));
+}
+$('#startBtn').onclick = ()=>{
+  unlockAudio(); keepAwake();
+  state.turno=true; updateGates(); refreshAlarm();
+};
+$('#muteBtn').onclick = ()=>{
+  state.muted=!state.muted;
+  $('#muteBtn').textContent = state.muted?'🔕':'🔔';
+  $('#muteBtn').classList.toggle('active', state.muted);
+  refreshAlarm();
+};
+
+/* Conexión (indicador) */
+function setConn(ok, txt){
+  $('#conn').className='dot '+(ok?'on':'off');
+  $('#connTxt').textContent=txt;
+}
+
+/* ---------------- DEMO ---------------- */
+const DEMO_SAMPLES=[
+  { name:'Ana López', phone:'664 123 4567', type:'recoger', items:[
+    {n:'Chilaquiles',opts:[{label:'Birria'},{label:'Pollo'},{label:'Aguacate'}],unit:385,q:1},
+    {n:'Latte',opts:[{label:'Cremina'},{label:'Avena'}],unit:115,q:2}], total:615, channel:'whatsapp'},
+  { name:'Carlos M.', phone:'664 987 6543', type:'entrega', notes:'Tocar el timbre 2 veces', items:[
+    {n:'Sandwich',opts:[{label:'Arrachera'},{label:'Papas fritas'}],unit:420,q:1},
+    {n:'Bebidas de la Casa',opts:[{label:'Spritz Frutos Rojos'}],unit:90,q:1}], total:510, channel:'tarjeta'},
+  { name:'Mesa 4', phone:'', type:'recoger', items:[
+    {n:'Omelette',opts:[{label:'Chile relleno'},{label:'Aguacate'}],unit:255,q:1}], total:255, channel:'whatsapp'},
+];
+let demoI=0;
+$('#demoBtn').onclick = ()=>{
+  const s=DEMO_SAMPLES[demoI++ % DEMO_SAMPLES.length];
+  state.orders.unshift({ id:'demo-'+Date.now(), _ts:Date.now(), total:s.total, channel:s.channel,
+    items:s.items, customer:{name:s.name,phone:s.phone,type:s.type,notes:s.notes} });
+  render();
+};
+
+/* ---------------- ARRANQUE ---------------- */
+async function boot(){
+  if(!READY){
+    // MODO DEMO
+    $('#banner').classList.remove('hide');
+    $('#banner').innerHTML = '🧪 <b>Modo demo</b> · Aún no conectas Firebase. Prueba la alarma con “＋ Pedido de prueba”. Configúralo en <b>data/firebase-config.js</b> (ver GUIA-PANTALLA-PEDIDOS.md).';
+    setConn(false,'Modo demo');
+    updateGates();
+    return;
+  }
+  try{
+    const appMod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-app.js`);
+    fs = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-firestore.js`);
+    const authMod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-auth.js`);
+    const app = appMod.initializeApp(cfg);
+    db = fs.getFirestore(app);
+    auth = authMod.getAuth(app);
+    await authMod.setPersistence(auth, authMod.browserLocalPersistence);
+
+    markAtendidoRemote = (id)=> fs.updateDoc(fs.doc(db,'orders',id), { status:'atendido', attendedAt: fs.serverTimestamp() });
+
+    authMod.onAuthStateChanged(auth, user=>{
+      state.signedIn=!!user; updateGates();
+      if(user){ setConn(true,'En línea'); subscribe(); }
+      else setConn(false,'Sin sesión');
+    });
+
+    $('#loginForm').addEventListener('submit', async e=>{
+      e.preventDefault(); $('#loginErr').textContent='';
+      try{ await authMod.signInWithEmailAndPassword(auth, $('#email').value.trim(), $('#pass').value); }
+      catch(err){ $('#loginErr').textContent = 'No se pudo entrar. Revisa correo y contraseña.'; }
+    });
+  }catch(e){
+    setConn(false,'Error de conexión');
+    $('#banner').classList.remove('hide');
+    $('#banner').innerHTML='⚠️ No se pudo conectar a Firebase. Revisa tu configuración en data/firebase-config.js.';
+  }
+}
+function subscribe(){
+  // Solo filtro por estado (no requiere índice). El orden por fecha lo hacemos aquí.
+  const q = fs.query(fs.collection(db,'orders'), fs.where('status','==','nuevo'));
+  fs.onSnapshot(q, snap=>{
+    state.orders = snap.docs.map(d=>{
+      const data=d.data();
+      const ts = data.createdAt&&data.createdAt.toMillis ? data.createdAt.toMillis() : Date.now();
+      return { id:d.id, _ts:ts, ...data };
+    }).sort((a,b)=> a._ts - b._ts);
+    render();
+  }, err=>{ setConn(false,'Error de datos'); console.error(err); });
+}
+
+/* Service worker (para instalar como app). En localhost NO se usa, para que
+   las pruebas siempre carguen la versión más reciente. */
+if('serviceWorker' in navigator){
+  const isLocal = ['127.0.0.1','localhost'].includes(location.hostname);
+  if(isLocal){
+    navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
+    if(window.caches) caches.keys().then(ks => ks.forEach(k => caches.delete(k)));
+  } else {
+    /* sw deshabilitado en /caja/ (hosteado en Vercel) */
+  }
+}
+
+updateGates();
+render();
+boot();
+</script>
+</body>
+</html>
